@@ -59,6 +59,13 @@ var app = app || {};
 			domElem.css('height', height);
 		}
 
+		// check for alignParent (absolute positioning to parent)
+		if (checkAttr('android:layout_alignParentTop', 'true')) domElem.css('top','0');
+		if (checkAttr('android:layout_alignParentBottom', 'true')) domElem.css('bottom','0');
+		if (checkAttr('android:layout_alignParentLeft', 'true')) domElem.css('left','0');
+		if (checkAttr('android:layout_alignParentRight', 'true')) domElem.css('right','0');
+
+
 		// check for center (this will probably have to get better and use flex)
 		if (checkAttr('android:gravity', ['center', 'center_horizontal'])) domElem.addClass('gravity-center');
 
