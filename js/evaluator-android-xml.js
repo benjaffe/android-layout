@@ -6,7 +6,8 @@ var app = app || {};
 	};
 
 	function evaluateXML (elem, parent) {
-		console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
+
+		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
 		var domElem = $('<div>');
 		var type = elem.tagName;
 		var attributes = elem.attributes;
@@ -44,7 +45,16 @@ var app = app || {};
 		if (checkAttr('android:layout_height', 'match_parent')) domElem.addClass('layout_height-match_parent');
 		if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
 
+		// check for center (this will probably have to get better and use flex)
 		if (checkAttr('android:gravity', ['center', 'center_horizontal'])) domElem.addClass('gravity-center');
+
+		// add images
+		if (attributes['android:src']) {
+			t = attributes['android:src'].value.split('/')[1];
+			if (t) {
+				domElem.css({'background-image': 'url(images/'+t+'.jpg)'});
+			}
+		}
 
 
 
@@ -58,8 +68,7 @@ var app = app || {};
 	}
 
 	function checkAttributesOnThis (name, value) {
-		if (name === 'android:gravity') console.log(this, this[name]);
-
+		
 		if (typeof value === 'string') {
 			return (this[name] && this[name].value === value);
 		} else if (value instanceof Array) {
