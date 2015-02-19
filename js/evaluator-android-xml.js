@@ -66,6 +66,14 @@ var app = app || {};
 		if (checkAttr('android:layout_alignParentRight', 'true')) domElem.css('right','0');
 
 
+		// layout_gravity
+		if (checkAttr('android:layout_gravity')) {
+			var vals = attributes['android:layout_gravity'].value.split('|');
+			for (var i = 0; i < vals.length; i++) {
+				domElem.css( vals[i] , 0);
+			};
+		}
+
 		// check for center (this will probably have to get better and use flex)
 		if (checkAttr('android:gravity', ['center', 'center_horizontal'])) domElem.addClass('gravity-center');
 
