@@ -29,18 +29,21 @@ var app = app || {};
 		// add a type class so we can style based on it
 		domElem.addClass(type);
 
+		checkAttr.bind(attributes);
+
 		// add content
 		if (attributes['android:text']) domElem.text(attributes['android:text'].value);
 
 		// hidden content
-		if (checkAttr(attributes, 'android:visibility', 'gone')) domElem.hide();
+		if (checkAttr('android:visibility', 'gone')) domElem.hide();
 
 		// convert widths and heights
 		// console.log(attributes);
-		if (attributes['android:layout_width'].value === 'match_parent') domElem.addClass('layout_width-match_parent');
-		if (attributes['android:layout_width'].value === 'wrap_content') domElem.addClass('layout_width-wrap_content');
-		if (attributes['android:layout_height'].value === 'match_parent') domElem.addClass('layout_height-match_parent');
-		if (attributes['android:layout_height'].value === 'wrap_content') domElem.addClass('layout_height-wrap_content');
+		if (checkAttr('android:layout_width', 'match_parent')) domElem.addClass('layout_width-match_parent');
+		if (checkAttr('android:layout_width', 'wrap_content')) domElem.addClass('layout_width-wrap_content');
+		if (checkAttr('android:layout_height', 'match_parent')) domElem.addClass('layout_height-match_parent');
+		if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
+
 
 
 		// padding
@@ -52,10 +55,10 @@ var app = app || {};
 		return domElem;
 	}
 
-	function checkAttr (attributes, name, value) {
-		if (attributes[name] && 
-			attributes[name].value === value) {
-			console.log(attributes[name].value);
+	function checkAttr (name, value) {
+		if (this[name] && 
+			this[name].value === value) {
+			console.log(this[name].value);
 			return true;
 		} else {
 			return false;
