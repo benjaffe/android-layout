@@ -56,10 +56,13 @@ var app = app || {};
 			}
 		}
 
+		if (checkAttr('android:scaleType', 'centerCrop')) domElem.addClass('scaleType-centerCrop');
+		if (checkAttr('android:scaleType', 'centerInside')) domElem.addClass('scaleType-centerInside');
+
 
 
 		// padding
-		if (attributes['android:padding']) domElem.css("padding", parseInt(attributes['android:padding'].value)+'px');
+		if (attributes['android:padding']) domElem.css('padding', parseInt(attributes['android:padding'].value)+'px');
 
 
 

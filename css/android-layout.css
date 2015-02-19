@@ -38,8 +38,29 @@ html {
     flex-direction: column;
 }
 
-.LinearLayout > :not(.layout_height-wrap_content) {
+.RelativeLayout {
+	position: relative;
+}
+
+.RelativeLayout > * {
+	position: absolute;
+}
+
+:not(.layout_height-wrap_content) {
 	flex-grow: 1;
+}
+
+
+/* ImageView Attributes */
+.scaleType-centerCrop {
+	background-size: cover;
+	background-position: center;
+}
+
+.scaleType-centerInside {
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .gravity-center {
