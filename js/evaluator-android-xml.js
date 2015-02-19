@@ -29,7 +29,7 @@ var app = app || {};
 		// add a type class so we can style based on it
 		domElem.addClass(type);
 
-		checkAttr.bind(attributes);
+		checkAttr = checkAttributesOnThis.bind(attributes);
 
 		// add content
 		if (attributes['android:text']) domElem.text(attributes['android:text'].value);
@@ -44,6 +44,8 @@ var app = app || {};
 		if (checkAttr('android:layout_height', 'match_parent')) domElem.addClass('layout_height-match_parent');
 		if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
 
+		if (checkAttr('android:gravity', ['center', 'center_horizontal'])) domElem.addClass('gravity-center');
+
 
 
 		// padding
@@ -55,13 +57,21 @@ var app = app || {};
 		return domElem;
 	}
 
-	function checkAttr (name, value) {
-		if (this[name] && 
-			this[name].value === value) {
-			console.log(this[name].value);
-			return true;
-		} else {
-			return false;
-		}	
+	function checkAttributesOnThis (name, value) {
+		if (name === 'android:gravity') console.log(this, this[name]);
+
+		if (typeof value === 'string') {
+			return (this[name] && this[name].value === value);
+		} else if (value instanceof Array) {
+			// we have to test all the potential values given to us
+			for (var i = 0; i < value.length; i++) {
+				if (this[name] && 
+					this[name].value === value[i]) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 })();

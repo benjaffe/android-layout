@@ -41,3 +41,7 @@ html {
 .LinearLayout > :not(.layout_height-wrap_content) {
 	flex-grow: 1;
 }
+
+.gravity-center {
+	text-align: center;
+}
