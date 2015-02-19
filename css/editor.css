@@ -2,9 +2,14 @@ html, body {
 	min-height:100%;
 }
 
-.input-area,
+.input-area {
+	width:70%;
+	height:100%;
+	padding:20px;
+	float: left;
+}
 .output-area {
-	width:50%;
+	width:30%;
 	height:100%;
 	padding:20px;
 	float: left;

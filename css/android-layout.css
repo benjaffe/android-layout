@@ -26,6 +26,17 @@ html {
 	background-color: #cde;
 }
 
+.screen {
+	transform: scale(0.8) translateX(-70px);
+}
+
+/* Debug */
+/*.LinearLayout {border-left: 4px solid blue;}*/
+.RelativeLayout {border-left: 4px solid red;}
+.ImageView {border-right: 4px solid green;}
+.TextView {border-left: 4px solid #0FF;}
+.Button {border-left: 4px solid #FF0;}
+
 .layout_width-match_parent {
 	width: 100%;
 }
