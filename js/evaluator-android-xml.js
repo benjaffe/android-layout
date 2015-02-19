@@ -65,12 +65,26 @@ var app = app || {};
 		if (attributes['android:padding']) domElem.css('padding', parseInt(attributes['android:padding'].value)+'px');
 
 
+		// text styling
+		if (checkAttr('android:textColor')) {
+			var colorOrig = attributes['android:textColor'].value;
+			var color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : colorOrig.split('@android:color/')[1]);
+			console.log('\n\n',domElem,colorOrig, color);
+			domElem.css('color', color);
+		}
+		
 
 
 		return domElem;
 	}
 
 	function checkAttributesOnThis (name, value) {
+		// check for existence
+		if (value === undefined) {
+			console.log('hi');
+			console.log(this, name, this[name]);
+			return !!this[name];
+		}
 		
 		if (typeof value === 'string') {
 			return (this[name] && this[name].value === value);
