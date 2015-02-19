@@ -1,16 +1,18 @@
+html, body {
+	min-height:100%;
+}
+
 .input-area,
 .output-area {
 	width:50%;
+	height:100%;
 	padding:20px;
 	float: left;
 }
 
-.code-input-area {
-	width: 100%;
-	border: solid 2px #f88;
-	outline: none;
-	font-size: 16px;
-	padding: 10px;
+.CodeMirror-scroll {
+	height:500px;
+	overflow: scroll;
 }
 
 .output {
@@ -19,4 +21,9 @@
 
 .code-runnable .code-input-area {
 	border: solid 2px #999;
+}
+
+.output-area.disabled > * {
+	opacity: 0.4;
+	outline: 8px solid #F99;
 }

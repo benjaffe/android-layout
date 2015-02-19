@@ -17,12 +17,20 @@ var app = app || {};
 		opt = opt || {};
 
 		var prog = myCodeMirror.getValue();
-		var elemToRender;
+		var elemToRender, parsedXML;
 
 		// run the code
 		var mode = 'android-layout';
 		if (mode === 'android-layout') {
-			elemToRender = app.androidLayout.evaluateXML( jQuery.parseXML(prog) );
+			
+			try {
+				parsedXML = jQuery.parseXML(prog);
+				elemToRender = app.androidLayout.evaluateXML( parsedXML );
+				$('.output-area').removeClass('disabled');
+			} catch (e) {
+				console.error(e);
+				$('.output-area').addClass('disabled');
+			}
 		}
 
 		if (elemToRender) {
