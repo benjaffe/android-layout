@@ -45,9 +45,19 @@ var app = app || {};
 		// convert widths and heights
 		// console.log(attributes);
 		if (checkAttr('android:layout_width', 'match_parent')) domElem.addClass('layout_width-match_parent');
-		if (checkAttr('android:layout_width', 'wrap_content')) domElem.addClass('layout_width-wrap_content');
+		else if (checkAttr('android:layout_width', 'wrap_content')) domElem.addClass('layout_width-wrap_content');
+		else if (checkAttr('android:layout_width')) {
+			var widthOrig = attributes['android:layout_width'].value;
+			var width = parseInt(widthOrig)+'px';
+			domElem.css('width', width);
+		}
 		if (checkAttr('android:layout_height', 'match_parent')) domElem.addClass('layout_height-match_parent');
-		if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
+		else if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
+		else if (checkAttr('android:layout_height')) {
+			var heightOrig = attributes['android:layout_height'].value;
+			var height = parseInt(heightOrig)+'px';
+			domElem.css('height', height);
+		}
 
 		// check for center (this will probably have to get better and use flex)
 		if (checkAttr('android:gravity', ['center', 'center_horizontal'])) domElem.addClass('gravity-center');
