@@ -1,0 +1,43 @@
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+.screen {
+	width:300px;
+	height: 450px;
+	background-color: #CCC;
+	position: relative;
+}
+
+.screen * {
+	outline: 1px solid rgba(0,0,0,0.3);
+	min-height: 5px;
+}
+
+.screen-wrapper {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: #cde;
+}
+
+.layout_width-match_parent {
+	width: 100%;
+}
+
+.layout_height-match_parent {
+	height: 100%;
+}
+
+.LinearLayout {
+	display: flex;
+    flex-direction: column;
+}
+
+.LinearLayout > :not(.layout_height-wrap_content) {
+	flex-grow: 1;
+}
