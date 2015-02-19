@@ -1,5 +1,6 @@
 html {
 	box-sizing: border-box;
+	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 *, *:before, *:after {

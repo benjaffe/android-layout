@@ -5,6 +5,10 @@ var app = app || {};
 		evaluateXML: evaluateXML
 	};
 
+	fontFamilyList = {
+		'sans-serif-light': "Arial, 'Helvetica Neue', Helvetica, sans-serif"
+	};
+
 	function evaluateXML (elem, parent) {
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
@@ -72,6 +76,18 @@ var app = app || {};
 			console.log('\n\n',domElem,colorOrig, color);
 			domElem.css('color', color);
 		}
+
+		if (checkAttr('android:textSize')) {
+			var sizeOrig = attributes['android:textSize'].value;
+			var size = parseInt(sizeOrig) + 'px';
+			domElem.css('font-size', size); // we should be checking units rather than assuming
+		}
+
+		if (checkAttr('android:fontFamily')) {
+			var fontFamilyOrig = attributes['android:fontFamily'].value;
+			var fontFamily = fontFamilyList[fontFamilyOrig] || 'Roboto, sans-serif';
+			domElem.css('font-family', fontFamily); // we should be checking units rather than assuming
+		}
 		
 
 
@@ -81,8 +97,6 @@ var app = app || {};
 	function checkAttributesOnThis (name, value) {
 		// check for existence
 		if (value === undefined) {
-			console.log('hi');
-			console.log(this, name, this[name]);
 			return !!this[name];
 		}
 		
