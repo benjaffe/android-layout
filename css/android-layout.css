@@ -7,11 +7,24 @@ html {
 	box-sizing: inherit;
 }
 
-.screen {
-	width:300px;
-	height: 450px;
-	background-color: #CCC;
+/* ===== The Phone and Screen ===== */
+
+.phone {
 	position: relative;
+	margin: -20px;
+	background-image: url(../images/generic-android-phone-png.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	padding-bottom: 206%; /* preserves the aspect ratio */
+}
+
+.screen {
+	position: absolute;
+	top: 15.3%;
+	bottom: 12%;
+	left: 15%;
+	right: 14.7%;
+	z-index: -1;
 }
 
 .screen * {
@@ -26,9 +39,9 @@ html {
 	background-color: #cde;
 }
 
-.screen {
-	transform: scale(0.8) translateX(-70px);
-}
+
+
+/* ===== Styling for Android Layout XML ===== */
 
 /* Debug */
 /*.LinearLayout {border-left: 4px solid blue;}*/
