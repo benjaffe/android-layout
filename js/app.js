@@ -14,6 +14,13 @@ var app = app || {};
 	});
 
 
+	// this runs after code is successfully evaluated	
+	function onSuccess(code) {
+		// store state
+		localStorage.prevCode = JSON.stringify(code);
+	}
+
+		
 	// this function evaluates code based on the mode the app is in
 	function run (opt) {
 		opt = opt || {};
@@ -26,12 +33,14 @@ var app = app || {};
 		if (mode === 'android-layout') {
 			
 			try {
-				parsedXML = jQuery.parseXML(prog);
+				app.androidLayout.xmlSanityCheck( code );
+				parsedXML = jQuery.parseXML(code);
 				elemToRender = app.androidLayout.evaluateXML( parsedXML );
 				$('.output-area').removeClass('disabled');
+				onSuccess(code);
 			} catch (e) {
-				console.error(e);
 				$('.output-area').addClass('disabled');
+				throw e;
 			}
 		}
 

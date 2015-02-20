@@ -2,12 +2,42 @@ var app = app || {};
 
 (function() {
 	app.androidLayout = {
-		evaluateXML: evaluateXML
+		evaluateXML: evaluateXML,
+		xmlSanityCheck: xmlSanityCheck
 	};
 
 	fontFamilyList = {
 		'sans-serif-light': "Arial, 'Helvetica Neue', Helvetica, sans-serif"
 	};
+
+	errorList = {
+		'tooManyOpenBrackets': 'You have more \'<\'s than \'>\'s. Did you accidentally write an incomplete tag?',
+		'tooManyCloseBrackets': 'You have more \'>\'s than \'<\'s. Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
+		'oddNumQuotes': 'There are an odd number of "\'s in the document. Did you forget to close a quote?'
+	};
+
+	function xmlSanityCheck (code) {
+		// check for equal numbers of angle brackets
+		var errors = [];
+		var aOpen = code.split('<').length-1;
+		var aClose = code.split('>').length-1;
+		var dqNum = code.split('"').length-1;
+		
+		if (aOpen > aClose)
+			errors.push(tooManyOpenBrackets);
+		
+		if (aClose > aOpen)
+			errors.push(tooManyCloseBrackets);
+		
+		if (dqNum % 2 !== 0)
+			errors.push(oddNumQuotes);
+		
+		if (errors.length > 0) {
+			throw new Error(errors.join('\n\n'));
+		} else {
+			console.log('No errors!');
+		}
+	}
 
 	function evaluateXML (elem, parent) {
 
@@ -100,7 +130,6 @@ var app = app || {};
 		if (checkAttr('android:textColor')) {
 			var colorOrig = attributes['android:textColor'].value;
 			var color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : colorOrig.split('@android:color/')[1]);
-			console.log('\n\n',domElem,colorOrig, color);
 			domElem.css('color', color);
 		}
 
