@@ -76,6 +76,8 @@ var app = app || {};
 	// run (auto) once to get us going
 	run({ autorun: true });
 
+	$('body').show();
+
 	window.myCodeMirror = myCodeMirror;
 	
 })();
