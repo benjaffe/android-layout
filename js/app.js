@@ -37,9 +37,11 @@ var app = app || {};
 				parsedXML = jQuery.parseXML(code);
 				elemToRender = app.androidLayout.evaluateXML( parsedXML );
 				$('.output-area').removeClass('disabled');
+				$('.code-saved-msg').removeClass('code-not-saved');
 				onSuccess(code);
 			} catch (e) {
 				$('.output-area').addClass('disabled');
+				$('.code-saved-msg').addClass('code-not-saved');
 				throw e;
 			}
 		}
@@ -48,6 +50,10 @@ var app = app || {};
 			$('.screen').html('').append(elemToRender);
 		}
 	}
+
+	// restore previous state
+	if (localStorage.prevCode)
+		myCodeMirror.setValue(JSON.parse(localStorage.prevCode));
 
 
 	// auto-run on code mutation

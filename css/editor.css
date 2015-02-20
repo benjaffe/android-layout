@@ -41,4 +41,24 @@ html {
 	opacity: 0.4;
 	outline: 8px solid #F99;
 }
+
+
+.code-saved-msg {
+	color: #aaa;
+	font-size: 14px;
+	font-style: italic;
+	margin: 0;
+	position: absolute;
+}
+
+.code-saved-msg .not-word {
+	display: none;
+}
+
+.code-not-saved {
+	color: #caa;
+}
+
+.code-not-saved .not-word {
+	display: inline;
 }
