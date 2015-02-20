@@ -25,7 +25,7 @@ var app = app || {};
 	function run (opt) {
 		opt = opt || {};
 
-		var prog = myCodeMirror.getValue();
+		var code = myCodeMirror.getValue();
 		var elemToRender, parsedXML;
 
 		// run the code
@@ -69,6 +69,8 @@ var app = app || {};
 
 	// run (auto) once to get us going
 	run({ autorun: true });
+
+	window.myCodeMirror = myCodeMirror;
 	
 })();
 
