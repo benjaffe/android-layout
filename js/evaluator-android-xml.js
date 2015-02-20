@@ -11,9 +11,9 @@ var app = app || {};
 	};
 
 	errorList = {
-		'tooManyOpenBrackets': 'You have more \'<\'s than \'>\'s. Did you accidentally write an incomplete tag?',
-		'tooManyCloseBrackets': 'You have more \'>\'s than \'<\'s. Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
-		'oddNumQuotes': 'There are an odd number of "\'s in the document. Did you forget to close a quote?'
+		'tooManyOpenBrackets': '<strong>You have more \'<\'s than \'>\'s:</strong><br>Did you accidentally write an incomplete tag?',
+		'tooManyCloseBrackets': '<strong>You have more \'>\'s than \'<\'s:</strong><br>Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
+		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?'
 	};
 
 	function xmlSanityCheck (code) {
@@ -24,17 +24,19 @@ var app = app || {};
 		var dqNum = code.split('"').length-1;
 		
 		if (aOpen > aClose)
-			errors.push(tooManyOpenBrackets);
+			errors.push(errorList.tooManyOpenBrackets);
 		
 		if (aClose > aOpen)
-			errors.push(tooManyCloseBrackets);
+			errors.push(errorList.tooManyCloseBrackets);
 		
 		if (dqNum % 2 !== 0)
-			errors.push(oddNumQuotes);
+			errors.push(errorList.oddNumQuotes);
 		
 		if (errors.length > 0) {
-			throw new Error(errors.join('\n\n'));
+			$('.error-msg').show().html(errors.join('<br><br>'));
+			throw new Error('XML Parsing Error');
 		} else {
+			$('.error-msg').hide();
 			console.log('No errors!');
 		}
 	}
