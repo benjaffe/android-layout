@@ -17,6 +17,7 @@ var app = app || {};
 		var attributes = elem.attributes;
 		// console.log(attributes);
 
+		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
 			var parent = elem;
 			var childDomElem = evaluateXML(child, parent);
@@ -24,7 +25,8 @@ var app = app || {};
 		});
 
 		
-		// if we're the xml document itself, return early
+		// If elem is the xml document itself, return early
+		// Otherwise, let's do some parsing!
 		if (!type) {
 			domElem.addClass('screen-wrapper');
 			return domElem;
@@ -71,7 +73,7 @@ var app = app || {};
 			var vals = attributes['android:layout_gravity'].value.split('|');
 			for (var i = 0; i < vals.length; i++) {
 				domElem.css( vals[i] , 0);
-			};
+			}
 		}
 
 		// check for center (this will probably have to get better and use flex)
