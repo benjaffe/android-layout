@@ -2,16 +2,25 @@ html, body {
 	min-height:100%;
 }
 
+html {
+	box-sizing: border-box;
+	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
 .input-area {
 	width:70%;
 	height:100%;
-	padding:20px;
+	padding: 20px;
 	float: left;
 }
 .output-area {
 	width:30%;
 	height:100%;
-	padding:20px;
+	padding: 20px;
 	float: left;
 }
 
@@ -28,7 +37,8 @@ html, body {
 	border: solid 2px #999;
 }
 
-.output-area.disabled > * {
+.output-area.disabled {
 	opacity: 0.4;
 	outline: 8px solid #F99;
+}
 }
