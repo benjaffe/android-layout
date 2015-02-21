@@ -25,7 +25,8 @@ var app = app || {};
 	function run (opt) {
 		opt = opt || {};
 
-		var code = myCodeMirror.getValue();
+		var codeRaw = myCodeMirror.getValue();
+		var code;
 		var elemToRender, parsedXML;
 
 		// run the code
@@ -33,12 +34,13 @@ var app = app || {};
 		if (mode === 'android-layout') {
 			
 			try {
+				code = app.androidLayout.prepareCodeForParsing( codeRaw );
 				app.androidLayout.xmlSanityCheck( code );
-				parsedXML = jQuery.parseXML(code);
+				parsedXML = jQuery.parseXML( code );
 				elemToRender = app.androidLayout.evaluateXML( parsedXML );
 				$('.output-area').removeClass('disabled');
 				$('.code-saved-msg').removeClass('code-not-saved');
-				onSuccess(code);
+				onSuccess(codeRaw);
 			} catch (e) {
 				$('.output-area').addClass('disabled');
 				$('.code-saved-msg').addClass('code-not-saved');

@@ -3,7 +3,8 @@ var app = app || {};
 (function() {
 	app.androidLayout = {
 		evaluateXML: evaluateXML,
-		xmlSanityCheck: xmlSanityCheck
+		xmlSanityCheck: xmlSanityCheck,
+		prepareCodeForParsing: prepareCodeForParsing
 	};
 
 	fontFamilyList = {
@@ -15,6 +16,26 @@ var app = app || {};
 		'tooManyCloseBrackets': '<strong>You have more \'>\'s than \'<\'s:</strong><br>Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
 		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?'
 	};
+
+	
+	// add the schema links if they are missing
+	function prepareCodeForParsing (rawCode) {
+		var code = rawCode;
+		var startPos = rawCode.indexOf('<');
+		var insertPos = rawCode.indexOf(' ', startPos);
+
+		if (rawCode.split('xmlns:android').length === 1) {
+			pos = rawCode.indexOf(' ');
+			code = code.substr(0, insertPos) + '\txmlns:android="http://schemas.android.com/apk/res/android"\n' + code.substr(insertPos);
+		}
+		if (rawCode.split('xmlns:tools').length === 1) {
+			
+			code = code.substr(0, insertPos) + '\txmlns:tools="http://schemas.android.com/tools"\n' + code.substr(insertPos);
+		}
+		console.log(startPos, insertPos, code);
+		return code;
+	}
+
 
 	function xmlSanityCheck (code) {
 		// check for equal numbers of angle brackets
@@ -60,6 +81,7 @@ var app = app || {};
 		// If elem is the xml document itself, return early
 		// Otherwise, let's do some parsing!
 		if (!type) {
+
 			domElem.addClass('screen-wrapper');
 			return domElem;
 		}
