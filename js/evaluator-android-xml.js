@@ -148,7 +148,16 @@ var app = app || {};
 		// background styling
 		if (checkAttr('android:background')) {
 			var colorOrig = attributes['android:background'].value;
-			var color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]]);
+			var color;
+			if (colorOrig[0] === '#') {
+				if (colorOrig.length === 9) {
+					color = '#' + colorOrig.substr(-6);
+				} else {
+					color = colorOrig;
+				}
+			} else {
+				color = app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]];
+			}
 			domElem.css('background-color', color);
 		}
 
