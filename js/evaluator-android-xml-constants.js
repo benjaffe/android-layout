@@ -140,5 +140,5 @@ var app = app || {};
 		"holo_orange_light": "rgba(255,187,51,1)",
 		"holo_orange_dark": "rgba(255,136,0,1)",
 		"holo_blue_bright": "rgba(0,221,255,1)"
-	}
+	};
 })();
