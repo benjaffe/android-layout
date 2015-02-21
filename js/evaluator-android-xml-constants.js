@@ -2,6 +2,20 @@ var app = app || {};
 
 (function() {
 	app.androidLayout = app.androidLayout || {};
+
+	// hash of error names and their full text
+	app.androidLayout.errorList = {
+		'tooManyOpenBrackets': '<strong>You have more \'<\'s than \'>\'s:</strong><br>Did you accidentally write an incomplete tag?',
+		'tooManyCloseBrackets': '<strong>You have more \'>\'s than \'<\'s:</strong><br>Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
+		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?'
+	};
+
+	// hash of valid fonts, and their web equivalents
+	app.androidLayout.fontFamilyList = {
+		'sans-serif-light': "Arial, 'Helvetica Neue', Helvetica, sans-serif"
+	};
+
+	// hash of color names and their rgba values
 	app.androidLayout.COLOR = {
 		"screen_background_light": "rgba(255,255,255,1)",
 		"screen_background_dark": "rgba(0,0,0,1)",

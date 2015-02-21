@@ -2,22 +2,16 @@ var app = app || {};
 
 (function() {
 	app.androidLayout = app.androidLayout || {};
+
+	var fontFamilyList = app.androidLayout.fontFamilyList;
+	var errorList = app.androidLayout.errorList;
+
 	$.extend(app.androidLayout, {
 		evaluateXML: evaluateXML,
 		xmlSanityCheck: xmlSanityCheck,
 		prepareCodeForParsing: prepareCodeForParsing
 	});
 	
-	fontFamilyList = {
-		'sans-serif-light': "Arial, 'Helvetica Neue', Helvetica, sans-serif"
-	};
-
-	errorList = {
-		'tooManyOpenBrackets': '<strong>You have more \'<\'s than \'>\'s:</strong><br>Did you accidentally write an incomplete tag?',
-		'tooManyCloseBrackets': '<strong>You have more \'>\'s than \'<\'s:</strong><br>Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
-		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?'
-	};
-
 	
 	// add the schema links if they are missing
 	function prepareCodeForParsing (rawCode) {
