@@ -166,12 +166,33 @@ var app = app || {};
 			domElem.css('font-size', size); // we should be checking units rather than assuming
 		}
 
+		if (checkAttr('android:textStyle')) {
+			var style = attributes['android:textStyle'].value;
+			var styleArr = style.split('|');
+			var bold = (styleArr.indexOf('bold') !== -1);
+			var italic = (styleArr.indexOf('italic') !== -1);
+			
+			if (bold)
+				domElem.css('font-weight', 'bold');
+
+			if (italic)
+				domElem.css('font-style', 'italic');
+		}
+
 		if (checkAttr('android:fontFamily')) {
 			var fontFamilyOrig = attributes['android:fontFamily'].value;
-			var fontFamily = fontFamilyList[fontFamilyOrig] || 'Roboto, sans-serif';
-			domElem.css('font-family', fontFamily); // we should be checking units rather than assuming
+			var fontFamilyObj = fontFamilyList[fontFamilyOrig];
+			console.log(fontFamilyObj, fontFamilyOrig);
+			domElem.css('font-family', fontFamilyObj.fontFamily);
+
+			// 'sans-serif' and 'sans-serif-condensed' are allowed to be bold.
+			// They should retain their calculated font-weight from above
+			if (fontFamilyOrig !== 'sans-serif' && fontFamilyOrig !== 'sans-serif-condensed') {
+				domElem.css('font-weight', fontFamilyObj.fontWeight);
+			}
 		}
-		
+
+
 
 
 		return domElem;

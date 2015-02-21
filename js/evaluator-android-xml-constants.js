@@ -12,7 +12,30 @@ var app = app || {};
 
 	// hash of valid fonts, and their web equivalents
 	app.androidLayout.fontFamilyList = {
-		'sans-serif-light': "Arial, 'Helvetica Neue', Helvetica, sans-serif"
+		'sans-serif': {
+			'fontFamily': 'Roboto, sans-serif',
+			'fontWeight': '400'
+		},
+		'sans-serif-light': {
+			'fontFamily': 'Roboto, sans-serif',
+			'fontWeight': '300'
+		},
+		'sans-serif-condensed': {
+			'fontFamily': '"Roboto Condensed", sans-serif',
+			'fontWeight': '100'
+		},
+		'sans-serif-thin': {
+			'fontFamily': 'Roboto, sans-serif',
+			'fontWeight': '100'
+		},
+		'sans-serif-medium': {
+			'fontFamily': 'Roboto, sans-serif',
+			'fontWeight': '500'
+		},
+		'sans-serif-black': {
+			'fontFamily': 'Roboto, sans-serif',
+			'fontWeight': '900'
+		}
 	};
 
 	// hash of color names and their rgba values
