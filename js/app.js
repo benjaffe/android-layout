@@ -52,8 +52,12 @@ var app = app || {};
 	}
 
 	// restore previous state
-	if (localStorage.prevCode)
+	if (localStorage.prevCode) {
 		myCodeMirror.setValue(JSON.parse(localStorage.prevCode));
+		setTimeout(function(){
+			myCodeMirror.refresh();
+		}, 0);
+	}
 
 
 	// auto-run on code mutation
