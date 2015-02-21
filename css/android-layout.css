@@ -60,6 +60,10 @@
 	height: 100%;
 }
 
+.layout_width-wrap_content {
+	display: inline-block;
+}
+
 
 .LinearLayout {
 	display: flex;
