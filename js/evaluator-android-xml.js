@@ -8,6 +8,7 @@ var app = app || {};
 
 	$.extend(app.androidLayout, {
 		evaluateXML: evaluateXML,
+		evaluateXMLPass2: evaluateXMLPass2,
 		xmlSanityCheck: xmlSanityCheck,
 		prepareCodeForParsing: prepareCodeForParsing
 	});
@@ -27,7 +28,7 @@ var app = app || {};
 			
 			code = code.substr(0, insertPos) + '\txmlns:tools="http://schemas.android.com/tools"\n' + code.substr(insertPos);
 		}
-		console.log(startPos, insertPos, code);
+
 		return code;
 	}
 
@@ -64,12 +65,13 @@ var app = app || {};
 		var domElem = $('<div>');
 		var type = elem.tagName;
 		var attributes = elem.attributes;
-		// console.log(attributes);
+
+		// associate the DOM element with the XML element
+		elem.domElem = domElem;
 
 		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
-			var parent = elem;
-			var childDomElem = evaluateXML(child, parent);
+			var childDomElem = evaluateXML(child, elem);
 			$(domElem).append(childDomElem);
 		});
 
@@ -114,13 +116,6 @@ var app = app || {};
 			height = parseInt(heightOrig)+'px';
 			domElem.css('height', height);
 		}
-
-
-		// check for alignParent (absolute positioning to parent)
-		if (checkAttr('android:layout_alignParentTop', 'true')) domElem.css('top','0');
-		if (checkAttr('android:layout_alignParentBottom', 'true')) domElem.css('bottom','0');
-		if (checkAttr('android:layout_alignParentLeft', 'true')) domElem.css('left','0');
-		if (checkAttr('android:layout_alignParentRight', 'true')) domElem.css('right','0');
 
 
 		// layout_gravity
@@ -211,6 +206,108 @@ var app = app || {};
 
 
 		return domElem;
+	}
+
+	// This is the second pass, where any layout relative to other 
+	// elements is calculated.
+	function evaluateXMLPass2 (elem, parent) {
+		var domElem = elem.domElem;
+
+		layoutElem(elem);
+
+		$(elem).children().each(function(i, child) {
+			var childDomElem = evaluateXMLPass2(child, parent);
+		});
+
+	}
+
+	// Gets the element that matches the id passed
+	function getElemById (id) {
+		console.log('looking for elem ' + id);
+		var elem = $(app.parsedXML).find('[android:id='+id+']');
+		if (elem) console.log(elem);
+		return elem;
+	}
+
+	// This function calculates the positioning of an element.
+	// If the elem is relative to another, it calls layoutElem
+	// on the elem it's positioned relative to.
+	function layoutElem (xmlElem) {
+		var idOfRelativeElem, relativeElem, attributes;
+		var domElem = xmlElem.domElem;
+
+		if (xmlElem.domElemLayout) {
+			console.log('\tSweet, we\'ve already layed out this');
+			return xmlElem.domElemLayout;
+		}
+
+		attributes = xmlElem.attributes;
+		checkAttr = checkAttributesOnThis.bind(attributes);
+		console.log('laying out', (xmlElem.tagName || '') + ' ' + ($(xmlElem).attr('android:id')||''));
+
+		if (xmlElem.domElemLayout) {
+			console.log('Hey, we\'re already layed out!', xmlElem);
+		}
+
+		// check for alignParent (absolute positioning to parent)
+		if (checkAttr('android:layout_alignParentTop', 'true')) {
+			domElem.css('top', layoutElem(xmlElem.parentNode).top);
+		}
+		if (checkAttr('android:layout_alignParentBottom', 'true')) {
+			domElem.css('bottom', layoutElem(xmlElem.parentNode).bottom);
+		}
+		if (checkAttr('android:layout_alignParentLeft', 'true')) {
+			domElem.css('left', layoutElem(xmlElem.parentNode).left);
+		}
+		if (checkAttr('android:layout_alignParentRight', 'true')) {
+			domElem.css('right', layoutElem(xmlElem.parentNode).right);
+		}
+
+
+		// check for alignment relative to other views
+		if (checkAttr('android:layout_toStartOf')) {
+			idOfRelativeElem = elem.attributes('android:layout_toStartOf');
+			relativeElem = getElemById(idOfRelativeElem);
+			console.log('aww shit!');
+			positionOfRelativeElem = layoutElem(relativeElem);
+		}
+
+		if (checkAttr('android:layout_toEndOf')) {
+			idOfRelativeElem = elem.attributes('android:layout_toEndOf');
+			relativeElem = getElemById(idOfRelativeElem);
+			console.log('aww shit!');
+			positionOfRelativeElem = layoutElem(relativeElem);
+		}
+
+		if (checkAttr('android:layout_toLeftOf')) {
+			idOfRelativeElem = elem.attributes('android:layout_toLeftOf');
+			relativeElem = getElemById(idOfRelativeElem);
+			console.log('aww shit!');
+			positionOfRelativeElem = layoutElem(relativeElem);
+		}
+
+		if (checkAttr('android:layout_toRightOf')) {
+			idOfRelativeElem = elem.attributes('android:layout_toRightOf');
+			relativeElem = getElemById(idOfRelativeElem);
+			console.log('aww shit!');
+			positionOfRelativeElem = layoutElem(relativeElem);
+		}
+
+		xmlElem.domElemLayout = getOffsetAll(xmlElem.domElem);
+
+		return xmlElem.domElemLayout;
+	}
+
+	// takes a jQuery object and gets all offsets and dimensions
+	function getOffsetAll (elem) {
+		var dim = elem.offset();
+		
+		dim.width = elem.width();
+		dim.height = elem.height();
+		dim.right = dim.left + dim.width;
+		dim.bottom = dim.top + dim.height;
+
+		return dim;
 	}
 
 	function checkAttributesOnThis (name, value) {

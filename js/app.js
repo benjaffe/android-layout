@@ -27,17 +27,28 @@ var app = app || {};
 
 		var codeRaw = myCodeMirror.getValue();
 		var code;
-		var elemToRender, parsedXML;
+		var elemToRender;
 
 		// run the code
 		var mode = 'android-layout';
 		if (mode === 'android-layout') {
 			
 			try {
+				// pre-processing hook
 				code = app.androidLayout.prepareCodeForParsing( codeRaw );
+				
+				// catch easy-to-detect errors (like misaligned <>'s, quotes)
 				app.androidLayout.xmlSanityCheck( code );
-				parsedXML = jQuery.parseXML( code );
-				elemToRender = app.androidLayout.evaluateXML( parsedXML );
+				
+				// parse the XML
+				app.parsedXML = jQuery.parseXML( code );
+				
+				// basic parsing and styling
+				elemToRender = app.androidLayout.evaluateXML( app.parsedXML );
+				
+				// calculate all the layouts
+				app.androidLayout.evaluateXMLPass2( app.parsedXML );
+
 				$('.output-area').removeClass('disabled');
 				$('.code-saved-msg').removeClass('code-not-saved');
 				onSuccess(codeRaw);
