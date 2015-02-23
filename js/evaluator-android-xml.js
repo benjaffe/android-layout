@@ -58,6 +58,7 @@ var app = app || {};
 	}
 
 	function evaluateXML (elem, parent) {
+		var i, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
 		var domElem = $('<div>');
@@ -94,21 +95,26 @@ var app = app || {};
 		if (checkAttr('android:visibility', 'gone')) domElem.hide();
 
 		// convert widths and heights
-		// console.log(attributes);
-		if (checkAttr('android:layout_width', 'match_parent')) domElem.addClass('layout_width-match_parent');
-		else if (checkAttr('android:layout_width', 'wrap_content')) domElem.addClass('layout_width-wrap_content');
-		else if (checkAttr('android:layout_width')) {
-			var widthOrig = attributes['android:layout_width'].value;
-			var width = parseInt(widthOrig)+'px';
+		if (checkAttr('android:layout_width', 'match_parent')) {
+			domElem.addClass('layout_width-match_parent');
+		} else if (checkAttr('android:layout_width', 'wrap_content')) {
+			domElem.addClass('layout_width-wrap_content');
+		} else if (checkAttr('android:layout_width')) {
+			widthOrig = attributes['android:layout_width'].value;
+			width = parseInt(widthOrig)+'px';
 			domElem.css('width', width);
 		}
-		if (checkAttr('android:layout_height', 'match_parent')) domElem.addClass('layout_height-match_parent');
-		else if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
-		else if (checkAttr('android:layout_height')) {
-			var heightOrig = attributes['android:layout_height'].value;
-			var height = parseInt(heightOrig)+'px';
+
+		if (checkAttr('android:layout_height', 'match_parent')) {
+			domElem.addClass('layout_height-match_parent');
+		} else if (checkAttr('android:layout_height', 'wrap_content')) {
+			domElem.addClass('layout_height-wrap_content');
+		} else if (checkAttr('android:layout_height')) {
+			heightOrig = attributes['android:layout_height'].value;
+			height = parseInt(heightOrig)+'px';
 			domElem.css('height', height);
 		}
+
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) domElem.css('top','0');
@@ -119,8 +125,8 @@ var app = app || {};
 
 		// layout_gravity
 		if (checkAttr('android:layout_gravity')) {
-			var vals = attributes['android:layout_gravity'].value.split('|');
-			for (var i = 0; i < vals.length; i++) {
+			vals = attributes['android:layout_gravity'].value.split('|');
+			for (i = 0; i < vals.length; i++) {
 				domElem.css( vals[i] , 0);
 			}
 		}
@@ -147,8 +153,8 @@ var app = app || {};
 
 		// background styling
 		if (checkAttr('android:background')) {
-			var colorOrig = attributes['android:background'].value;
-			var color;
+			colorOrig = attributes['android:background'].value;
+			color;
 			if (colorOrig[0] === '#') {
 				if (colorOrig.length === 9) {
 					color = '#' + colorOrig.substr(-6);
@@ -164,22 +170,22 @@ var app = app || {};
 
 		// text styling
 		if (checkAttr('android:textColor')) {
-			var colorOrig = attributes['android:textColor'].value;
-			var color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]]);
+			colorOrig = attributes['android:textColor'].value;
+			color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]]);
 			domElem.css('color', color);
 		}
 
 		if (checkAttr('android:textSize')) {
-			var sizeOrig = attributes['android:textSize'].value;
-			var size = parseInt(sizeOrig) + 'px';
+			sizeOrig = attributes['android:textSize'].value;
+			size = parseInt(sizeOrig) + 'px';
 			domElem.css('font-size', size); // we should be checking units rather than assuming
 		}
 
 		if (checkAttr('android:textStyle')) {
-			var style = attributes['android:textStyle'].value;
-			var styleArr = style.split('|');
-			var bold = (styleArr.indexOf('bold') !== -1);
-			var italic = (styleArr.indexOf('italic') !== -1);
+			style = attributes['android:textStyle'].value;
+			styleArr = style.split('|');
+			bold = (styleArr.indexOf('bold') !== -1);
+			italic = (styleArr.indexOf('italic') !== -1);
 			
 			if (bold)
 				domElem.css('font-weight', 'bold');
@@ -189,8 +195,8 @@ var app = app || {};
 		}
 
 		if (checkAttr('android:fontFamily')) {
-			var fontFamilyOrig = attributes['android:fontFamily'].value;
-			var fontFamilyObj = fontFamilyList[fontFamilyOrig];
+			fontFamilyOrig = attributes['android:fontFamily'].value;
+			fontFamilyObj = fontFamilyList[fontFamilyOrig];
 			console.log(fontFamilyObj, fontFamilyOrig);
 			domElem.css('font-family', fontFamilyObj.fontFamily);
 
