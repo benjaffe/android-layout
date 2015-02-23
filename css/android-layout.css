@@ -10,7 +10,7 @@
 /* ===== The Phone and Screen ===== */
 
 .phone {
-	position: relative;
+	/*position: relative;*/
 	margin: -20px;
 	background-image: url(../images/generic-android-phone-png.png);
 	background-repeat: no-repeat;
@@ -24,7 +24,7 @@
 	bottom: 12%;
 	left: 15%;
 	right: 14.7%;
-	z-index: -1;
+	/*z-index: -1;*/
 }
 
 .screen * {
@@ -71,7 +71,7 @@
 }
 
 .FrameLayout {
-	position: relative;
+	/*position: relative;*/
 }
 
 .FrameLayout > * {
@@ -81,7 +81,7 @@
 
 /* may be wrong... */
 .RelativeLayout {
-	position: relative;
+	/*position: relative;*/
 }
 
 .RelativeLayout > * {
