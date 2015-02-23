@@ -33,7 +33,7 @@ var app = app || {};
 		var mode = 'android-layout';
 		if (mode === 'android-layout') {
 			
-			try {
+			// try {
 				// pre-processing hook
 				code = app.androidLayout.prepareCodeForParsing( codeRaw );
 				
@@ -47,16 +47,19 @@ var app = app || {};
 				elemToRender = app.androidLayout.evaluateXML( app.parsedXML );
 				
 				// calculate all the layouts
-				app.androidLayout.evaluateXMLPass2( app.parsedXML );
+				setTimeout(function(){
+					console.log('\n\n-------- pass 2 --------');
+					app.androidLayout.evaluateXMLPass2( app.parsedXML );
 
-				$('.output-area').removeClass('disabled');
-				$('.code-saved-msg').removeClass('code-not-saved');
-				onSuccess(codeRaw);
-			} catch (e) {
-				$('.output-area').addClass('disabled');
-				$('.code-saved-msg').addClass('code-not-saved');
-				throw e;
-			}
+					$('.output-area').removeClass('disabled');
+					$('.code-saved-msg').removeClass('code-not-saved');
+					onSuccess(codeRaw);
+				},0);
+			// } catch (e) {
+			// 	$('.output-area').addClass('disabled');
+			// 	$('.code-saved-msg').addClass('code-not-saved');
+			// 	throw e;
+			// }
 		}
 
 		if (elemToRender) {

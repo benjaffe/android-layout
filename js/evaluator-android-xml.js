@@ -5,6 +5,7 @@ var app = app || {};
 
 	var fontFamilyList = app.androidLayout.fontFamilyList;
 	var errorList = app.androidLayout.errorList;
+	var layoutInvalidated = true;
 
 	$.extend(app.androidLayout, {
 		evaluateXML: evaluateXML,
@@ -79,7 +80,6 @@ var app = app || {};
 		// If elem is the xml document itself, return early
 		// Otherwise, let's do some parsing!
 		if (!type) {
-
 			domElem.addClass('screen-wrapper');
 			return domElem;
 		}
@@ -89,6 +89,12 @@ var app = app || {};
 		domElem.addClass(type);
 
 		checkAttr = checkAttributesOnThis.bind(attributes);
+
+		// add id for easier accessing later
+		if (attributes['android:id']) {
+			elem.id = attributes['android:id'].value;
+			domElem.attr('id', elem.id);
+		}
 
 		// add content
 		if (attributes['android:text']) domElem.text(attributes['android:text'].value);
@@ -104,7 +110,7 @@ var app = app || {};
 		} else if (checkAttr('android:layout_width')) {
 			widthOrig = attributes['android:layout_width'].value;
 			width = parseInt(widthOrig)+'px';
-			domElem.css('width', width);
+			domElem.css('width', width+'px');
 		}
 
 		if (checkAttr('android:layout_height', 'match_parent')) {
@@ -114,11 +120,12 @@ var app = app || {};
 		} else if (checkAttr('android:layout_height')) {
 			heightOrig = attributes['android:layout_height'].value;
 			height = parseInt(heightOrig)+'px';
-			domElem.css('height', height);
+			domElem.css('height', height+'px');
 		}
 
 
 		// layout_gravity
+		// TODO: Migrate this to the second layout pass
 		if (checkAttr('android:layout_gravity')) {
 			vals = attributes['android:layout_gravity'].value.split('|');
 			for (i = 0; i < vals.length; i++) {
@@ -149,7 +156,6 @@ var app = app || {};
 		// background styling
 		if (checkAttr('android:background')) {
 			colorOrig = attributes['android:background'].value;
-			color;
 			if (colorOrig[0] === '#') {
 				if (colorOrig.length === 9) {
 					color = '#' + colorOrig.substr(-6);
@@ -210,23 +216,44 @@ var app = app || {};
 
 	// This is the second pass, where any layout relative to other 
 	// elements is calculated.
-	function evaluateXMLPass2 (elem, parent) {
+	function evaluateXMLPass2 (elem, parent, inRelativeLayout) {
 		var domElem = elem.domElem;
 
-		layoutElem(elem);
+		if (elem.tagName === 'RelativeLayout') inRelativeLayout = true;
+
+		layoutInvalidated = true;
+		if (inRelativeLayout) layoutElem(elem);
+		layoutInvalidated = false;
 
 		$(elem).children().each(function(i, child) {
-			var childDomElem = evaluateXMLPass2(child, parent);
+			var childDomElem = evaluateXMLPass2(child, elem, inRelativeLayout);
 		});
 
 	}
 
+	var count = 0;
 	// Gets the element that matches the id passed
-	function getElemById (id) {
-		console.log('looking for elem ' + id);
-		var elem = $(app.parsedXML).find('[android:id='+id+']');
-		if (elem) console.log(elem);
-		return elem;
+	function getElemById (id, elem) {
+		count++;
+		if (count > 100) {
+			console.error('couldn\'t find element with id ' + id);
+			return null;
+		}
+		
+		var foundElem;
+		elem = elem || app.parsedXML;
+
+		if (elem.id === id) return elem;
+
+		var children = $(elem).children();
+
+		for (var i = 0; i < children.length; i++) {
+			var returned = getElemById(id, children[i]);
+			if (returned) {
+				count = 0;
+				return returned;
+			}
+		}
 	}
 
 	// This function calculates the positioning of an element.
@@ -236,78 +263,108 @@ var app = app || {};
 		var idOfRelativeElem, relativeElem, attributes;
 		var domElem = xmlElem.domElem;
 
-		if (xmlElem.domElemLayout) {
-			console.log('\tSweet, we\'ve already layed out this');
+		if (xmlElem.domElemLayout && !layoutInvalidated) {
+			console.log('\tSweet, we\'ve already layed out ' + xmlElem.id);
 			return xmlElem.domElemLayout;
 		}
 
 		attributes = xmlElem.attributes;
 		checkAttr = checkAttributesOnThis.bind(attributes);
-		console.log('laying out', (xmlElem.tagName || '') + ' ' + ($(xmlElem).attr('android:id')||''));
 
+		// if we're already layed out, return early
 		if (xmlElem.domElemLayout) {
-			console.log('Hey, we\'re already layed out!', xmlElem);
+			return xmlElem.domElemLayout;
 		}
+
+		console.log('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
-			domElem.css('top', layoutElem(xmlElem.parentNode).top);
+			domElem.css('top', layoutElem(xmlElem.parentNode).top+'px');
 		}
 		if (checkAttr('android:layout_alignParentBottom', 'true')) {
-			domElem.css('bottom', layoutElem(xmlElem.parentNode).bottom);
+			domElem.css('bottom', layoutElem(xmlElem.parentNode).bottom+'px');
 		}
 		if (checkAttr('android:layout_alignParentLeft', 'true')) {
-			domElem.css('left', layoutElem(xmlElem.parentNode).left);
+			domElem.css('left', layoutElem(xmlElem.parentNode).left+'px');
 		}
 		if (checkAttr('android:layout_alignParentRight', 'true')) {
-			domElem.css('right', layoutElem(xmlElem.parentNode).right);
+			domElem.css('right', layoutElem(xmlElem.parentNode).right+'px');
 		}
 
 
 		// check for alignment relative to other views
 		if (checkAttr('android:layout_toStartOf')) {
-			idOfRelativeElem = elem.attributes('android:layout_toStartOf');
-			relativeElem = getElemById(idOfRelativeElem);
-			console.log('aww shit!');
-			positionOfRelativeElem = layoutElem(relativeElem);
+			idOfRelativeElem = attributes['android:layout_toStartOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.top);
+				domElem.css('bottom', positionOfRelativeElem.top+'px');
+			}
 		}
 
 		if (checkAttr('android:layout_toEndOf')) {
-			idOfRelativeElem = elem.attributes('android:layout_toEndOf');
-			relativeElem = getElemById(idOfRelativeElem);
-			console.log('aww shit!');
-			positionOfRelativeElem = layoutElem(relativeElem);
+			idOfRelativeElem = attributes['android:layout_toEndOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.bottom);
+				domElem.css('top', positionOfRelativeElem.bottom+'px');
+			}
 		}
 
 		if (checkAttr('android:layout_toLeftOf')) {
-			idOfRelativeElem = elem.attributes('android:layout_toLeftOf');
-			relativeElem = getElemById(idOfRelativeElem);
-			console.log('aww shit!');
-			positionOfRelativeElem = layoutElem(relativeElem);
+			idOfRelativeElem = attributes['android:layout_toLeftOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.right);
+				domElem.css('left', positionOfRelativeElem.right+'px');
+			}
 		}
 
 		if (checkAttr('android:layout_toRightOf')) {
-			idOfRelativeElem = elem.attributes('android:layout_toRightOf');
-			relativeElem = getElemById(idOfRelativeElem);
-			console.log('aww shit!');
-			positionOfRelativeElem = layoutElem(relativeElem);
+			idOfRelativeElem = attributes['android:layout_toRightOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.left);
+				domElem.css('right', positionOfRelativeElem.left+'px');
+			}
 		}
 
-		xmlElem.domElemLayout = getOffsetAll(xmlElem.domElem);
-
+		xmlElem.domElemLayout = getOffsetAllFromPhone(xmlElem.domElem);
+		
 		return xmlElem.domElemLayout;
 	}
 
-	// takes a jQuery object and gets all offsets and dimensions
-	function getOffsetAll (elem) {
+	// takes a jQuery element and gets all offsets and dimensions
+	function getOffsetAllFromPhone (elem) {
 		var dim = elem.offset();
+		var dimPhone = $('.phone').offset();
+		dim.left = dim.left - dimPhone.left;
+		dim.top = dim.top - dimPhone.top;
 		
-		dim.width = elem.width();
-		dim.height = elem.height();
+		dim.width = elem.outerWidth();
+		dim.height = elem.outerHeight();
 		dim.right = dim.left + dim.width;
 		dim.bottom = dim.top + dim.height;
-
+		
 		return dim;
+	}
+
+	// sets the absolute position such that it will layout absolutely relative to the document
+	function setAbsolutePositionFromPhone (elem, key, value) {
+		
 	}
 
 	function checkAttributesOnThis (name, value) {

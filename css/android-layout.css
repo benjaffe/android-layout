@@ -11,19 +11,28 @@
 
 .phone {
 	/*position: relative;*/
+	position: absolute;
+	top: 0;
+	right: 0;
 	margin: -20px;
-	background-image: url(../images/generic-android-phone-png.png);
+	/*background-image: url(../images/generic-android-phone-png.png);*/
 	background-repeat: no-repeat;
-	background-size: contain;
-	padding-bottom: 206%; /* preserves the aspect ratio */
+	/*background-size: 50%;*/
+	width: 1080px;
+	height: 1920px;
+	/*padding-bottom: 206%; /* preserves the aspect ratio */
 }
 
 .screen {
 	position: absolute;
-	top: 15.3%;
-	bottom: 12%;
-	left: 15%;
-	right: 14.7%;
+	width: 1080px;
+	height: 1920px;
+	
+	top: 0px;
+	right: 0px;
+	/*opacity:0.5;*/
+	/*transform: translateY(-600px) translateX(280px) scale(0.333333);*/
+	
 	/*z-index: -1;*/
 }
 
