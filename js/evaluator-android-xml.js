@@ -122,7 +122,8 @@ var app = app || {};
 		} else if (checkAttr('android:layout_width')) {
 			widthOrig = attributes['android:layout_width'].value;
 			width = dpToPx(widthOrig)+'px';
-			domElem.css('width', width+'px');
+			console.log(domElem, width);
+			domElem.css('width', width);
 		}
 
 		if (checkAttr('android:layout_height', 'match_parent')) {
@@ -132,7 +133,7 @@ var app = app || {};
 		} else if (checkAttr('android:layout_height')) {
 			heightOrig = attributes['android:layout_height'].value;
 			height = dpToPx(heightOrig)+'px';
-			domElem.css('height', height+'px');
+			domElem.css('height', height);
 		}
 
 
@@ -190,9 +191,12 @@ var app = app || {};
 
 		if (checkAttr('android:textSize')) {
 			sizeOrig = attributes['android:textSize'].value;
-			size = dpToPx(sizeOrig) + 'px';
-			domElem.css('font-size', size); // we should be checking units rather than assuming
+		} else {
+			sizeOrig = '14sp';
 		}
+		size = dpToPx(sizeOrig) + 'px';
+		console.log(size);
+		domElem.css('font-size', size); // we should be checking units rather than assuming
 
 		if (checkAttr('android:textStyle')) {
 			style = attributes['android:textStyle'].value;
