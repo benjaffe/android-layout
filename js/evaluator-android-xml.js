@@ -5,11 +5,23 @@ var app = app || {};
 
 	var fontFamilyList = app.androidLayout.fontFamilyList;
 	var errorList = app.androidLayout.errorList;
+	var layoutInvalidated = true;
 
 	$.extend(app.androidLayout, {
 		evaluateXML: evaluateXML,
+		evaluateXMLPass2: evaluateXMLPass2,
 		xmlSanityCheck: xmlSanityCheck,
 		prepareCodeForParsing: prepareCodeForParsing
+	});
+
+	WebFont.load({
+	    google: {
+	      families: ['Roboto', 'Roboto Condensed']
+	    },
+	    fontactive: function(familyName, fvd) {
+			app.run({ autorun: true });
+	    	console.log('fonts loaded');
+		}
 	});
 	
 	
@@ -27,7 +39,7 @@ var app = app || {};
 			
 			code = code.substr(0, insertPos) + '\txmlns:tools="http://schemas.android.com/tools"\n' + code.substr(insertPos);
 		}
-		console.log(startPos, insertPos, code);
+
 		return code;
 	}
 
@@ -58,17 +70,19 @@ var app = app || {};
 	}
 
 	function evaluateXML (elem, parent) {
+		var i, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
 		var domElem = $('<div>');
 		var type = elem.tagName;
 		var attributes = elem.attributes;
-		// console.log(attributes);
+
+		// associate the DOM element with the XML element
+		elem.domElem = domElem;
 
 		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
-			var parent = elem;
-			var childDomElem = evaluateXML(child, parent);
+			var childDomElem = evaluateXML(child, elem);
 			$(domElem).append(childDomElem);
 		});
 
@@ -76,7 +90,6 @@ var app = app || {};
 		// If elem is the xml document itself, return early
 		// Otherwise, let's do some parsing!
 		if (!type) {
-
 			domElem.addClass('screen-wrapper');
 			return domElem;
 		}
@@ -87,6 +100,12 @@ var app = app || {};
 
 		checkAttr = checkAttributesOnThis.bind(attributes);
 
+		// add id for easier accessing later
+		if (attributes['android:id']) {
+			elem.id = attributes['android:id'].value;
+			domElem.attr('id', elem.id);
+		}
+
 		// add content
 		if (attributes['android:text']) domElem.text(attributes['android:text'].value);
 
@@ -94,33 +113,32 @@ var app = app || {};
 		if (checkAttr('android:visibility', 'gone')) domElem.hide();
 
 		// convert widths and heights
-		// console.log(attributes);
-		if (checkAttr('android:layout_width', 'match_parent')) domElem.addClass('layout_width-match_parent');
-		else if (checkAttr('android:layout_width', 'wrap_content')) domElem.addClass('layout_width-wrap_content');
-		else if (checkAttr('android:layout_width')) {
-			var widthOrig = attributes['android:layout_width'].value;
-			var width = parseInt(widthOrig)+'px';
-			domElem.css('width', width);
-		}
-		if (checkAttr('android:layout_height', 'match_parent')) domElem.addClass('layout_height-match_parent');
-		else if (checkAttr('android:layout_height', 'wrap_content')) domElem.addClass('layout_height-wrap_content');
-		else if (checkAttr('android:layout_height')) {
-			var heightOrig = attributes['android:layout_height'].value;
-			var height = parseInt(heightOrig)+'px';
-			domElem.css('height', height);
+		if (checkAttr('android:layout_width', 'match_parent')) {
+			domElem.addClass('layout_width-match_parent');
+		} else if (checkAttr('android:layout_width', 'wrap_content')) {
+			domElem.addClass('layout_width-wrap_content');
+		} else if (checkAttr('android:layout_width')) {
+			widthOrig = attributes['android:layout_width'].value;
+			width = parseInt(widthOrig)+'px';
+			domElem.css('width', width+'px');
 		}
 
-		// check for alignParent (absolute positioning to parent)
-		if (checkAttr('android:layout_alignParentTop', 'true')) domElem.css('top','0');
-		if (checkAttr('android:layout_alignParentBottom', 'true')) domElem.css('bottom','0');
-		if (checkAttr('android:layout_alignParentLeft', 'true')) domElem.css('left','0');
-		if (checkAttr('android:layout_alignParentRight', 'true')) domElem.css('right','0');
+		if (checkAttr('android:layout_height', 'match_parent')) {
+			domElem.addClass('layout_height-match_parent');
+		} else if (checkAttr('android:layout_height', 'wrap_content')) {
+			domElem.addClass('layout_height-wrap_content');
+		} else if (checkAttr('android:layout_height')) {
+			heightOrig = attributes['android:layout_height'].value;
+			height = parseInt(heightOrig)+'px';
+			domElem.css('height', height+'px');
+		}
 
 
 		// layout_gravity
+		// TODO: Migrate this to the second layout pass
 		if (checkAttr('android:layout_gravity')) {
-			var vals = attributes['android:layout_gravity'].value.split('|');
-			for (var i = 0; i < vals.length; i++) {
+			vals = attributes['android:layout_gravity'].value.split('|');
+			for (i = 0; i < vals.length; i++) {
 				domElem.css( vals[i] , 0);
 			}
 		}
@@ -147,7 +165,7 @@ var app = app || {};
 
 		// background styling
 		if (checkAttr('android:background')) {
-			var colorOrig = attributes['android:background'].value;
+			colorOrig = attributes['android:background'].value;
 			var color;
 			if (colorOrig[0] === '#') {
 				if (colorOrig.length === 9) {
@@ -164,22 +182,22 @@ var app = app || {};
 
 		// text styling
 		if (checkAttr('android:textColor')) {
-			var colorOrig = attributes['android:textColor'].value;
-			var color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]]);
+			colorOrig = attributes['android:textColor'].value;
+			color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]]);
 			domElem.css('color', color);
 		}
 
 		if (checkAttr('android:textSize')) {
-			var sizeOrig = attributes['android:textSize'].value;
-			var size = parseInt(sizeOrig) + 'px';
+			sizeOrig = attributes['android:textSize'].value;
+			size = parseInt(sizeOrig) + 'px';
 			domElem.css('font-size', size); // we should be checking units rather than assuming
 		}
 
 		if (checkAttr('android:textStyle')) {
-			var style = attributes['android:textStyle'].value;
-			var styleArr = style.split('|');
-			var bold = (styleArr.indexOf('bold') !== -1);
-			var italic = (styleArr.indexOf('italic') !== -1);
+			style = attributes['android:textStyle'].value;
+			styleArr = style.split('|');
+			bold = (styleArr.indexOf('bold') !== -1);
+			italic = (styleArr.indexOf('italic') !== -1);
 			
 			if (bold)
 				domElem.css('font-weight', 'bold');
@@ -189,9 +207,8 @@ var app = app || {};
 		}
 
 		if (checkAttr('android:fontFamily')) {
-			var fontFamilyOrig = attributes['android:fontFamily'].value;
-			var fontFamilyObj = fontFamilyList[fontFamilyOrig];
-			console.log(fontFamilyObj, fontFamilyOrig);
+			fontFamilyOrig = attributes['android:fontFamily'].value;
+			fontFamilyObj = fontFamilyList[fontFamilyOrig];
 			domElem.css('font-family', fontFamilyObj.fontFamily);
 
 			// 'sans-serif' and 'sans-serif-condensed' are allowed to be bold.
@@ -205,6 +222,157 @@ var app = app || {};
 
 
 		return domElem;
+	}
+
+	// This is the second pass, where any layout relative to other 
+	// elements is calculated.
+	function evaluateXMLPass2 (elem, parent, inRelativeLayout) {
+		var domElem = elem.domElem;
+
+		if (elem.tagName === 'RelativeLayout') inRelativeLayout = true;
+
+		layoutInvalidated = true;
+		if (inRelativeLayout) layoutElem(elem);
+		layoutInvalidated = false;
+
+		$(elem).children().each(function(i, child) {
+			var childDomElem = evaluateXMLPass2(child, elem, inRelativeLayout);
+		});
+
+	}
+
+	var count = 0;
+	// Gets the element that matches the id passed
+	function getElemById (id, elem) {
+		if (!elem) count = 0;
+		count++;
+		if (count > 100) {
+			console.error('couldn\'t find element with id ' + id);
+			return null;
+		}
+		
+		var foundElem;
+		elem = elem || app.parsedXML;
+
+		if (elem.id === id) return elem;
+
+		var children = $(elem).children();
+
+		for (var i = 0; i < children.length; i++) {
+			var returned = getElemById(id, children[i]);
+			if (returned) {
+				return returned;
+			}
+		}
+	}
+
+	// This function calculates the positioning of an element.
+	// If the elem is relative to another, it calls layoutElem
+	// on the elem it's positioned relative to.
+	function layoutElem (xmlElem) {
+		var idOfRelativeElem, relativeElem, attributes;
+		var domElem = xmlElem.domElem;
+
+		if (xmlElem.currentlyLayingOut){
+			throw Error('Circular Dependency! Laying out ' + xmlElem.tagName + ' ' + xmlElem.id);
+		}
+
+		xmlElem.currentlyLayingOut = true;
+
+		// if we're already layed out, return early
+		if (xmlElem.domElemLayout && !layoutInvalidated) {
+			console.log('\tSweet, we\'ve already layed out ' + xmlElem.id);
+			xmlElem.currentlyLayingOut = false;
+			return xmlElem.domElemLayout;
+		}
+
+		attributes = xmlElem.attributes;
+		checkAttr = checkAttributesOnThis.bind(attributes);
+
+		console.log('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
+
+		// check for alignParent (absolute positioning to parent)
+		if (checkAttr('android:layout_alignParentTop', 'true')) {
+			domElem.css('top', layoutElem(xmlElem.parentNode).top+'px');
+		}
+		if (checkAttr('android:layout_alignParentBottom', 'true')) {
+			domElem.css('bottom', layoutElem(xmlElem.parentNode).bottom+'px');
+		}
+		if (checkAttr('android:layout_alignParentLeft', 'true')) {
+			domElem.css('left', layoutElem(xmlElem.parentNode).left+'px');
+		}
+		if (checkAttr('android:layout_alignParentRight', 'true')) {
+			domElem.css('right', layoutElem(xmlElem.parentNode).right+'px');
+		}
+
+		// TODO: Simplify the following four conditionals into a single conditional in a loop
+		// check for alignment relative to other views
+		if (checkAttr('android:layout_toStartOf')) {
+			idOfRelativeElem = attributes['android:layout_toStartOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				throw new Error('This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.top);
+				domElem.css('bottom', positionOfRelativeElem.top+'px');
+			}
+		}
+
+		if (checkAttr('android:layout_toEndOf')) {
+			idOfRelativeElem = attributes['android:layout_toEndOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.bottom);
+				domElem.css('top', positionOfRelativeElem.bottom+'px');
+			}
+		}
+
+		if (checkAttr('android:layout_toLeftOf')) {
+			idOfRelativeElem = attributes['android:layout_toLeftOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.right);
+				domElem.css('left', positionOfRelativeElem.right+'px');
+			}
+		}
+
+		if (checkAttr('android:layout_toRightOf')) {
+			idOfRelativeElem = attributes['android:layout_toRightOf'].value;
+			if (idOfRelativeElem === xmlElem.id) {
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.left);
+				domElem.css('right', positionOfRelativeElem.left+'px');
+			}
+		}
+
+		xmlElem.domElemLayout = getOffsetAllFromPhone(xmlElem.domElem);
+		xmlElem.currentlyLayingOut = false;
+		return xmlElem.domElemLayout;
+	}
+
+	// takes a jQuery element and gets all offsets and dimensions
+	function getOffsetAllFromPhone (elem) {
+		var dim = elem.offset();
+		var dimPhone = $('.phone').offset();
+		dim.left = dim.left - dimPhone.left;
+		dim.top = dim.top - dimPhone.top;
+		
+		dim.width = elem.outerWidth();
+		dim.height = elem.outerHeight();
+		dim.right = dim.left + dim.width;
+		dim.bottom = dim.top + dim.height;
+		
+		return dim;
 	}
 
 	function checkAttributesOnThis (name, value) {
