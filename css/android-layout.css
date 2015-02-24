@@ -67,13 +67,6 @@ body {
 
 /* ===== Styling for Android Layout XML ===== */
 
-/* Debug */
-/*.LinearLayout {border-left: 4px solid blue;}*/
-.RelativeLayout {border-left: 4px solid red;}
-.ImageView {border-right: 4px solid green;}
-.TextView {border-left: 4px solid #0FF;}
-.Button {border-left: 4px solid #FF0;}
-
 /* Layout */
 
 .layout_width-match_parent {
