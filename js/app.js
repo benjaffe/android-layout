@@ -18,6 +18,12 @@ var app = app || {};
 	function onSuccess(code) {
 		// store state
 		localStorage.prevCode = JSON.stringify(code);
+		html2canvas($('.screen').get(), {
+			onrendered: function(canvas) {
+				console.log(canvas);
+				$('.phone').html('').append(canvas);
+			}
+		});
 	}
 
 		

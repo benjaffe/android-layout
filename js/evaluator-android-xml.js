@@ -6,6 +6,8 @@ var app = app || {};
 	var fontFamilyList = app.androidLayout.fontFamilyList;
 	var errorList = app.androidLayout.errorList;
 	var layoutInvalidated = true;
+	var count;
+	var pixelRatio = 3;
 
 	$.extend(app.androidLayout, {
 		evaluateXML: evaluateXML,
@@ -119,7 +121,7 @@ var app = app || {};
 			domElem.addClass('layout_width-wrap_content');
 		} else if (checkAttr('android:layout_width')) {
 			widthOrig = attributes['android:layout_width'].value;
-			width = parseInt(widthOrig)+'px';
+			width = dpToPx(widthOrig)+'px';
 			domElem.css('width', width+'px');
 		}
 
@@ -129,7 +131,7 @@ var app = app || {};
 			domElem.addClass('layout_height-wrap_content');
 		} else if (checkAttr('android:layout_height')) {
 			heightOrig = attributes['android:layout_height'].value;
-			height = parseInt(heightOrig)+'px';
+			height = dpToPx(heightOrig)+'px';
 			domElem.css('height', height+'px');
 		}
 
@@ -160,13 +162,12 @@ var app = app || {};
 
 
 		// padding
-		if (attributes['android:padding']) domElem.css('padding', parseInt(attributes['android:padding'].value)+'px');
+		if (attributes['android:padding']) domElem.css('padding', dpToPx(attributes['android:padding'].value)+'px');
 
 
 		// background styling
 		if (checkAttr('android:background')) {
 			colorOrig = attributes['android:background'].value;
-			var color;
 			if (colorOrig[0] === '#') {
 				if (colorOrig.length === 9) {
 					color = '#' + colorOrig.substr(-6);
@@ -189,15 +190,15 @@ var app = app || {};
 
 		if (checkAttr('android:textSize')) {
 			sizeOrig = attributes['android:textSize'].value;
-			size = parseInt(sizeOrig) + 'px';
+			size = dpToPx(sizeOrig) + 'px';
 			domElem.css('font-size', size); // we should be checking units rather than assuming
 		}
 
 		if (checkAttr('android:textStyle')) {
 			style = attributes['android:textStyle'].value;
-			styleArr = style.split('|');
-			bold = (styleArr.indexOf('bold') !== -1);
-			italic = (styleArr.indexOf('italic') !== -1);
+
+			bold = (style === 'bold' || style === 'italic|bold' || style === 'bold|italic');
+			italic = (style === 'italic' || style === 'italic|bold' || style === 'bold|italic');
 			
 			if (bold)
 				domElem.css('font-weight', 'bold');
@@ -219,13 +220,15 @@ var app = app || {};
 		}
 
 
-
-
 		return domElem;
 	}
 
-	// This is the second pass, where any layout relative to other 
-	// elements is calculated.
+	/**
+	 * This method calculates any layout relative to other elements
+	 * @param  {[type]} elem             [the element being layed out]
+	 * @param  {[type]} parent           [the parent of the element being layed out]
+	 * @param  {[type]} inRelativeLayout [if true, this element is a child of a RelativeLayout]
+	 */
 	function evaluateXMLPass2 (elem, parent, inRelativeLayout) {
 		var domElem = elem.domElem;
 
@@ -241,7 +244,6 @@ var app = app || {};
 
 	}
 
-	var count = 0;
 	// Gets the element that matches the id passed
 	function getElemById (id, elem) {
 		if (!elem) count = 0;
@@ -280,6 +282,7 @@ var app = app || {};
 		xmlElem.currentlyLayingOut = true;
 
 		// if we're already layed out, return early
+		// TODO: This isn't running because layoutInvalidated is true too often
 		if (xmlElem.domElemLayout && !layoutInvalidated) {
 			console.log('\tSweet, we\'ve already layed out ' + xmlElem.id);
 			xmlElem.currentlyLayingOut = false;
@@ -394,5 +397,9 @@ var app = app || {};
 		}
 
 		return false;
+	}
+
+	function dpToPx (num) {
+		return parseInt(num) * pixelRatio;
 	}
 })();
