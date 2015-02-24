@@ -13,6 +13,16 @@ var app = app || {};
 		xmlSanityCheck: xmlSanityCheck,
 		prepareCodeForParsing: prepareCodeForParsing
 	});
+
+	WebFont.load({
+	    google: {
+	      families: ['Roboto', 'Roboto Condensed']
+	    },
+	    fontactive: function(familyName, fvd) {
+			app.run({ autorun: true });
+	    	console.log('fonts loaded');
+		}
+	});
 	
 	
 	// add the schema links if they are missing
@@ -198,7 +208,6 @@ var app = app || {};
 		if (checkAttr('android:fontFamily')) {
 			fontFamilyOrig = attributes['android:fontFamily'].value;
 			fontFamilyObj = fontFamilyList[fontFamilyOrig];
-			console.log(fontFamilyObj, fontFamilyOrig);
 			domElem.css('font-family', fontFamilyObj.fontFamily);
 
 			// 'sans-serif' and 'sans-serif-condensed' are allowed to be bold.
@@ -234,6 +243,7 @@ var app = app || {};
 	var count = 0;
 	// Gets the element that matches the id passed
 	function getElemById (id, elem) {
+		if (!elem) count = 0;
 		count++;
 		if (count > 100) {
 			console.error('couldn\'t find element with id ' + id);
@@ -250,7 +260,6 @@ var app = app || {};
 		for (var i = 0; i < children.length; i++) {
 			var returned = getElemById(id, children[i]);
 			if (returned) {
-				count = 0;
 				return returned;
 			}
 		}
@@ -263,18 +272,21 @@ var app = app || {};
 		var idOfRelativeElem, relativeElem, attributes;
 		var domElem = xmlElem.domElem;
 
+		if (xmlElem.currentlyLayingOut){
+			throw Error('Circular Dependency! Laying out ' + xmlElem.tagName + ' ' + xmlElem.id);
+		}
+
+		xmlElem.currentlyLayingOut = true;
+
+		// if we're already layed out, return early
 		if (xmlElem.domElemLayout && !layoutInvalidated) {
 			console.log('\tSweet, we\'ve already layed out ' + xmlElem.id);
+			xmlElem.currentlyLayingOut = false;
 			return xmlElem.domElemLayout;
 		}
 
 		attributes = xmlElem.attributes;
 		checkAttr = checkAttributesOnThis.bind(attributes);
-
-		// if we're already layed out, return early
-		if (xmlElem.domElemLayout) {
-			return xmlElem.domElemLayout;
-		}
 
 		console.log('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
 
@@ -292,12 +304,12 @@ var app = app || {};
 			domElem.css('right', layoutElem(xmlElem.parentNode).right+'px');
 		}
 
-
+		// TODO: Simplify the following four conditionals into a single conditional in a loop
 		// check for alignment relative to other views
 		if (checkAttr('android:layout_toStartOf')) {
 			idOfRelativeElem = attributes['android:layout_toStartOf'].value;
 			if (idOfRelativeElem === xmlElem.id) {
-				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+				throw new Error('This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
@@ -309,7 +321,7 @@ var app = app || {};
 		if (checkAttr('android:layout_toEndOf')) {
 			idOfRelativeElem = attributes['android:layout_toEndOf'].value;
 			if (idOfRelativeElem === xmlElem.id) {
-				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
@@ -321,7 +333,7 @@ var app = app || {};
 		if (checkAttr('android:layout_toLeftOf')) {
 			idOfRelativeElem = attributes['android:layout_toLeftOf'].value;
 			if (idOfRelativeElem === xmlElem.id) {
-				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
@@ -333,7 +345,7 @@ var app = app || {};
 		if (checkAttr('android:layout_toRightOf')) {
 			idOfRelativeElem = attributes['android:layout_toRightOf'].value;
 			if (idOfRelativeElem === xmlElem.id) {
-				console.error('You are creating a circular reference. This element cannot position itself relative to itself.');
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
@@ -343,7 +355,7 @@ var app = app || {};
 		}
 
 		xmlElem.domElemLayout = getOffsetAllFromPhone(xmlElem.domElem);
-		
+		xmlElem.currentlyLayingOut = false;
 		return xmlElem.domElemLayout;
 	}
 
@@ -360,11 +372,6 @@ var app = app || {};
 		dim.bottom = dim.top + dim.height;
 		
 		return dim;
-	}
-
-	// sets the absolute position such that it will layout absolutely relative to the document
-	function setAbsolutePositionFromPhone (elem, key, value) {
-		
 	}
 
 	function checkAttributesOnThis (name, value) {

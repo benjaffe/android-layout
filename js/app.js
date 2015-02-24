@@ -99,6 +99,8 @@ var app = app || {};
 	$('body').show();
 
 	window.myCodeMirror = myCodeMirror;
+
+	app.run = run;
 	
 })();
 
