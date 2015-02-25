@@ -3,6 +3,7 @@ var app = app || {};
 (function() {
 	app.androidLayout = app.androidLayout || {};
 
+	var numFontsLoaded = 0;
 	var webFontConfig = {
 	    google: {
 	      families: ['Roboto', 'Roboto Condensed']
@@ -16,7 +17,6 @@ var app = app || {};
 	    	}
 		}
 	};
-	var numFontsLoaded = 0;
 	var fontFamilyList = app.androidLayout.fontFamilyList;
 	var errorList = app.androidLayout.errorList;
 	var layoutInvalidated = true;
@@ -30,6 +30,7 @@ var app = app || {};
 		prepareCodeForParsing: prepareCodeForParsing
 	});
 
+	// load fonts
 	WebFont.load(webFontConfig);
 	
 	
@@ -66,8 +67,11 @@ var app = app || {};
 		var aOpen = code.split('<').length-1;
 		var aClose = code.split('>').length-1;
 		var dqNum = code.split('"').length-1;
+		var codeLines = code.split('\n');
 		
-		checkForUnsupportedTags(code);
+		codeLines.forEach(function(line, i, code) {
+			checkForUnsupportedTags(line, i+1);
+		});
 
 		if (aOpen > aClose) {
 			app.errors.push(errorList.tooManyOpenBrackets);
@@ -93,31 +97,34 @@ var app = app || {};
 
 	/**
 	 * Throws errors on tags that are not supported in this editor
-	 * @param  {[str]} code [code to be processed]
+	 * @param  {[str]} line [line of code to be processed]
 	 */
-	function checkForUnsupportedTags (code) {
+	function checkForUnsupportedTags (line, lineNum) {
 		var reOpen = /<(?!\/)(\S*) */g;
 		var reClose = /(<\/)(\S*) */g;
 		var validTags = app.androidLayout.validTags;
-		
-		var tagsOpen = code.match(reOpen).map(function(item){
+		var openTags, closeTags;
+
+		openTags = line.match(reOpen) || [];
+		var tagsOpen = openTags.map(function(item){
 			return item.slice(1).trim();
 		});
 
-		var tagsClose = code.match(reClose).map(function(item){
+		closeTags = line.match(reClose) || [];
+		var tagsClose = closeTags.map(function(item){
 			return item.slice(2, -1).trim();
 		});
 
 
 		tagsOpen.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1) {
-				app.errors.push( errorList.invalidOpeningTag.replace('$0', tag ) );
+				app.errors.push( errorList.invalidOpeningTag.replace('$tag', tag ).replace('$lineNum', lineNum) );
 			}
 		});
 
 		tagsClose.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1) {
-				app.errors.push( errorList.invalidClosingTag.replace('$0', tag ) );
+				app.errors.push( errorList.invalidClosingTag.replace('$tag', tag ).replace('$lineNum', lineNum) );
 			}
 		});
 	}
@@ -296,7 +303,6 @@ var app = app || {};
 				domElem.css('font-weight', fontFamilyObj.fontWeight);
 			}
 		}
-
 
 		return domElem;
 	}
