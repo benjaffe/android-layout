@@ -10,6 +10,8 @@ var app = app || {};
 		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?'
 	};
 
+	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button'];
+
 	// hash of valid fonts, and their web equivalents
 	app.androidLayout.fontFamilyList = {
 		'sans-serif': {
