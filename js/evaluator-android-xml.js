@@ -53,14 +53,17 @@ var app = app || {};
 		var aClose = code.split('>').length-1;
 		var dqNum = code.split('"').length-1;
 		
-		if (aOpen > aClose)
+		if (aOpen > aClose) {
 			errors.push(errorList.tooManyOpenBrackets);
+		}
 		
-		if (aClose > aOpen)
+		if (aClose > aOpen) {
 			errors.push(errorList.tooManyCloseBrackets);
+		}
 		
-		if (dqNum % 2 !== 0)
+		if (dqNum % 2 !== 0) {
 			errors.push(errorList.oddNumQuotes);
+		}
 		
 		if (errors.length > 0) {
 			$('.error-msg').show().html(errors.join('<br><br>'));
@@ -109,10 +112,18 @@ var app = app || {};
 		}
 
 		// add content
-		if (attributes['android:text']) domElem.text(attributes['android:text'].value);
+		if (attributes['android:text']) {
+			domElem.text(attributes['android:text'].value);
+		}
 
 		// hidden content
-		if (checkAttr('android:visibility', 'gone')) domElem.hide();
+		if (checkAttr('android:visibility', 'gone')) {
+			domElem.hide();
+		} else if (checkAttr('android:visibility', 'invisible')) {
+			domElem.css('visibility', 'hidden');
+		} else {
+			domElem.show();
+		}
 
 		// convert widths and heights
 		if (checkAttr('android:layout_width', 'match_parent')) {
@@ -157,13 +168,18 @@ var app = app || {};
 			}
 		}
 
-		if (checkAttr('android:scaleType', 'centerCrop')) domElem.addClass('scaleType-centerCrop');
-		if (checkAttr('android:scaleType', 'centerInside')) domElem.addClass('scaleType-centerInside');
+		if (checkAttr('android:scaleType', 'centerCrop')) {
+			domElem.addClass('scaleType-centerCrop');
+		} else if (checkAttr('android:scaleType', 'centerInside')) {
+			domElem.addClass('scaleType-centerInside');
+		}
 
 
 
 		// padding
-		if (attributes['android:padding']) domElem.css('padding', dpToPx(attributes['android:padding'].value)+'px');
+		if (attributes['android:padding']) {
+			domElem.css('padding', dpToPx(attributes['android:padding'].value)+'px');
+		}
 
 
 		// background styling
@@ -189,6 +205,7 @@ var app = app || {};
 			domElem.css('color', color);
 		}
 
+
 		if (checkAttr('android:textSize')) {
 			sizeOrig = attributes['android:textSize'].value;
 		} else {
@@ -198,17 +215,20 @@ var app = app || {};
 		console.log(size);
 		domElem.css('font-size', size); // we should be checking units rather than assuming
 
+
 		if (checkAttr('android:textStyle')) {
 			style = attributes['android:textStyle'].value;
 
 			bold = (style === 'bold' || style === 'italic|bold' || style === 'bold|italic');
 			italic = (style === 'italic' || style === 'italic|bold' || style === 'bold|italic');
 			
-			if (bold)
+			if (bold) {
 				domElem.css('font-weight', 'bold');
+			}
 
-			if (italic)
+			if (italic) {
 				domElem.css('font-style', 'italic');
+			}
 		}
 
 		if (checkAttr('android:fontFamily')) {
@@ -236,10 +256,14 @@ var app = app || {};
 	function evaluateXMLPass2 (elem, parent, inRelativeLayout) {
 		var domElem = elem.domElem;
 
-		if (elem.tagName === 'RelativeLayout') inRelativeLayout = true;
+		if (elem.tagName === 'RelativeLayout') {
+			inRelativeLayout = true;
+		}
 
 		layoutInvalidated = true;
-		if (inRelativeLayout) layoutElem(elem);
+		if (inRelativeLayout) {
+			layoutElem(elem);
+		}
 		layoutInvalidated = false;
 
 		$(elem).children().each(function(i, child) {
@@ -250,7 +274,9 @@ var app = app || {};
 
 	// Gets the element that matches the id passed
 	function getElemById (id, elem) {
-		if (!elem) count = 0;
+		if (!elem) {
+			count = 0;
+		}
 		count++;
 		if (count > 100) {
 			console.error('couldn\'t find element with id ' + id);
@@ -260,7 +286,9 @@ var app = app || {};
 		var foundElem;
 		elem = elem || app.parsedXML;
 
-		if (elem.id === id) return elem;
+		if (elem.id === id) {
+			return elem;
+		}
 
 		var children = $(elem).children();
 
