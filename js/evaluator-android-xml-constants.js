@@ -7,8 +7,12 @@ var app = app || {};
 	app.androidLayout.errorList = {
 		'tooManyOpenBrackets': '<strong>You have more \'<\'s than \'>\'s:</strong><br>Did you accidentally write an incomplete tag?',
 		'tooManyCloseBrackets': '<strong>You have more \'>\'s than \'<\'s:</strong><br>Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
-		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?'
+		'oddNumQuotes': '<strong>There are an odd number of "\'s in the document:</strong><br>Did you forget to close a quote?',
+		'invalidOpeningTag': 'Tag $0 is not a valid opening tag.',
+		'invalidClosingTag': 'Tag $0 is not a valid closing tag.'
 	};
+
+	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button'];
 
 	// hash of valid fonts, and their web equivalents
 	app.androidLayout.fontFamilyList = {

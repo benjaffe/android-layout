@@ -27,7 +27,11 @@ var app = app || {};
 	});
 	
 	
-	// add the schema links if they are missing
+	/**
+	 * add the schema links if they are missing
+	 * @param  {[str]} rawCode [code to be processed]
+	 * @return {[str]}         [code with schema links]
+	 */
 	function prepareCodeForParsing (rawCode) {
 		var code = rawCode;
 		var startPos = rawCode.indexOf('<');
@@ -46,34 +50,79 @@ var app = app || {};
 	}
 
 
+	/**
+	 * Check for common errors
+	 * @param  {[str]} code [code to be processed]
+	 */
 	function xmlSanityCheck (code) {
-		// check for equal numbers of angle brackets
-		var errors = [];
+		var errors;
+		app.errors.clear();
 		var aOpen = code.split('<').length-1;
 		var aClose = code.split('>').length-1;
 		var dqNum = code.split('"').length-1;
 		
+		checkForUnsupportedTags(code);
+
 		if (aOpen > aClose) {
-			errors.push(errorList.tooManyOpenBrackets);
+			app.errors.push(errorList.tooManyOpenBrackets);
 		}
 		
 		if (aClose > aOpen) {
-			errors.push(errorList.tooManyCloseBrackets);
+			app.errors.push(errorList.tooManyCloseBrackets);
 		}
 		
 		if (dqNum % 2 !== 0) {
-			errors.push(errorList.oddNumQuotes);
+			app.errors.push(errorList.oddNumQuotes);
 		}
 		
+		errors = app.errors();
 		if (errors.length > 0) {
 			$('.error-msg').show().html(errors.join('<br><br>'));
-			throw new Error('XML Parsing Error');
+			// throw new Error('XML Parsing Error');
 		} else {
 			$('.error-msg').hide();
 			console.log('No errors!');
 		}
 	}
 
+	/**
+	 * Throws errors on tags that are not supported in this editor
+	 * @param  {[str]} code [code to be processed]
+	 */
+	function checkForUnsupportedTags (code) {
+		var reOpen = /<(?!\/)(\S*) */g;
+		var reClose = /(<\/)(\S*) */g;
+		var validTags = app.androidLayout.validTags;
+		
+		var tagsOpen = code.match(reOpen).map(function(item){
+			return item.slice(1).trim();
+		});
+
+		var tagsClose = code.match(reClose).map(function(item){
+			return item.slice(2, -1).trim();
+		});
+
+
+		tagsOpen.forEach(function(tag) {
+			if (validTags.indexOf(tag) === -1) {
+				app.errors.push( errorList.invalidOpeningTag.replace('$0', tag ) );
+			}
+		});
+
+		tagsClose.forEach(function(tag) {
+			if (validTags.indexOf(tag) === -1) {
+				app.errors.push( errorList.invalidClosingTag.replace('$0', tag ) );
+			}
+		});
+	}
+
+
+	/**
+	 * Convert XML element to HTML/CSS (sans positioning)
+	 * @param  {[XML element]} elem   [element to be processed]
+	 * @param  {[XML element]} parent [the element's parent]
+	 * @return {[DOM element]}        [the DOM element representing the original XML element]
+	 */
 	function evaluateXML (elem, parent) {
 		var i, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj;
 
@@ -249,9 +298,9 @@ var app = app || {};
 
 	/**
 	 * This method calculates any layout relative to other elements
-	 * @param  {[type]} elem             [the element being layed out]
-	 * @param  {[type]} parent           [the parent of the element being layed out]
-	 * @param  {[type]} inRelativeLayout [if true, this element is a child of a RelativeLayout]
+	 * @param  {[xml element]} elem             [the element being layed out]
+	 * @param  {[xml element]} parent           [the parent of the element being layed out]
+	 * @param  {[boolean]} inRelativeLayout [if true, this element is a child of a RelativeLayout]
 	 */
 	function evaluateXMLPass2 (elem, parent, inRelativeLayout) {
 		var domElem = elem.domElem;
@@ -272,7 +321,12 @@ var app = app || {};
 
 	}
 
-	// Gets the element that matches the id passed
+	/**
+	 * Gets the xml element that matches the id passed
+	 * @param  {[str]} id   [description]
+	 * @param  {[xml element]} elem [xml element to look in]
+	 * @return {[xml element]}      [xml element with the provided id]
+	 */
 	function getElemById (id, elem) {
 		if (!elem) {
 			count = 0;
