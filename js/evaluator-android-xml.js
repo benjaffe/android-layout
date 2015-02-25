@@ -3,6 +3,20 @@ var app = app || {};
 (function() {
 	app.androidLayout = app.androidLayout || {};
 
+	var webFontConfig = {
+	    google: {
+	      families: ['Roboto', 'Roboto Condensed']
+	    },
+	    fontactive: function(familyName, fvd) {
+	    	numFontsLoaded++;
+	    	if (numFontsLoaded === webFontConfig.google.families.length) {
+		    	console.log('fonts loaded');
+		    	app.readyToRun = true;
+				app.run({ autorun: true });
+	    	}
+		}
+	};
+	var numFontsLoaded = 0;
 	var fontFamilyList = app.androidLayout.fontFamilyList;
 	var errorList = app.androidLayout.errorList;
 	var layoutInvalidated = true;
@@ -16,15 +30,7 @@ var app = app || {};
 		prepareCodeForParsing: prepareCodeForParsing
 	});
 
-	WebFont.load({
-	    google: {
-	      families: ['Roboto', 'Roboto Condensed']
-	    },
-	    fontactive: function(familyName, fvd) {
-			app.run({ autorun: true });
-	    	console.log('fonts loaded');
-		}
-	});
+	WebFont.load(webFontConfig);
 	
 	
 	/**
@@ -261,7 +267,6 @@ var app = app || {};
 			sizeOrig = '14sp';
 		}
 		size = dpToPx(sizeOrig) + 'px';
-		console.log(size);
 		domElem.css('font-size', size); // we should be checking units rather than assuming
 
 
@@ -378,7 +383,7 @@ var app = app || {};
 		attributes = xmlElem.attributes;
 		checkAttr = checkAttributesOnThis.bind(attributes);
 
-		console.log('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
+		console.debug('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
