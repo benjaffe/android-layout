@@ -21,7 +21,6 @@ var app = app || {};
 	var errorList = app.androidLayout.errorList;
 	var layoutInvalidated = true;
 	var count;
-	var pixelRatio = 3;
 
 	$.extend(app.androidLayout, {
 		evaluateXML: evaluateXML,
@@ -497,6 +496,6 @@ var app = app || {};
 	}
 
 	function dpToPx (num) {
-		return parseInt(num) * pixelRatio;
+		return parseInt(num);
 	}
 })();

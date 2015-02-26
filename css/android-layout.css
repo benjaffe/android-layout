@@ -39,9 +39,10 @@ body {
 
 .screen {
 	position: absolute;
-	left:100%;
-	width: 1080px;
-	height: 1920px;
+	right:0;
+	bottom:0;
+	width: 360px;
+	height: 640px;
 	
 	top: 0px;
 	right: 0px;
@@ -106,7 +107,7 @@ body {
 }
 
 
-:not(.layout_height-wrap_content) {
+.output-area :not(.layout_height-wrap_content) {
 	flex-grow: 1;
 }
 

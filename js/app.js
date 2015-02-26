@@ -19,11 +19,6 @@ var app = app || {};
 	function onSuccess(code) {
 		// store state
 		localStorage.prevCode = JSON.stringify(code);
-		html2canvas($('.screen').get(), {
-			onrendered: function(canvas) {
-				$('.phone').html('').append(canvas);
-			}
-		});
 	}
 
 		
@@ -57,18 +52,16 @@ var app = app || {};
 				elemToRender = app.androidLayout.evaluateXML( app.parsedXML );
 				
 				// calculate all the layouts
-				setTimeout(function(){
-					console.log('-------- layout pass --------');
-					app.androidLayout.evaluateXMLPass2( app.parsedXML );
+				console.log('-------- layout pass --------');
+				app.androidLayout.evaluateXMLPass2( app.parsedXML );
 
-					$('.output-area').removeClass('disabled');
-					$('.code-saved-msg').removeClass('code-not-saved');
-					onSuccess(codeRaw);
-				},0);
+				$('.output-area').removeClass('disabled');
+				$('.code-saved-msg').removeClass('code-not-saved');
+				onSuccess(codeRaw);
 			// } catch (e) {
-			// 	$('.output-area').addClass('disabled');
-			// 	$('.code-saved-msg').addClass('code-not-saved');
-			// 	throw e;
+				// $('.output-area').addClass('disabled');
+				// $('.code-saved-msg').addClass('code-not-saved');
+				// throw e;
 			// }
 		}
 
@@ -78,9 +71,9 @@ var app = app || {};
 	}
 
 	// restore previous state
-	setTimeout(function(){
+	requestAnimationFrame(function(){
 		myCodeMirror.refresh();
-	}, 500);
+	});
 
 
 	// auto-run on code mutation
