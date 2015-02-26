@@ -55,8 +55,12 @@ var app = app || {};
 		console.log(app.androidCodeDefaults);
 		if (localStorage['code-' + app.hash]) {
 			return JSON.parse( localStorage['code-' + app.hash] );
-		} else if (app.androidCodeDefaults && app.androidCodeDefaults[ app.hash ]) {
-			return app.androidCodeDefaults[ app.hash ];
+		} else if (app.androidCodeDefaults) {
+			if (app.androidCodeDefaults[ app.hash ]) {
+				return app.androidCodeDefaults[ app.hash ];
+			} else {
+				return app.androidCodeDefaults[ 'default' ];
+			}
 		}
 	
 		return '';
