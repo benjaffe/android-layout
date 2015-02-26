@@ -43,15 +43,13 @@ var app = app || {};
 	function prepareCodeForParsing (rawCode) {
 		var code = rawCode;
 		var startPos = rawCode.indexOf('<');
-		var insertPos = rawCode.indexOf(' ', startPos);
+		var insertPos = rawCode.indexOf('/>', startPos);
 
 		if (rawCode.split('xmlns:android').length === 1) {
-			pos = rawCode.indexOf(' ');
-			code = code.substr(0, insertPos) + '\txmlns:android="http://schemas.android.com/apk/res/android"\n' + code.substr(insertPos);
+			code = code.substr(0, insertPos) + '\n\txmlns:android="http://schemas.android.com/apk/res/android"' + code.substr(insertPos);
 		}
 		if (rawCode.split('xmlns:tools').length === 1) {
-			
-			code = code.substr(0, insertPos) + '\txmlns:tools="http://schemas.android.com/tools"\n' + code.substr(insertPos);
+			code = code.substr(0, insertPos) + '\n\txmlns:tools="http://schemas.android.com/tools"' + code.substr(insertPos);
 		}
 
 		return code;
