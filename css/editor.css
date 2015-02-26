@@ -1,10 +1,11 @@
-html, body {
-	min-height:100%;
-}
-
 html {
+	height:100%;
 	box-sizing: border-box;
 	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+body {
+	min-height: 100%;
 }
 
 *, *:before, *:after {
@@ -12,17 +13,21 @@ html {
 }
 
 .input-area {
-	width:70%;
-	height:100%;
+	background-color: #ccc;
+	height:90%;
 	padding: 20px;
-	float: left;
+	margin-right: 380px;
 }
 .output-area {
 	width:29%;
 	position: absolute;
-	top: 20px;
-	bottom: 20px;
-	right: 20px;
+	top: 15px;
+	bottom: 15px;
+	right: 15px;
+}
+
+.CodeMirror {
+	height:auto;
 }
 
 .CodeMirror-scroll {

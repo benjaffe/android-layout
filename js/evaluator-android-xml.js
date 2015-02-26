@@ -30,7 +30,9 @@ var app = app || {};
 	});
 
 	// load fonts
-	WebFont.load(webFontConfig);
+	app.androidInit = function() {
+		WebFont.load(webFontConfig);
+	};
 	
 	
 	/**

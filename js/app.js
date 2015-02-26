@@ -8,8 +8,9 @@ var app = app || {};
 		mode: "xml",
 		lineNumbers: true,
 		fixedGutter: true,
+		viewportMargin: Infinity,
 		onChange: function() {
-			run({ autorun: true });
+			app.run({ autorun: true });
 		}
 	});
 
@@ -23,7 +24,7 @@ var app = app || {};
 
 		
 	// this function evaluates code based on the mode the app is in
-	function run (opt) {
+	app.run = function (opt) {
 		opt = opt || {};
 
 		if (!app.readyToRun && !opt.force) {
@@ -63,7 +64,7 @@ var app = app || {};
 
 				$('.output-area').removeClass('disabled');
 				$('.code-saved-msg').removeClass('code-not-saved');
-				onSuccess(codeRaw);
+				runSuccess(codeRaw);
 			// } catch (e) {
 				// $('.output-area').addClass('disabled');
 				// $('.code-saved-msg').addClass('code-not-saved');
@@ -74,42 +75,53 @@ var app = app || {};
 		if (elemToRender) {
 			$('.screen').html('').append(elemToRender);
 		}
+	};
+
+	function refreshEditorLayout () {
+		$('.CodeMirror-scroll').css('height', $('.input-area').height());
 	}
 
-	// restore previous state
+	// calculate editor layout
+	refreshEditorLayout();
+
+	// ensure CodeMirror code gets properly rendered
 	requestAnimationFrame(function(){
 		myCodeMirror.refresh();
 	});
 
+	// recalculate editor layout on resize
+	$(window).resize(function(){
+		refreshEditorLayout();
+	});
 
 	// auto-run on code mutation
 	$('.code-input-area').on('input', function(){
-	  run({ autorun: true });
+	  app.run({ autorun: true });
 	}, false);
 
 	// manually run on Cmd-Enter / Ctrl-Enter
 	$(document).on('keydown', '.code-input-area', function(e) {
 	  if (e.keyCode === 13 && (e.metaKey || e.ctrlKey)) {
-	    run();
+	    app.run();
 	  }
 	});
 
 	// manually run when run btn is clicked
 	$('.btn-run').on('click', function(){
-	  run();
+	  app.run();
 	}, false);
 
 	// toggle checkbox states
 	$('#toggle-element-outline').change(function(e){
 		app.elementOutlinesEnabled = e.target.checked;
-		run();
+		app.run();
 	});
 
-	$('body').show();
+	if (localStorage.debug) {
+		window.myCodeMirror = myCodeMirror;
+	}
 
-	window.myCodeMirror = myCodeMirror;
-
-	app.run = run;
+	app.androidInit();
 	
 })();
 
