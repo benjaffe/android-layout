@@ -37,6 +37,12 @@ var app = app || {};
 		// run the code
 		var mode = 'android-layout';
 		if (mode === 'android-layout') {
+
+			if (app.elementOutlinesEnabled) {
+				$('html').addClass('element-outlines-enabled');
+			} else {
+				$('html').removeClass('element-outlines-enabled');
+			}
 			
 			// try {
 				// pre-processing hook
@@ -92,6 +98,12 @@ var app = app || {};
 	$('.btn-run').on('click', function(){
 	  run();
 	}, false);
+
+	// toggle checkbox states
+	$('#toggle-element-outline').change(function(e){
+		app.elementOutlinesEnabled = e.target.checked;
+		run();
+	});
 
 	$('body').show();
 

@@ -53,7 +53,6 @@ body {
 }
 
 .screen * {
-	outline: 1px solid rgba(0,0,0,0.3);
 	min-height: 5px;
 }
 
@@ -67,6 +66,14 @@ body {
 
 
 /* ===== Styling for Android Layout XML ===== */
+
+.element-outlines-enabled .screen * {
+	outline: solid 2px rgba(255,0,0,0.3);
+}
+
+.element-outlines-enabled .screen .hovering {
+	outline-color: rgba(155,0,0,1);
+}
 
 /* Layout */
 
