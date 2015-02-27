@@ -67,26 +67,13 @@ var app = app || {};
 		var aClose = code.split('>').length-1;
 		var dqNum = code.split('"').length-1;
 		var codeLines = code.split('\n');
+
+		checkForImproperAngleBracketOrder(code);
 		
 		codeLines.forEach(function(line, i, code) {
 			checkForUnsupportedTags(line, i+1);
+			checkForUnevenQuotes(line, i+1);
 		});
-
-		checkForImproperAngleBracketOrder(code);
-
-		if (aOpen > aClose) {
-			app.errors.push({
-				id: 'tooManyOpenBrackets',
-				$lineNum: -1
-			});
-		}
-		
-		if (aClose > aOpen) {
-			app.errors.push({
-				id: 'tooManyCloseBrackets',
-				$lineNum: -1
-			});
-		}
 		
 		if (dqNum % 2 !== 0) {
 			app.errors.push({
@@ -97,20 +84,7 @@ var app = app || {};
 		
 		errors = app.errors();
 		if (errors.length > 0) {
-			$('.error-msg').show().html(errors.map(function(error){
-				console.log(error);
-				var text = app.androidLayout.errorList[error.id];
-				if (!text) {
-					return '';
-				}
-
-				for (var key in error) {
-					if (key !== 'id') {
-						text = text.replace(key, error[key]);
-					}
-				}
-				return text;
-			}).join('<br><br>'));
+			$('.error-msg').show().html(errors.join('<br><br>'));
 			// throw new Error('XML Parsing Error');
 		} else {
 			$('.error-msg').hide();
@@ -118,6 +92,10 @@ var app = app || {};
 		}
 	}
 
+	/**
+	 * Throws errors if <'s aren't closed by >'s
+	 * @param  {[string]} code [code to be processed]
+	 */
 	function checkForImproperAngleBracketOrder (code) {
 		var len = code.length;
 		var openingBracketHasHappenedLast = false;
@@ -142,14 +120,45 @@ var app = app || {};
 
 			if (code[i] === '>') {
 				if (!openingBracketHasHappenedLast) {
-					app.errors.push({
-						id: 'doubleOpenBracket',
-						$lineNumInitialClosing: lineNumBracketClose
-					});
+					if (lineNumBracketClose === lineNum) {
+						app.errors.push({
+							id: 'doubleCloseBracketSameLine',
+							$lineNum: lineNum
+						});
+					} else {
+						app.errors.push({
+							id: 'doubleCloseBracket',
+							$lineNumInitialClosing: lineNumBracketClose,
+							$lineNumSecondClosing: lineNum
+						});
+					}
 				}
 				lineNumBracketClose = lineNum;
 				openingBracketHasHappenedLast = false;
 			}
+		}
+		
+		// check for unclosed tag at the end of code
+		if (openingBracketHasHappenedLast) {
+			app.errors.push({
+				id: 'doubleOpenBracket',
+				$lineNumInitialOpening: lineNumBracketOpen
+			});
+		}
+	}
+
+	/**
+	 * Throws errors if lines have an uneven number of quotes
+	 * @param  {[string]} line    [line of code to be processed]
+	 * @param  {[number]} lineNum [the line number]
+	 */
+	function checkForUnevenQuotes (line, lineNum) {
+		var numQuotes = line.split('"').length - 1;
+		if (numQuotes % 2 !== 0) {
+			app.errors.push({
+				id: 'unevenQuotesPerLine',
+				$lineNum: lineNum
+			});
 		}
 	}
 
