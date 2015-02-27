@@ -5,8 +5,6 @@ var app = app || {};
 
 	// hash of error names and their full text
 	app.androidLayout.errorList = {
-		'tooManyOpenBrackets': '<strong>You have more \'<\'s than \'>\'s:</strong><br>Did you accidentally write an incomplete tag?',
-		'tooManyCloseBrackets': '<strong>You have more \'>\'s than \'<\'s:</strong><br>Check to see if you added an unneccesary \'>\', or accidentally deleted the beginning of a tag.',
 		'doubleOpenBracket': 'Did you forget to close the tag that you opened on line $lineNumInitialOpening?',
 		'doubleCloseBracket': 'There are two >\'s in a row, on lines $lineNumInitialClosing and $lineNumSecondClosing. Double-check your tags to make sure you\'ve formed them properly. Remember, every tag or closing tag should be formed with < at the beginning, and a > at the end.',
 		'doubleCloseBracketSameLine': 'There are two >\'s in a row on line $lineNum. Did you accidentally add two >\'s?',
