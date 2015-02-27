@@ -112,6 +112,10 @@ body {
 	position: absolute;
 }
 
+.TextView {
+	overflow-wrap: break-word;
+}
+
 
 .output-area :not(.layout_height-wrap_content) {
 	flex-grow: 1;
