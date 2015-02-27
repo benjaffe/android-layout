@@ -174,12 +174,12 @@ var app = app || {};
 
 		openTags = line.match(reOpen) || [];
 		var tagsOpen = openTags.map(function(item){
-			return item.slice(1).trim();
+			return item.trim().slice(1);
 		});
 
 		closeTags = line.match(reClose) || [];
 		var tagsClose = closeTags.map(function(item){
-			return item.slice(2, -1).trim();
+			return item.trim().slice(2, -1);
 		});
 
 
