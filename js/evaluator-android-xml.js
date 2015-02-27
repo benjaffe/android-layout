@@ -386,6 +386,8 @@ var app = app || {};
 			if (fontFamilyOrig !== 'sans-serif' && fontFamilyOrig !== 'sans-serif-condensed') {
 				domElem.css('font-weight', fontFamilyObj.fontWeight);
 			}
+		} else {
+			domElem.css('font-family', fontFamilyList['sans-serif'].fontFamily);
 		}
 
 		return domElem;
