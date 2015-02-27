@@ -1,0 +1,53 @@
+reset button
+
+
+screen needs overflow:hidden;
+
+needs wrapping text on text elements
+
+test error when text tag isn't closed
+
+same error for attributes and attribute values, not just tags (attribute values don't have numbers in them)
+
+not a valid tag - wrong line numbers
+
+enforce units on numbers (sp for fonts, dp for everything else)
+check layout_width="wrap_content" on TextView (node 9 in script)
+
+remove auto-adding LinearLayout
+
+explore defaults around image views
+centerInside is the default
+
+
+remove layout_gravity for now
+
+implement gravity
+
+
+check how codemirror handles indentation
+have to implement layout_gravity
+
+let's do scaling later, when we have an example layout to play with
+
+
+feature detection for onhashchange
+
+
+layout_width and layout_height with wrap_content gets the height of the image, then squeezes it down.
+
+
+Button
+grey bg, Button XML class
+	android:text
+	android:width
+	android:height
+	android:background
+
+
+RatingBar?
+
+EditText?
+
+Don't forget to put the phone around it
+Check with Kavita around design
