@@ -13,7 +13,7 @@ var app = app || {};
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.'
 	};
 
-	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button'];
+	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button', 'View'];
 
 	// hash of valid fonts, and their web equivalents
 	app.androidLayout.fontFamilyList = {
