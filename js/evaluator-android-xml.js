@@ -72,25 +72,84 @@ var app = app || {};
 			checkForUnsupportedTags(line, i+1);
 		});
 
+		checkForImproperAngleBracketOrder(code);
+
 		if (aOpen > aClose) {
-			app.errors.push(errorList.tooManyOpenBrackets);
+			app.errors.push({
+				id: 'tooManyOpenBrackets',
+				$lineNum: -1
+			});
 		}
 		
 		if (aClose > aOpen) {
-			app.errors.push(errorList.tooManyCloseBrackets);
+			app.errors.push({
+				id: 'tooManyCloseBrackets',
+				$lineNum: -1
+			});
 		}
 		
 		if (dqNum % 2 !== 0) {
-			app.errors.push(errorList.oddNumQuotes);
+			app.errors.push({
+				id: 'oddNumQuotes',
+				$lineNum: -1
+			});
 		}
 		
 		errors = app.errors();
 		if (errors.length > 0) {
-			$('.error-msg').show().html(errors.join('<br><br>'));
+			$('.error-msg').show().html(errors.map(function(error){
+				console.log(error);
+				var text = app.androidLayout.errorList[error.id];
+				if (!text) {
+					return '';
+				}
+
+				for (var key in error) {
+					if (key !== 'id') {
+						text = text.replace(key, error[key]);
+					}
+				}
+				return text;
+			}).join('<br><br>'));
 			// throw new Error('XML Parsing Error');
 		} else {
 			$('.error-msg').hide();
 			console.log('No errors!');
+		}
+	}
+
+	function checkForImproperAngleBracketOrder (code) {
+		var len = code.length;
+		var openingBracketHasHappenedLast = false;
+		var lineNum = 1;
+		var lineNumBracketOpen, lineNumBracketClose;
+
+		for (var i = 0; i < len; i++) {
+			if (code[i] === '\n') {
+				lineNum++;
+			}
+
+			if (code[i] === '<') {
+				if (openingBracketHasHappenedLast) {
+					app.errors.push({
+						id: 'doubleOpenBracket',
+						$lineNumInitialOpening: lineNumBracketOpen
+					});
+				}
+				lineNumBracketOpen = lineNum;
+				openingBracketHasHappenedLast = true;
+			}
+
+			if (code[i] === '>') {
+				if (!openingBracketHasHappenedLast) {
+					app.errors.push({
+						id: 'doubleOpenBracket',
+						$lineNumInitialClosing: lineNumBracketClose
+					});
+				}
+				lineNumBracketClose = lineNum;
+				openingBracketHasHappenedLast = false;
+			}
 		}
 	}
 
@@ -117,13 +176,21 @@ var app = app || {};
 
 		tagsOpen.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1) {
-				app.errors.push( errorList.invalidOpeningTag.replace('$tag', tag ).replace('$lineNum', lineNum) );
+				app.errors.push({
+					id: 'invalidOpeningTag',
+					$tag: tag,
+					$lineNum: lineNum
+				});
 			}
 		});
 
 		tagsClose.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1) {
-				app.errors.push( errorList.invalidClosingTag.replace('$tag', tag ).replace('$lineNum', lineNum) );
+				app.errors.push({
+					id: 'invalidClosingTag',
+					$tag: tag,
+					$lineNum: lineNum
+				});
 			}
 		});
 	}

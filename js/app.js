@@ -17,6 +17,7 @@ var app = app || {};
 		// calculate editor layout
 		refreshEditorLayout();
 
+		// run the code
 		app.run();
 
 		// ensure CodeMirror code gets properly rendered
