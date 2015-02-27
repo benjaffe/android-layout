@@ -513,8 +513,8 @@ var app = app || {};
 			}
 		}
 
-		if (checkAttr('android:layout_toEndOf')) {
-			idOfRelativeElem = attributes['android:layout_toEndOf'].value;
+		if (checkAttr('android:layout_below')) {
+			idOfRelativeElem = attributes['android:layout_below'].value;
 			if (idOfRelativeElem === xmlElem.id) {
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
@@ -525,8 +525,8 @@ var app = app || {};
 			}
 		}
 
-		if (checkAttr('android:layout_toLeftOf')) {
-			idOfRelativeElem = attributes['android:layout_toLeftOf'].value;
+		if (checkAttr('android:layout_above')) {
+			idOfRelativeElem = attributes['android:layout_above'].value;
 			if (idOfRelativeElem === xmlElem.id) {
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
