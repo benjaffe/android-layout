@@ -42,13 +42,22 @@ var app = app || {};
 	 */
 	function prepareCodeForParsing (rawCode) {
 		var code = rawCode;
-		var startPos = rawCode.indexOf('<');
-		var insertPos = rawCode.indexOf('/>', startPos);
+		var startPos, insertPos;
 
-		if (rawCode.split('xmlns:android').length === 1) {
+		// if there's no tag wrapping everything, let's add one
+		if (code.indexOf('/>') < code.indexOf('>')) {
+			code = '<LinearLayout>\n' + code + '\n</LinearLayout>';
+		}
+
+		// calculate our start positions for adding schema bits if needed
+		startPos = code.indexOf('<');
+		insertPos = code.indexOf('>', startPos);
+
+		// if there aren't schema bits, let's add them
+		if (code.split('xmlns:android').length === 1) {
 			code = code.substr(0, insertPos) + '\n\txmlns:android="http://schemas.android.com/apk/res/android"' + code.substr(insertPos);
 		}
-		if (rawCode.split('xmlns:tools').length === 1) {
+		if (code.split('xmlns:tools').length === 1) {
 			code = code.substr(0, insertPos) + '\n\txmlns:tools="http://schemas.android.com/tools"' + code.substr(insertPos);
 		}
 
