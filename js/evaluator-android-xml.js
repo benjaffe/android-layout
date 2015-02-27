@@ -330,24 +330,14 @@ var app = app || {};
 
 		// background styling
 		if (checkAttr('android:background')) {
-			colorOrig = attributes['android:background'].value;
-			if (colorOrig[0] === '#') {
-				if (colorOrig.length === 9) {
-					color = '#' + colorOrig.substr(-6);
-				} else {
-					color = colorOrig;
-				}
-			} else {
-				color = app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]];
-			}
+			color = getColor(attributes['android:background'].value);
 			domElem.css('background-color', color);
 		}
 
 
 		// text styling
 		if (checkAttr('android:textColor')) {
-			colorOrig = attributes['android:textColor'].value;
-			color = (colorOrig[0] === '#' ? '#'+colorOrig.substr(3) : app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]]);
+			color = getColor(attributes['android:textColor'].value);
 			domElem.css('color', color);
 		}
 
@@ -449,6 +439,24 @@ var app = app || {};
 				return returned;
 			}
 		}
+	}
+
+	/**
+	 * Translates android colors into web colors
+	 * @param  {string} colorOrig [the value of the color string in the XML]
+	 * @return {string}           [the hex or rgba color value]
+	 */
+	function getColor (colorOrig) {
+		if (colorOrig[0] === '#') {
+			if (colorOrig.length === 9) {
+				color = '#' + colorOrig.substr(-6);
+			} else {
+				color = colorOrig;
+			}
+		} else {
+			color = app.androidLayout.COLOR[colorOrig.split('@android:color/')[1]];
+		}
+		return color;
 	}
 
 	// This function calculates the positioning of an element.
