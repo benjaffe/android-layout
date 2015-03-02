@@ -1,5 +1,3 @@
-[ ] reset button
-
 
 [ ] screen needs overflow:hidden;
 

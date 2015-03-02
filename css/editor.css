@@ -82,3 +82,10 @@ body {
 .code-not-saved .not-word {
 	display: inline;
 }
+
+.link-reset-code {
+	color: #940;
+}
+.link-reset-code:hover {
+	color: #d60;
+}

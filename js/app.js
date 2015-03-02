@@ -53,10 +53,17 @@ var app = app || {};
 	};
 
 	app.getCodeForHash = function() {
-		console.log(app.androidCodeDefaults);
 		if (localStorage['code-' + app.hash]) {
 			return JSON.parse( localStorage['code-' + app.hash] );
-		} else if (app.androidCodeDefaults) {
+		} else {
+			return app.getCodeForHashDefault();
+		}
+	
+		return '';
+	};
+
+	app.getCodeForHashDefault = function() {
+		if (app.androidCodeDefaults) {
 			if (app.androidCodeDefaults[ app.hash ]) {
 				return app.androidCodeDefaults[ app.hash ];
 			} else {
@@ -65,6 +72,12 @@ var app = app || {};
 		}
 	
 		return '';
+	};
+	
+
+	app.resetCodeToHashDefault = function() {
+		myCodeMirror.setValue(app.getCodeForHashDefault());
+		myCodeMirror.refresh();
 	};
 
 
@@ -164,6 +177,14 @@ var app = app || {};
 	$('#toggle-element-outline').change(function(e){
 		app.elementOutlinesEnabled = e.target.checked;
 		app.run();
+	});
+
+	// reset code button
+	$('.link-reset-code').click(function(e) {
+		if (!confirm('Press OK to reset your code to the default for this example.\n\nNote: This will overwrite your current code, but pressing Cmd/Ctrl Z will undo this change.')) {
+			return false;
+		}
+		app.resetCodeToHashDefault();
 	});
 
 	if (localStorage.debug) {
