@@ -1,5 +1,5 @@
 
-[ ] screen needs overflow:hidden;
+[X] screen needs overflow:hidden;
 
 [ ] test error when text tag isn't closed
 
