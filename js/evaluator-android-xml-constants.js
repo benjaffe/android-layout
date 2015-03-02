@@ -10,10 +10,109 @@ var app = app || {};
 		'doubleCloseBracketSameLine': 'There are two >\'s in a row on line $lineNum. Did you accidentally add two >\'s?',
 		'unevenQuotesPerLine': 'Line $lineNum has an uneven number of quotes. Did you forget to open or close a quote?',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
-		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.'
+		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
+		'invalidAttribute': 'The attribute $attribute (Line $lineNum) is not supported here.',
+		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)'
 	};
 
 	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button', 'View'];
+
+	app.androidLayout.validAttributes = [
+		{
+			name: 'android:id',
+			pattern: /^\@\+id\/[a-z_]+$/  // is the + necessary?
+		},
+		{
+			name: 'android:text'
+		},
+
+
+		{
+			name: 'android:background',
+			pattern: /^#(?:[0-9a-fA-F]{3}){1,2}$|\@android:color\/[a-z_]+$/
+		},
+		{
+			name: 'android:textColor',
+			pattern: /^#(?:[0-9a-fA-F]{3}){1,2}$|\@android:color\/[a-z_]+$/
+		},
+
+
+		{
+			name: 'android:layout_width',
+			pattern: /(^match_parent$|^wrap_content$|^\d*dp$)/
+		},
+		{
+			name: 'android:layout_height',
+			pattern: /(^match_parent$|^wrap_content$|^\d*dp$)/
+		},
+
+		{
+			name: 'android:padding',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:paddingTop',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:paddingRight',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:paddingBottom',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:paddingLeft',
+			pattern: /(^\d*dp$)/
+		},
+
+
+		{
+			name: 'android:alignParentTop',
+			pattern: /^(true|false)$/
+		},
+		{
+			name: 'android:alignParentBottom',
+			pattern: /^(true|false)$/
+		},
+		{
+			name: 'android:alignParentRight',
+			pattern: /^(true|false)$/
+		},
+		{
+			name: 'android:alignParentLeft',
+			pattern: /^(true|false)$/
+		},
+		{
+			name: 'android:layout_above',
+			pattern: /^\@id\/[a-z_]+$/
+		},
+		{
+			name: 'android:layout_below',
+			pattern: /^\@id\/[a-z_]+$/
+		},
+		{
+			name: 'android:layout_toRightOf',
+			pattern: /^\@id\/[a-z_]+$/
+		},
+		{
+			name: 'android:layout_toLeftOf',
+			pattern: /^\@id\/[a-z_]+$/
+		},
+		// {
+		// 	name: 'android:gravity',
+		// 	pattern: /^(true|false)$/
+		// },
+		{
+			name: 'android:textSize',
+			pattern: /(^\d*sp$)/
+		},
+		{
+			name: 'android:fontFamily',
+			pattern: /^sans-serif(-light|-condensed|-thin|-medium|-black)?$/
+		},
+	];
 
 	// hash of valid fonts, and their web equivalents
 	app.androidLayout.fontFamilyList = {

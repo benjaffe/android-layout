@@ -81,6 +81,7 @@ var app = app || {};
 		
 		codeLines.forEach(function(line, i, code) {
 			checkForUnsupportedTags(line, i+1);
+			checkForUnsupportedAttributesAndValues(line, i+1);
 			checkForUnevenQuotes(line, i+1);
 		});
 		
@@ -210,6 +211,73 @@ var app = app || {};
 					$lineNum: lineNum
 				});
 			}
+		});
+	}
+
+	/**
+	 * Throws errors on attributes and attributevalues that are not supported in this editor
+	 * @param  {[str]} line [line of code to be processed]
+	 */
+	function checkForUnsupportedAttributesAndValues (line, lineNum) {
+		var validAttributes = app.androidLayout.validAttributes;
+		var attrMatcher = /android:(\S*)=/g;
+		var attrValueMatcher = /="(\S*)"/g;
+		var attributes = line.match(attrMatcher);
+		var attributeValues = line.match(attrValueMatcher);
+
+
+		if (!attributes || !attributeValues) {
+			return false;
+		}
+
+		// remove the inclusive characters TODO: fix the RegExps
+		attributes = attributes.map(function(str){
+			return str.slice(0, -1);
+		});
+
+		attributeValues = attributeValues.map(function(str){
+			return str.slice(2, -1);
+		});
+
+		attributes.forEach(function(attributeName, i) {
+			var attributeObj = validAttributes.filter(function(attributeItem){
+				// console.log(attributeItem.name, attributeName);
+				if (attributeItem.name === attributeName) {
+					return true;
+				} else {
+					return false;
+				}
+			})[0];
+
+			var attributeValue = attributeValues[i];
+			
+			// console.log(attributeObj);
+
+			if (!attributeObj) {
+				app.errors.push({
+					id: 'invalidAttribute',
+					$attribute: attributeName,
+					$lineNum: lineNum
+				});
+				return false;
+			}
+
+			if (!attributeObj.pattern) {
+				return false;
+			}
+
+			// console.log(attributeValue);
+			if (!attributeObj.pattern.test(attributeValue)) {
+				app.errors.push({
+					id: 'invalidAttributeValue',
+					$attribute: attributeName,
+					$attributeValue: attributeValue,
+					$lineNum: lineNum
+				});
+				return false;
+			}
+			
+			
 		});
 	}
 
