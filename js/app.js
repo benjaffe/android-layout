@@ -116,7 +116,7 @@ var app = app || {};
 				code = app.androidLayout.prepareCodeForParsing( codeRaw );
 				
 				// catch easy-to-detect errors (like misaligned <>'s, quotes)
-				app.androidLayout.xmlSanityCheck( code );
+				app.androidLayout.xmlSanityCheck( codeRaw );
 				
 				// parse the XML
 				app.parsedXML = jQuery.parseXML( code );
