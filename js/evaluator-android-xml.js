@@ -44,10 +44,13 @@ var app = app || {};
 		var code = rawCode;
 		var startPos, insertPos;
 
-		// if there's no tag wrapping everything, let's add one
-		if (code.indexOf('/>') < code.indexOf('>')) {
-			code = '<LinearLayout>\n' + code + '\n</LinearLayout>';
-		}
+		// if there's no tag wrapping everything, let's add one so we don't get a parsing error
+		// REMOVED for now, to avoid diverging from Android Studio
+		
+		// if (code.indexOf('/>') < code.indexOf('>')) {
+		// 	code = '<LinearLayout>\n' + code + '\n</LinearLayout>';
+		// }
+
 
 		// calculate our start positions for adding schema bits if needed
 		startPos = code.indexOf('<');

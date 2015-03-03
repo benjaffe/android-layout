@@ -10,15 +10,15 @@
 [ ] enforce units on numbers (sp for fonts, dp for everything else)
 [ ] check layout_width="wrap_content" on TextView (node 9 in script)
 
-[ ] remove auto-adding LinearLayout
+[X] remove auto-adding LinearLayout
 
 [ ] explore defaults around image views
 [ ] centerInside is the default
 
 
-[ ] remove layout_gravity for now
+[X] remove layout_gravity for now
 
-[ ] implement gravity
+[X] implement gravity
 
 
 [ ] check how codemirror handles indentation
