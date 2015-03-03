@@ -187,12 +187,12 @@ var app = app || {};
 
 		openTags = line.match(reOpen) || [];
 		var tagsOpen = openTags.map(function(item){
-			return item.trim().slice(1);
+			return item.trim().replace(/(\<|\>)/g, '');
 		});
 
 		closeTags = line.match(reClose) || [];
 		var tagsClose = closeTags.map(function(item){
-			return item.trim().slice(2, -1);
+			return item.trim().replace(/(\<\/|\>)/g, '');
 		});
 
 
