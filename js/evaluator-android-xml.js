@@ -54,8 +54,8 @@ var app = app || {};
 
 		// calculate our start positions for adding schema bits if needed
 		startPos = code.indexOf('<');
-		insertPos = code.indexOf('>', startPos);
-
+		insertPos = code.search(/(>|\/>)/);
+		
 		// if there aren't schema bits, let's add them
 		if (code.split('xmlns:android').length === 1) {
 			code = code.substr(0, insertPos) + '\n\txmlns:android="http://schemas.android.com/apk/res/android"' + code.substr(insertPos);
