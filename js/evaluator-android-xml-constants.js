@@ -100,10 +100,13 @@ var app = app || {};
 			name: 'android:layout_toLeftOf',
 			pattern: /^\@id\/[a-z_]+$/
 		},
-		// {
-		// 	name: 'android:gravity',
-		// 	pattern: /^(true|false)$/
-		// },
+		
+		{
+			name: 'android:gravity',
+			pattern: /^(?:top|bottom|left|right|center_vertical|center_horizontal|center)(?:\|(top|bottom|left|right|center_vertical|center_horizontal|center))?$/
+		},
+		
+
 		{
 			name: 'android:textSize',
 			pattern: /(^\d*sp$)/

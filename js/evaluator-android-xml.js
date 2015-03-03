@@ -364,15 +364,25 @@ var app = app || {};
 
 		// layout_gravity
 		// TODO: Migrate this to the second layout pass
-		if (checkAttr('android:layout_gravity')) {
-			vals = attributes['android:layout_gravity'].value.split('|');
-			for (i = 0; i < vals.length; i++) {
-				domElem.css( vals[i] , 0);
-			}
-		}
+		// if (checkAttr('android:layout_gravity')) {
+		// 	vals = attributes['android:layout_gravity'].value.split('|');
+		// 	for (i = 0; i < vals.length; i++) {
+		// 		domElem.css( vals[i] , 0);
+		// 	}
+		// }
 
 		// check for center (this will probably have to get better and use flex)
-		if (checkAttr('android:gravity', ['center', 'center_horizontal'])) domElem.addClass('gravity-center');
+		if (checkAttr('android:gravity')) {
+			vals = attributes['android:gravity'].value.split('|');
+			for (var i = 0; i < vals.length; i++) {
+				domElem.addClass('gravity-' + vals[i]);
+				if (vals[i] === 'bottom' || vals[i] === 'center' || vals[i] === 'center_vertical') {
+					var helperChild = $('<div class="helper-child"></div>');
+					helperChild.html(domElem.html());
+					domElem.html('').append(helperChild);
+				}
+			}
+		}
 
 		// add images
 		if (attributes['android:src']) {

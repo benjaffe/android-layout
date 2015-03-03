@@ -135,6 +135,40 @@ body {
 	background-repeat: no-repeat;
 }
 
-.gravity-center {
+.gravity-center,
+.gravity-center_horizontal {
 	text-align: center;
 }
+
+.gravity-center .helper-child,
+.gravity-center_vertical .helper-child {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.gravity-left {
+	text-align: left;
+}
+
+.gravity-right {
+	text-align: right;
+}
+
+.gravity-top .helper-child {
+	margin-top: 0;
+	margin-bottom: auto;
+}
+
+.gravity-bottom .helper-child {
+	margin-top: auto;
+	margin-bottom: 0;
+}
+
+
+.layout_width-match_parent.gravity-center,
+.layout_width-match_parent.gravity-center_vertical,
+.layout_width-match_parent.gravity-bottom {
+	display: flex!important;
+}
+
+
