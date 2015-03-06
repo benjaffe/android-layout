@@ -51,10 +51,6 @@ body {
 	/*z-index: -1;*/
 }
 
-.screen * {
-	min-height: 5px;
-}
-
 .screen-wrapper {
 	position: absolute;
 	height: 100%;
