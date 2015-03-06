@@ -478,9 +478,9 @@ var app = app || {};
 		}
 
 		layoutInvalidated = true;
-		if (inRelativeLayout) {
+		// if (inRelativeLayout) {
 			layoutElem(elem);
-		}
+		// }
 		layoutInvalidated = false;
 
 		$(elem).children().each(function(i, child) {
@@ -568,16 +568,24 @@ var app = app || {};
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
-			domElem.css('top', layoutElem(xmlElem.parentNode).top+'px');
+			domElem.addClass('absolute').css({
+				'top': layoutElem(xmlElem.parentNode).top+'px'
+			});
 		}
 		if (checkAttr('android:layout_alignParentBottom', 'true')) {
-			domElem.css('bottom', layoutElem(xmlElem.parentNode).bottom+'px');
+			domElem.addClass('absolute').css({
+				'bottom': layoutElem(xmlElem.parentNode).bottom+'px'
+			});
 		}
 		if (checkAttr('android:layout_alignParentLeft', 'true')) {
-			domElem.css('left', layoutElem(xmlElem.parentNode).left+'px');
+			domElem.addClass('absolute').css({
+				'left': layoutElem(xmlElem.parentNode).left+'px'
+			});
 		}
 		if (checkAttr('android:layout_alignParentRight', 'true')) {
-			domElem.css('right', layoutElem(xmlElem.parentNode).right+'px');
+			domElem.addClass('absolute').css({
+				'right': layoutElem(xmlElem.parentNode).right+'px'
+			});
 		}
 
 		// TODO: Simplify the following four conditionals into a single conditional in a loop
@@ -639,8 +647,10 @@ var app = app || {};
 	function getOffsetAllFromPhone (elem) {
 		var dim = elem.offset();
 		var dimPhone = $('.phone').offset();
-		dim.left = dim.left - dimPhone.left;
-		dim.top = dim.top - dimPhone.top;
+		
+		// the following is handled by the position:absolute on the screen-wrapper
+		// dim.left = dim.left - dimPhone.left;
+		// dim.top = dim.top - dimPhone.top;
 		
 		dim.width = elem.outerWidth();
 		dim.height = elem.outerHeight();

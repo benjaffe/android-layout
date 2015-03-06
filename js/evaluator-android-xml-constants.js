@@ -69,19 +69,19 @@ var app = app || {};
 
 
 		{
-			name: 'android:alignParentTop',
+			name: 'android:layout_alignParentTop',
 			pattern: /^(true|false)$/
 		},
 		{
-			name: 'android:alignParentBottom',
+			name: 'android:layout_alignParentBottom',
 			pattern: /^(true|false)$/
 		},
 		{
-			name: 'android:alignParentRight',
+			name: 'android:layout_alignParentRight',
 			pattern: /^(true|false)$/
 		},
 		{
-			name: 'android:alignParentLeft',
+			name: 'android:layout_alignParentLeft',
 			pattern: /^(true|false)$/
 		},
 		{

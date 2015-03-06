@@ -65,6 +65,11 @@ body {
 
 
 
+/* Utilities */
+.absolute {
+	position: absolute;
+}
+
 /* ===== Styling for Android Layout XML ===== */
 
 .element-outlines-enabled .screen * {
