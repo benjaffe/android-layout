@@ -5,9 +5,9 @@
 
 [X] same error for attributes and attribute values, not just tags (attribute values don't have numbers in them)
 
-[ ] not a valid tag - wrong line numbers
+[X] not a valid tag - wrong line numbers
 
-[ ] enforce units on numbers (sp for fonts, dp for everything else)
+[X] enforce units on numbers (sp for fonts, dp for everything else)
 [ ] check layout_width="wrap_content" on TextView (node 9 in script)
 
 [X] remove auto-adding LinearLayout
