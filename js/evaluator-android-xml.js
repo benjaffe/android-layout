@@ -180,7 +180,7 @@ var app = app || {};
 	 * @param  {[str]} line [line of code to be processed]
 	 */
 	function checkForUnsupportedTags (line, lineNum) {
-		var reOpen = /<(?!\/)(\S*) */g;
+		var reOpen = /<(?!\/)([^>\/]*) */g;
 		var reClose = /(<\/)(\S*) */g;
 		var validTags = app.androidLayout.validTags;
 		var openTags, closeTags;
