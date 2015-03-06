@@ -115,6 +115,11 @@ var app = app || {};
 			name: 'android:fontFamily',
 			pattern: /^sans-serif(-light|-condensed|-thin|-medium|-black)?$/
 		},
+
+		{
+			name: 'android:src',
+			pattern: /^\@drawable\/[a-zA-Z_]$/
+		},
 	];
 
 	// hash of valid fonts, and their web equivalents
