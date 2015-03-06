@@ -81,6 +81,7 @@ var app = app || {};
 		var codeLines = code.split('\n');
 
 		checkForImproperAngleBracketOrder(code);
+		checkForUnclosedSelfClosingTags(code);
 		
 		codeLines.forEach(function(line, i, code) {
 			checkForUnsupportedTags(line, i+1);
@@ -214,6 +215,36 @@ var app = app || {};
 					$lineNum: lineNum
 				});
 			}
+		});
+	}
+
+
+	function checkForUnclosedSelfClosingTags (code) {
+		var selfClosingTags = app.androidLayout.selfClosingTags;
+		
+		selfClosingTags.forEach(function(tagType) {
+			var segments = code.split('<'+tagType);
+			
+			// we don't care about the first one
+			segments.shift();
+			console.log(segments);
+			
+			if (segments.length === 0) {
+				return false;
+			}
+
+			segments.forEach(function(segment){
+				if (segment.indexOf('/>') === -1 || segment.indexOf('>') < segment.indexOf('/>')) {
+					console.log(segment);
+					console.debug(tagType, segment.indexOf('>'), segment.indexOf('/>'));
+					app.errors.push({
+						id: 'unclosedSelfClosingTag',
+						$tag: tagType
+					});
+				}
+			});
+
+			return true;
 		});
 	}
 

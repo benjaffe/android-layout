@@ -11,11 +11,13 @@ var app = app || {};
 		'unevenQuotesPerLine': 'Line $lineNum has an uneven number of quotes. Did you forget to open or close a quote?',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
+		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
 		'invalidAttribute': 'The attribute $attribute (Line $lineNum) is not supported here.',
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)'
 	};
 
 	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button', 'View'];
+	app.androidLayout.selfClosingTags = ['TextView','ImageView','Button'];
 
 	app.androidLayout.validAttributes = [
 		{
