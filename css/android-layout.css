@@ -116,6 +116,7 @@ body {
 
 .TextView {
 	overflow-wrap: break-word;
+	overflow: hidden;
 }
 
 
