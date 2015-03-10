@@ -31,11 +31,11 @@ var app = app || {};
 
 		{
 			name: 'android:background',
-			pattern: /^#(?:[0-9a-fA-F]{3}){1,2}$|\@android:color\/[a-z_]+$/
+			pattern: /^#(?:[0-9a-fA-F]{3,4})$|^#(?:[0-9a-fA-F]{6})$|^#(?:[0-9a-fA-F]{8})$|\@android:color\/[a-z_]+$/
 		},
 		{
 			name: 'android:textColor',
-			pattern: /^#(?:[0-9a-fA-F]{3}){1,2}$|\@android:color\/[a-z_]+$/
+			pattern: /^#(?:[0-9a-fA-F]{3,4})$|^#(?:[0-9a-fA-F]{6})$|^#(?:[0-9a-fA-F]{8})$|\@android:color\/[a-z_]+$/
 		},
 
 
