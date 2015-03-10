@@ -114,6 +114,10 @@ var app = app || {};
 			pattern: /(^\d*sp$)/
 		},
 		{
+			name: 'android:textStyle',
+			pattern: /^(?:bold\|italic|italic\|bold|italic|bold|normal)$/
+		},
+		{
 			name: 'android:fontFamily',
 			pattern: /^sans-serif(-light|-condensed|-thin|-medium|-black)?$/
 		},
