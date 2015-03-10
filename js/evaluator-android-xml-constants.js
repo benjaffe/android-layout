@@ -93,19 +93,24 @@ var app = app || {};
 		},
 		{
 			name: 'android:layout_above',
-			pattern: /^\@id\/[a-z_]+$/
+			pattern: /^\@\+id\/[a-z_]+$/
 		},
 		{
 			name: 'android:layout_below',
-			pattern: /^\@id\/[a-z_]+$/
+			pattern: /^\@\+id\/[a-z_]+$/
 		},
 		{
 			name: 'android:layout_toRightOf',
-			pattern: /^\@id\/[a-z_]+$/
+			pattern: /^\@\+id\/[a-z_]+$/
 		},
 		{
 			name: 'android:layout_toLeftOf',
-			pattern: /^\@id\/[a-z_]+$/
+			pattern: /^\@\+id\/[a-z_]+$/
+		},
+
+		{
+			name: 'android:visibility',
+			pattern: /^(?:invisible|visible|gone)$/
 		},
 		
 		{
@@ -131,6 +136,10 @@ var app = app || {};
 			name: 'android:src',
 			pattern: /^\@drawable\/[a-zA-Z_]+$/
 		},
+		{
+			name: 'android:scaleType',
+			pattern: /^(centerCrop)$/
+		}
 	];
 
 	// hash of valid fonts, and their web equivalents
