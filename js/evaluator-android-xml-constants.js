@@ -49,6 +49,11 @@ var app = app || {};
 		},
 
 		{
+			name: 'android:orientation',
+			pattern: /(^horizontal$|^vertical$)/
+		},
+
+		{
 			name: 'android:padding',
 			pattern: /(^\d*dp$)/
 		},

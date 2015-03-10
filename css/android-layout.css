@@ -92,7 +92,11 @@ body {
 
 
 .LinearLayout {
-	display: flex;
+	display: flex!important;
+    flex-direction: row;
+}
+
+.LinearLayout.orientation-vertical {
     flex-direction: column;
 }
 

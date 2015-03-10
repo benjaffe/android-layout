@@ -396,6 +396,12 @@ var app = app || {};
 		}
 
 
+		if (checkAttr('android:orientation', 'vertical')) {
+			domElem.addClass('orientation-vertical');
+		} else if (checkAttr('android:orientation', 'horizontal')) {
+			domElem.addClass('orientation-horizontal');
+		}
+
 		// layout_gravity
 		// TODO: Migrate this to the second layout pass
 		// if (checkAttr('android:layout_gravity')) {
