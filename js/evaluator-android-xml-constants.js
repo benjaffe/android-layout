@@ -124,7 +124,7 @@ var app = app || {};
 
 		{
 			name: 'android:src',
-			pattern: /^\@drawable\/[a-zA-Z_]$/
+			pattern: /^\@drawable\/[a-zA-Z_]+$/
 		},
 	];
 
