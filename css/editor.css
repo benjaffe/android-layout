@@ -19,7 +19,7 @@ body {
 	margin-right: 380px;
 }
 .output-area {
-	width:29%;
+	width:360px;
 	position: absolute;
 	top: 15px;
 	bottom: 15px;
@@ -44,8 +44,8 @@ body {
 }
 
 .output-area.disabled {
-	opacity: 0.6;
-	outline: 8px solid #F99;
+	opacity: 0.5;
+	outline: 2px solid #F00;
 }
 
 
