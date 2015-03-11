@@ -89,13 +89,6 @@ var app = app || {};
 			checkForUnevenQuotes(line, i+1);
 		});
 		
-		if (dqNum % 2 !== 0) {
-			app.errors.push({
-				id: 'oddNumQuotes',
-				$lineNum: -1
-			});
-		}
-		
 		errors = app.errors();
 		if (errors.length > 0) {
 			$('.error-msg').show().html(errors.join('<br><br>'));
