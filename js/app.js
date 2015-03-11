@@ -111,7 +111,7 @@ var app = app || {};
 				$('html').removeClass('element-outlines-enabled');
 			}
 			
-			// try {
+			try {
 				// pre-processing hook
 				code = app.androidLayout.prepareCodeForParsing( codeRaw );
 				
@@ -131,11 +131,21 @@ var app = app || {};
 				$('.output-area').removeClass('disabled');
 				$('.code-saved-msg').removeClass('code-not-saved');
 				runSuccess(codeRaw);
-			// } catch (e) {
-				// $('.output-area').addClass('disabled');
-				// $('.code-saved-msg').addClass('code-not-saved');
-				// throw e;
-			// }
+			} catch (e) {
+				$('.output-area').addClass('disabled');
+				$('.code-saved-msg').addClass('code-not-saved');
+				app.errors.push({
+					id: 'parseError'
+				});
+
+				// display the error (TODO: this should live in a method somewhere)
+				errors = app.errors();
+				if (errors.length > 0) {
+					$('.error-msg').show().html(errors.join('<br><br>'));
+				}
+				
+				throw e;
+			}
 		}
 
 		if (elemToRender) {
