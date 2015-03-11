@@ -87,7 +87,7 @@ body {
 }
 
 .layout_width-wrap_content {
-	display: inline-block;
+	display: table;
 }
 
 
@@ -124,10 +124,10 @@ body {
 }
 
 
-.output-area :not(.layout_height-wrap_content) {
+/*.output-area :not(.layout_height-wrap_content) {
 	flex-grow: 1;
 }
-
+*/
 
 /* ImageView Attributes */
 .scaleType-centerCrop {

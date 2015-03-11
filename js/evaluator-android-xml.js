@@ -369,8 +369,6 @@ var app = app || {};
 			domElem.hide();
 		} else if (checkAttr('android:visibility', 'invisible')) {
 			domElem.css('visibility', 'hidden');
-		} else {
-			domElem.show();
 		}
 
 		// convert widths and heights
