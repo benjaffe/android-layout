@@ -274,4 +274,39 @@ var app = app || {};
 		"holo_orange_dark": "rgba(255,136,0,1)",
 		"holo_blue_bright": "rgba(0,221,255,1)"
 	};
+
+	app.tests = [
+		"test10", 
+		"test20", 
+		"test30", 
+		"test40", 
+		"test50", 
+		"test60", 
+		"test70", 
+		"test80", 
+		"test90", 
+		"test100", 
+		"test110", 
+		"test120", 
+		"test130", 
+		"test140", 
+		"test150", 
+		"test160", 
+		"test170", 
+		"test180", 
+		"test190", 
+		"test200",
+		"test210", 
+		"test220", 
+		"test230", 
+		"test240", 
+		"test250", 
+		"test260", 
+		"test270", 
+		"test280", 
+		"test290", 
+		"test300", 
+		"test310",
+		"test320"
+	];
 })();

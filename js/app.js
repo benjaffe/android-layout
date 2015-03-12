@@ -53,9 +53,27 @@ var app = app || {};
 	};
 
 	app.getCodeForHash = function() {
+		// this is for testing code (#/test/...)
+		if (app.hash.slice(0,4) === 'test') {
+			$.get('tests/android/' + app.hash.slice(9) + '.xml', function(data){
+				myCodeMirror.setValue(data);
+				myCodeMirror.refresh();
+				app.run({
+					code: data,
+					force: true
+				});
+			}, 'text');
+			$('.test-reference-image').attr('src', 'tests/android/' + app.hash.slice(9) + '.png');
+			return '';
+		}
+
+		// we have a previously-saved version
 		if (localStorage['code-' + app.hash]) {
 			return JSON.parse( localStorage['code-' + app.hash] );
-		} else {
+		}
+
+		// return the default (if there is one)
+		else {
 			return app.getCodeForHashDefault();
 		}
 	
@@ -85,6 +103,9 @@ var app = app || {};
 	// this runs after code is successfully evaluated	
 	function runSuccess(code) {
 		// save current student code
+		if (app.hash.slice(0,4) === 'test') {
+			return false;
+		}
 		localStorage['code-' + app.hash] = JSON.stringify(code);
 	}
 
@@ -93,17 +114,24 @@ var app = app || {};
 	app.run = function (opt) {
 		opt = opt || {};
 
-		if (!app.readyToRun && !opt.force) {
-			return false;
-		}
+		if (!app.readyToRun && !opt.force) return false;
 
-		var codeRaw = myCodeMirror.getValue();
+		var codeRaw = opt.code || myCodeMirror.getValue();
 		var code;
 		var elemToRender;
 
 		// run the code
 		var mode = 'android-layout';
 		if (mode === 'android-layout') {
+
+			if (app.hash.slice(0,4) === 'test') {
+				$('html').addClass('testing-mode');
+				if (app.hash === 'test/and') {
+					forwardFillTestingHistory('#/test/and/', app.tests);
+				}
+			} else {
+				$('html').removeClass('testing-mode');
+			}
 
 			if (app.elementOutlinesEnabled) {
 				$('html').addClass('element-outlines-enabled');
@@ -117,6 +145,9 @@ var app = app || {};
 				
 				// catch easy-to-detect errors (like misaligned <>'s, quotes)
 				app.androidLayout.xmlSanityCheck( codeRaw );
+
+				// if we don't have code to render, exit early rather than throwing an error
+				if (codeRaw === '') return false;
 				
 				// parse the XML
 				app.parsedXML = jQuery.parseXML( code );
@@ -152,6 +183,16 @@ var app = app || {};
 			$('.screen').html('').append(elemToRender);
 		}
 	};
+
+	function forwardFillTestingHistory (prefix, urls) {
+		// add each test to the history
+		urls.forEach(function(url){
+			history.pushState({}, '', prefix + url);
+		});
+
+		// go to the first one
+		history.go((app.tests.length-1) * -1);
+	}
 
 	function refreshEditorLayout () {
 		$('.CodeMirror-scroll').css('height', $('.input-area').height());
