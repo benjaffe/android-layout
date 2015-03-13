@@ -92,6 +92,7 @@ body {
 
 
 .LinearLayout {
+	display: -webkit-flex!important;
 	display: flex!important;
     flex-direction: row;
     overflow: hidden;
@@ -176,6 +177,7 @@ body {
 .layout_width-match_parent.gravity-center,
 .layout_width-match_parent.gravity-center_vertical,
 .layout_width-match_parent.gravity-bottom {
+	display: -webkit-flex!important;
 	display: flex!important;
 }
 
