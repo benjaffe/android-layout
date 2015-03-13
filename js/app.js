@@ -174,6 +174,11 @@ var app = app || {};
 				if (errors.length > 0) {
 					$('.error-msg').show().html(errors.join('<br><br>'));
 				}
+
+				if (localStorage.debug) {
+					console.log('failed, but saving anyway since we\'re in debug mode');
+					runSuccess(codeRaw);
+				}
 				
 				throw e;
 			}
