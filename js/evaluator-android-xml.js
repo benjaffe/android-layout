@@ -220,7 +220,7 @@ var app = app || {};
 			
 			// we don't care about the first one
 			segments.shift();
-			console.log(segments);
+			// console.log(segments);
 			
 			if (segments.length === 0) {
 				return false;
@@ -251,7 +251,46 @@ var app = app || {};
 		var attrValueMatcher = /="(\S*)"/g;
 		var attributes = line.match(attrMatcher);
 		var attributeValues = line.match(attrValueMatcher);
+		
+		var attrSemicolonMatcher = /(android;(?:\S*))=/g;
+		var attrSemicolonValues = attrSemicolonMatcher.exec(line);
+		var attrNoColonMatcher = /(android[^:](\S*))=/;
+		var attrNoColonValues = attrNoColonMatcher.exec(line);
+		var attrNoEqualsMatcher = /(android:(\S*))[^=]"(\S*)"/;
+		var attrNoEqualsValues = attrNoEqualsMatcher.exec(line);
 
+		console.log(attrNoEqualsValues);
+		
+		
+		if (attrSemicolonValues) {
+			app.errors.push({
+				id: 'androidSemicolon',
+				$property: attrSemicolonValues[1],
+				$propertyCorrected: attrSemicolonValues[1].replace(';',':'),
+				$lineNum: lineNum
+			});
+			return false;
+		}
+
+		if (attrNoColonValues) {
+			app.errors.push({
+				id: 'androidNoColon',
+				$property: attrNoColonValues[1],
+				$propertyCorrected: attrNoColonValues[1].replace('android','android:'),
+				$lineNum: lineNum
+			});
+			return false;
+		}
+
+		if (attrNoEqualsValues) {
+			app.errors.push({
+				id: 'androidNoEquals',
+				$lineIncorrect: attrNoEqualsValues[0],
+				$lineCorrected: attrNoEqualsValues[0].replace(/"(\S*)"/, '="'+attrNoEqualsValues[3])+'"',
+				$lineNum: lineNum
+			});
+			return false;
+		}
 
 		if (!attributes || !attributeValues) {
 			return false;
@@ -420,7 +459,26 @@ var app = app || {};
 			t = attributes['android:src'].value.split('/')[1];
 			if (t) {
 				domElem.css({'background-image': 'url(images/'+t+'.jpg)'});
+				
+				// handle height and width
+				var myImage = new Image();
+				myImage.src = 'images/'+t+'.jpg';
+			    myImage.onload = function() {
+
+					if (checkAttr('android:layout_height', 'wrap_content')) {
+						domElem.css({ 
+							height: this.height + 'px'
+						});
+					}
+					if (checkAttr('android:layout_width', 'wrap_content')) {
+						domElem.css({ 
+							width: this.width + 'px',
+							maxWidth: '100%'
+						});
+					}
+				};
 			}
+			
 		}
 
 		if (checkAttr('android:scaleType', 'centerCrop')) {

@@ -14,7 +14,10 @@ var app = app || {};
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
 		'invalidAttribute': 'The attribute $attribute (Line $lineNum) is not supported here.',
-		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)'
+		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
+		'androidSemicolon': 'Line $lineNum: You typed <code>$property="..."</code>.<br>You probably meant to type a colon, not a semi-colon. <code>$propertyCorrected="..."</code>',
+		'androidNoColon': 'Line $lineNum: You typed <code>$property="..."</code>.<br>You probably forgot the colon after "android". <code>$propertyCorrected="..."</code>',
+		'androidNoEquals': 'Line $lineNum: You typed <code>$lineIncorrect</code>.<br>You probably forgot the equals sign before the ". <code>$lineCorrected</code>'
 	};
 
 	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button', 'View'];
