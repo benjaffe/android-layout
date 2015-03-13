@@ -120,6 +120,7 @@ body {
 }
 
 .TextView {
+	display: table;
 	overflow-wrap: break-word;
 	overflow: hidden;
 }
