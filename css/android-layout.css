@@ -94,6 +94,7 @@ body {
 .LinearLayout {
 	display: flex!important;
     flex-direction: row;
+    overflow: hidden;
 }
 
 .LinearLayout.orientation-vertical {
