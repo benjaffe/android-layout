@@ -432,6 +432,22 @@ var app = app || {};
 			domElem.addClass('orientation-horizontal');
 		}
 
+		// In this particular case, we HAVE to set the width
+		// of the parent elem manually based on its children.
+		// Because the children are not layed out yet, we're
+		// deferring layout of the parent until the next tick.
+		if (type === 'LinearLayout' && checkAttr('android:layout_width', 'wrap_content')) {
+			setTimeout(function(){
+				var widths = [];
+				domElem.children().each(function(i, child){
+					widths.push($(child).outerWidth());
+				});
+				width = Math.max.apply(null, widths);
+				console.log(widths, width);
+				domElem.width(width);
+			});
+		}
+
 		// layout_gravity
 		// TODO: Migrate this to the second layout pass
 		// if (checkAttr('android:layout_gravity')) {

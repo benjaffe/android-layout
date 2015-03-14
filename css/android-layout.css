@@ -86,7 +86,8 @@ body {
 	height: 100%;
 }
 
-.layout_width-wrap_content {
+.layout_width-wrap_content,
+.layout_height-wrap_content {
 	display: table;
 }
 
@@ -121,7 +122,6 @@ body {
 }
 
 .TextView {
-	display: table;
 	overflow-wrap: break-word;
 	overflow: hidden;
 }
