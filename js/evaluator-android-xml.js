@@ -6,7 +6,8 @@ var app = app || {};
 	var numFontsLoaded = 0;
 	var webFontConfig = {
 	    google: {
-	      families: ['Roboto', 'Roboto Condensed']
+	    	// TODO: this is causing a super slow page load time. Other options, rather than loading all upfront and blocking?
+	    	families: ['Roboto:100,300,400,500,900', 'Roboto Condensed:100']
 	    },
 	    fontactive: function(familyName, fvd) {
 	    	numFontsLoaded++;
@@ -432,17 +433,27 @@ var app = app || {};
 			domElem.addClass('orientation-horizontal');
 		}
 
-		// In this particular case, we HAVE to set the width
+		// In this particular case, we MUST set the width/height
 		// of the parent elem manually based on its children.
 		// Because the children are not layed out yet, we're
 		// deferring layout of the parent until the next tick.
-		if (type === 'LinearLayout' && checkAttr('android:layout_width', 'wrap_content')) {
+		if (type === 'LinearLayout' && checkAttr('android:layout_height', 'wrap_content') && checkAttr('android:orientation','vertical')) {
+			setTimeout(function(){
+				var heights = [];
+				domElem.children().each(function(i, child){
+					heights.push($(child).offset().top, $(child).offset().top+$(child).outerHeight());
+				});
+				height = Math.max.apply(null, heights) - Math.min.apply(null, heights);
+				console.log(heights, height);
+				domElem.height(height);
+			});
+		} else if (type === 'LinearLayout' && checkAttr('android:layout_width', 'wrap_content') && !checkAttr('android:orientation','vertical')) {
 			setTimeout(function(){
 				var widths = [];
 				domElem.children().each(function(i, child){
-					widths.push($(child).outerWidth());
+					widths.push($(child).offset().left, $(child).offset().left+$(child).outerWidth());
 				});
-				width = Math.max.apply(null, widths);
+				width = Math.max.apply(null, widths) - Math.min.apply(null, widths);
 				console.log(widths, width);
 				domElem.width(width);
 			});
@@ -460,7 +471,7 @@ var app = app || {};
 		// check for center (this will probably have to get better and use flex)
 		if (checkAttr('android:gravity')) {
 			vals = attributes['android:gravity'].value.split('|');
-			for (var i = 0; i < vals.length; i++) {
+			for (i = 0; i < vals.length; i++) {
 				domElem.addClass('gravity-' + vals[i]);
 				if (vals[i] === 'bottom' || vals[i] === 'center' || vals[i] === 'center_vertical') {
 					var helperChild = $('<div class="helper-child"></div>');
