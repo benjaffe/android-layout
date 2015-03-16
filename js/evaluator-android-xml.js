@@ -365,6 +365,7 @@ var app = app || {};
 
 		// associate the DOM element with the XML element
 		elem.domElem = domElem;
+		domElem[0].xmlElem = elem;
 
 		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
@@ -411,8 +412,11 @@ var app = app || {};
 			domElem.addClass('layout_width-wrap_content');
 		} else if (checkAttr('android:layout_width')) {
 			widthOrig = attributes['android:layout_width'].value;
-			width = dpToPx(widthOrig)+'px';
-			console.log(domElem, width);
+			if (parseInt(widthOrig) === 0) {
+				height = 'auto';
+			} else {
+				width = dpToPx(widthOrig)+'px';
+			}
 			domElem.css('width', width);
 		}
 
@@ -422,7 +426,11 @@ var app = app || {};
 			domElem.addClass('layout_height-wrap_content');
 		} else if (checkAttr('android:layout_height')) {
 			heightOrig = attributes['android:layout_height'].value;
-			height = dpToPx(heightOrig)+'px';
+			if (parseInt(heightOrig) === 0) {
+				height = 'auto';
+			} else {
+				height = dpToPx(heightOrig)+'px';
+			}
 			domElem.css('height', height);
 		}
 
@@ -458,6 +466,36 @@ var app = app || {};
 				domElem.width(width);
 			});
 		}
+
+
+		if (checkAttr('android:layout_weight')) {
+			domElem.addClass('hidden-pending-setTimeout');
+			setTimeout(function(domElem) {
+				return function(){
+					var elemWeight = parseInt( domElem[0].xmlElem.attributes['android:layout_weight'].value );
+					var totalWeight = elemWeight; // sibling weights will be added
+					var elemWidthPercent;
+
+					if (checkAttr('android:orientation','vertical') && checkAttr('android:layout_weight')) {
+						domElem.parent().children().each(function(i, elem) {
+							console.log(elem.xmlElem);
+						});
+
+					} else {
+						domElem.siblings().each(function(i, elem) {
+							totalWeight += parseInt( elem.xmlElem.attributes['android:layout_weight'].value );
+						});
+
+						elemWidthPercent = 100 * elemWeight / totalWeight;
+					}
+					domElem.css({
+						'width': elemWidthPercent + '%'
+					});
+					domElem.removeClass('hidden-pending-setTimeout');
+				};
+			}(domElem));
+		}
+
 
 		// layout_gravity
 		// TODO: Migrate this to the second layout pass

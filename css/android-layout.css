@@ -66,6 +66,10 @@ body {
 	position: absolute;
 }
 
+.hidden-pending-setTimeout {
+	visibility: hidden;
+}
+
 /* ===== Styling for Android Layout XML ===== */
 
 .element-outlines-enabled .screen * {
