@@ -133,15 +133,16 @@ body {
 */
 
 /* ImageView Attributes */
-.scaleType-centerCrop {
-	background-size: cover;
-	background-position: center;
-}
-
+.ImageView,
 .scaleType-centerInside {
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
+}
+
+.scaleType-centerCrop {
+	background-size: cover;
+	background-position: center;
 }
 
 .gravity-center,

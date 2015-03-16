@@ -500,7 +500,7 @@ var app = app || {};
 					if (checkAttr('android:layout_width', 'wrap_content')) {
 						domElem.css({ 
 							width: this.width + 'px',
-							maxWidth: '100%'
+							maxWidth: domElem.parent().width() + 'px'
 						});
 					}
 				};
