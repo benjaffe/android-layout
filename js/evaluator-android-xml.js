@@ -1,6 +1,7 @@
 var app = app || {};
 
 (function() {
+	"use strict";
 	app.androidLayout = app.androidLayout || {};
 
 	var numFontsLoaded = 0;
@@ -19,7 +20,7 @@ var app = app || {};
 		}
 	};
 	var fontFamilyList = app.androidLayout.fontFamilyList;
-	var errorList = app.androidLayout.errorList;
+	// var errorList = app.androidLayout.errorList;
 	var layoutInvalidated = true;
 	var count;
 
@@ -76,9 +77,9 @@ var app = app || {};
 	function xmlSanityCheck (code) {
 		var errors;
 		app.errors.clear();
-		var aOpen = code.split('<').length-1;
-		var aClose = code.split('>').length-1;
-		var dqNum = code.split('"').length-1;
+		// var aOpen = code.split('<').length-1;
+		// var aClose = code.split('>').length-1;
+		// var dqNum = code.split('"').length-1;
 		var codeLines = code.split('\n');
 
 		checkForImproperAngleBracketOrder(code);
@@ -260,8 +261,6 @@ var app = app || {};
 		var attrNoEqualsMatcher = /(android:(\S*))[^=]"(\S*)"/;
 		var attrNoEqualsValues = attrNoEqualsMatcher.exec(line);
 
-		console.log(attrNoEqualsValues);
-		
 		
 		if (attrSemicolonValues) {
 			app.errors.push({
@@ -356,7 +355,7 @@ var app = app || {};
 	 * @return {[DOM element]}        [the DOM element representing the original XML element]
 	 */
 	function evaluateXML (elem, parent) {
-		var i, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj;
+		var i, t, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj, parentLayout, checkAttr;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
 		var domElem = $('<div>');
@@ -622,7 +621,7 @@ var app = app || {};
 	 * @param  {[boolean]} inRelativeLayout [if true, this element is a child of a RelativeLayout]
 	 */
 	function evaluateXMLPass2 (elem, parent, inRelativeLayout) {
-		var domElem = elem.domElem;
+		// var domElem = elem.domElem;
 
 		if (elem.tagName === 'RelativeLayout') {
 			inRelativeLayout = true;
@@ -656,7 +655,6 @@ var app = app || {};
 			return null;
 		}
 		
-		var foundElem;
 		elem = elem || app.parsedXML;
 
 		if (elem.id === id) {
@@ -679,6 +677,7 @@ var app = app || {};
 	 * @return {string}           [the hex or rgba color value]
 	 */
 	function getColor (colorOrig) {
+		var color;
 		if (colorOrig[0] === '#') {
 			if (colorOrig.length === 9) {
 				color = '#' + colorOrig.substr(-6);
@@ -695,7 +694,7 @@ var app = app || {};
 	// If the elem is relative to another, it calls layoutElem
 	// on the elem it's positioned relative to.
 	function layoutElem (xmlElem) {
-		var idOfRelativeElem, relativeElem, attributes, checkAttr;
+		var idOfRelativeElem, relativeElem, attributes, checkAttr, parentLayout, positionOfRelativeElem;
 		var domElem = xmlElem.domElem;
 
 		if (xmlElem.currentlyLayingOut){
