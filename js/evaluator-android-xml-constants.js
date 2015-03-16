@@ -102,19 +102,19 @@ var app = app || {};
 		},
 		{
 			name: 'android:layout_above',
-			pattern: /^\@\+id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-z_]+$/
 		},
 		{
 			name: 'android:layout_below',
-			pattern: /^\@\+id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-z_]+$/
 		},
 		{
 			name: 'android:layout_toRightOf',
-			pattern: /^\@\+id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-z_]+$/
 		},
 		{
 			name: 'android:layout_toLeftOf',
-			pattern: /^\@\+id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-z_]+$/
 		},
 
 		{

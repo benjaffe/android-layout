@@ -646,6 +646,18 @@ var app = app || {};
 	 * @return {[xml element]}      [xml element with the provided id]
 	 */
 	function getElemById (id, elem) {
+		var idRegex = /^\@\+id\/[a-z_]+$/;
+		var idPointerRegex = /^\@id\/[a-z_]+$/;
+
+		if (!idRegex.test(id) && !idPointerRegex.test(id)) {
+			throw new Error('Malformed ID: ' + id)
+		}
+
+		// if we have an id pointer (without the '+'), fix it.
+		if (idPointerRegex.test(id)) {
+			id = '@+' + id.slice(1);
+		}
+
 		if (!elem) {
 			count = 0;
 		}
@@ -669,6 +681,8 @@ var app = app || {};
 				return returned;
 			}
 		}
+
+		return null;
 	}
 
 	/**
