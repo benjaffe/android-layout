@@ -718,23 +718,27 @@ var app = app || {};
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
+			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'top': layoutElem(xmlElem.parentNode).top+'px'
+				'top': parentLayout.top+'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentBottom', 'true')) {
+			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'bottom': layoutElem(xmlElem.parentNode).bottom+'px'
+				'bottom': parentLayout.bottom+'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentLeft', 'true')) {
+			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'left': layoutElem(xmlElem.parentNode).left+'px'
+				'left': parentLayout.left+'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentRight', 'true')) {
+			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'right': layoutElem(xmlElem.parentNode).right+'px'
+				'right': parentLayout.right+'px'
 			});
 		}
 
