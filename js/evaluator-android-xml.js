@@ -695,7 +695,7 @@ var app = app || {};
 	// If the elem is relative to another, it calls layoutElem
 	// on the elem it's positioned relative to.
 	function layoutElem (xmlElem) {
-		var idOfRelativeElem, relativeElem, attributes;
+		var idOfRelativeElem, relativeElem, attributes, checkAttr;
 		var domElem = xmlElem.domElem;
 
 		if (xmlElem.currentlyLayingOut){
