@@ -1,7 +1,7 @@
 var app = app || {};
 
 (function() {
-	"use strict";
+	// "use strict";
 	app.androidLayout = app.androidLayout || {};
 
 	var numFontsLoaded = 0;
