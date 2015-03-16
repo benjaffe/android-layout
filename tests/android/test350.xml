@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/grandma_text_view"
+        android:text="Grandma"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/john_text_view"
+        android:text="John"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/grandma_text_view" />
+
+    <TextView
+        android:id="@+id/molly_text_view"
+        android:text="Molly"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/grandma_text_view" />
+
+    <TextView
+        android:id="@+id/mom_text_view"
+        android:text="Mom"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/me_text_view"
+        android:text="Me"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/mom_text_view" />
+
+    <TextView
+        android:id="@+id/dad_text_view"
+        android:text="Dad"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/mom_text_view" />
+
+    <TextView
+        android:id="@+id/lily_text_view"
+        android:text="Lily"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/denny_text_view"
+        android:text="Denny"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toLeftOf="@id/lily_text_view"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/alex_text_view"
+        android:text="Cousin Alex"
+        android:textSize="24sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toLeftOf="@id/denny_text_view"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

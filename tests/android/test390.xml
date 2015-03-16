@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="To Joe"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="34sp"
+        android:text="Happy Birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:src="@drawable/ocean"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:layout_weight="1" />
+
+    <TextView
+        android:textSize="24sp"
+        android:text="Love, Mary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
