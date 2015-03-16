@@ -355,6 +355,7 @@ var app = app || {};
 	 * @return {[DOM element]}        [the DOM element representing the original XML element]
 	 */
 	function evaluateXML (elem, parent) {
+		console.debug('evaluateXML()');
 		var i, t, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj, parentLayout, checkAttr;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
@@ -708,6 +709,7 @@ var app = app || {};
 	// If the elem is relative to another, it calls layoutElem
 	// on the elem it's positioned relative to.
 	function layoutElem (xmlElem) {
+		console.debug('layoutElem()');
 		var idOfRelativeElem, relativeElem, attributes, checkAttr, parentLayout, positionOfRelativeElem;
 		var domElem = xmlElem.domElem;
 
@@ -775,6 +777,7 @@ var app = app || {};
 			if (idOfRelativeElem === xmlElem.id) {
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
+				// console.log(idOfRelativeElem);
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.bottom);
