@@ -349,13 +349,13 @@ var app = app || {};
 
 
 	/**
-	 * Convert XML element to HTML/CSS (sans positioning)
+	 * Convert XML element to DOM element (sans positioning)
 	 * @param  {[XML element]} elem   [element to be processed]
 	 * @param  {[XML element]} parent [the element's parent]
 	 * @return {[DOM element]}        [the DOM element representing the original XML element]
 	 */
 	function evaluateXML (elem, parent) {
-		console.debug('evaluateXML()');
+		console.debug('evaluateXML() on ' + elem.tagName);
 		var i, t, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj, parentLayout, checkAttr;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
@@ -367,9 +367,16 @@ var app = app || {};
 		elem.domElem = domElem;
 		domElem[0].xmlElem = elem;
 
+		console.log(elem.tagName + ' has a parent of ' + elem.nearestParentLayoutType);
+
 		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
-			var childDomElem = evaluateXML(child, elem);
+			var childDomElem;
+			if (app.androidLayout.layoutTags.indexOf(type) !== -1) {
+				child.nearestParentLayoutType = type;
+			}
+
+			childDomElem = evaluateXML(child, elem);
 			$(domElem).append(childDomElem);
 		});
 

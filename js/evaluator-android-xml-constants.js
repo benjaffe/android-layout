@@ -22,6 +22,7 @@ var app = app || {};
 
 	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button', 'View'];
 	app.androidLayout.selfClosingTags = ['TextView','ImageView','Button'];
+	app.androidLayout.layoutTags = ['FrameLayout','LinearLayout','RelativeLayout'];
 
 	app.androidLayout.validAttributes = [
 		{
