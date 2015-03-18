@@ -27,6 +27,37 @@ body {
 	width: 360px;
 	height: 640px;
 	/*padding-bottom: 206%; /* preserves the aspect ratio */
+	transform-origin: 100% 0;
+}
+
+@media (min-width: 851px) and (max-width: 1000px) {
+	.phone {
+		transform: scale(0.75);
+	}
+	
+	.input-area {
+		margin-right: 290px;
+	}
+}
+
+@media (min-width: 700px) and (max-width: 850px) {
+	.phone {
+		transform: scale(0.66);
+	}
+	
+	.input-area {
+		margin-right: 258px;
+	}
+}
+
+@media (min-width: 600px) and (max-width: 700px) {
+	.phone {
+		transform: scale(0.5);
+	}
+	
+	.input-area {
+		margin-right: 200px;
+	}
 }
 
 .phone canvas {
