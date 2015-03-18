@@ -21,44 +21,57 @@ body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	/*background-image: url(../images/generic-android-phone-png.png);*/
+	background-image: url(../images/port_back.png);
 	background-repeat: no-repeat;
-	/*background-size: 50%;*/
-	width: 360px;
-	height: 640px;
-	/*padding-bottom: 206%; /* preserves the aspect ratio */
+	
+	width: 563px;
+	height: 952px;
+	
+	margin-top: -83px;
+	margin-right: -83px;
+	
 	transform-origin: 100% 0;
+}
+
+.input-area {
+	margin-right: 420px;
 }
 
 @media (min-width: 851px) and (max-width: 1000px) {
 	.phone {
 		transform: scale(0.75);
+		margin-top: -62px;
+		margin-right: -67px;
 	}
 	
 	.input-area {
-		margin-right: 290px;
+		margin-right: 310px;
 	}
 }
 
 @media (min-width: 700px) and (max-width: 850px) {
 	.phone {
 		transform: scale(0.66);
+		margin-top: -60px;
+		margin-right: -60px;
 	}
 	
 	.input-area {
-		margin-right: 258px;
+		margin-right: 278px;
 	}
 }
 
-@media (min-width: 600px) and (max-width: 700px) {
+/*@media (max-width: 700px) {
 	.phone {
 		transform: scale(0.5);
+		margin-top: -45px;
+		margin-right: -44px;
 	}
 	
 	.input-area {
-		margin-right: 200px;
+		margin-right: 220px;
 	}
-}
+}*/
 
 .phone canvas {
 	max-width:100%;
@@ -69,13 +82,13 @@ body {
 
 .screen {
 	position: absolute;
-	right:0;
-	bottom:0;
-	width: 360px;
-	height: 640px;
 	
-	top: 0px;
-	right: 0px;
+	top: 148px;
+	right: 102px;
+	
+	width: 360px;
+	height: 635px;
+	
 	/*opacity:0.5;*/
 	/*transform: translateY(-600px) translateX(280px) scale(0.333333);*/
 	
