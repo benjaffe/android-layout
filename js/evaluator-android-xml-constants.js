@@ -126,6 +126,11 @@ var app = app || {};
 			name: 'android:gravity',
 			pattern: /^(?:top|bottom|left|right|center_vertical|center_horizontal|center)(?:\|(top|bottom|left|right|center_vertical|center_horizontal|center))?$/
 		},
+
+		{
+			name: 'android:layout_centerInParent',
+			pattern: /^(true|false)$/
+		},
 		
 
 		{

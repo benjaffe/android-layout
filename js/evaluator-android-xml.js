@@ -758,6 +758,22 @@ var app = app || {};
 			});
 		}
 
+		if (checkAttr('android:layout_centerInParent', 'true')) {
+			domElem.addClass('layout_centerInParent');
+			setTimeout(function(domElem){
+				return function() {
+					domElem.css({
+						'position':'absolute',
+						'top': '50%',
+						'left': '50%',
+						'margin-left': -1*domElem.width()/2+'px',
+						'margin-top': -1*domElem.height()/2+'px'
+					});
+					console.log(domElem.width());
+				};
+			}(domElem));
+		}
+
 		// TODO: Simplify the following four conditionals into a single conditional in a loop
 		// check for alignment relative to other views
 		if (checkAttr('android:layout_toStartOf')) {
