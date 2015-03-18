@@ -37,6 +37,19 @@ body {
 	margin-right: 420px;
 }
 
+
+.test-reference-image {
+	display: none;
+	position: absolute;
+	right:420px;
+	top: 0;
+}
+
+.testing-mode .test-reference-image {
+	display: block;
+}
+
+
 @media (min-width: 851px) and (max-width: 1000px) {
 	.phone {
 		transform: scale(0.75);
@@ -47,6 +60,12 @@ body {
 	.input-area {
 		margin-right: 310px;
 	}
+
+	.test-reference-image {
+		right:318px;
+		top: 0;
+	}
+
 }
 
 @media (min-width: 700px) and (max-width: 850px) {
@@ -59,6 +78,12 @@ body {
 	.input-area {
 		margin-right: 278px;
 	}
+
+	.test-reference-image {
+		right:270px;
+		top: 0;
+	}
+
 }
 
 /*@media (max-width: 700px) {

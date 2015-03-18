@@ -12,16 +12,6 @@ body {
 	box-sizing: inherit;
 }
 
-.test-reference-image {
-	display: none;
-}
-.testing-mode .test-reference-image {
-	display: block;
-	position: absolute;
-	right:380px;
-	top: 0;
-}
-
 .input-area {
 	background-color: #ccc;
 	height:90%;
