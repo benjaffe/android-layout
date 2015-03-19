@@ -139,7 +139,7 @@ var app = app || {};
 				$('html').removeClass('element-outlines-enabled');
 			}
 			
-			try {
+			// try {
 				// pre-processing hook
 				code = app.androidLayout.prepareCodeForParsing( codeRaw );
 				
@@ -147,8 +147,10 @@ var app = app || {};
 				app.androidLayout.xmlSanityCheck( codeRaw );
 
 				// if we don't have code to render, exit early rather than throwing an error
-				if (codeRaw === '') return false;
-				
+				if (codeRaw === '') {
+					return false;
+				}
+
 				// parse the XML
 				app.parsedXML = jQuery.parseXML( code );
 				
@@ -159,29 +161,29 @@ var app = app || {};
 				console.log('-------- layout pass --------');
 				app.androidLayout.evaluateXMLPass2( app.parsedXML );
 
-				$('.output-area').removeClass('disabled');
+				// $('.output-area').removeClass('panel-warning');
 				$('.code-saved-msg').removeClass('code-not-saved');
 				runSuccess(codeRaw);
-			} catch (e) {
-				$('.output-area').addClass('disabled');
-				$('.code-saved-msg').addClass('code-not-saved');
-				app.errors.push({
-					id: 'parseError'
-				});
+			// } catch (e) {
+			// 	// $('.output-area').addClass('panel-warning');
+			// 	$('.code-saved-msg').addClass('code-not-saved');
+			// 	app.errors.push({
+			// 		id: 'parseError'
+			// 	});
 
-				// display the error (TODO: this should live in a method somewhere)
-				errors = app.errors();
-				if (errors.length > 0) {
-					$('.error-msg').show().html(errors.join('<br><br>'));
-				}
+			// 	// display the error (TODO: this should live in a method somewhere)
+			// 	errors = app.errors();
+			// 	if (errors.length > 0) {
+			// 		$('.error-msg').show().html(errors.join('<br><br>'));
+			// 	}
 
-				if (localStorage.debug) {
-					console.log('failed, but saving anyway since we\'re in debug mode');
-					runSuccess(codeRaw);
-				}
+			// 	if (localStorage.debug) {
+			// 		console.log('failed, but saving anyway since we\'re in debug mode');
+			// 		runSuccess(codeRaw);
+			// 	}
 				
-				throw e;
-			}
+			// 	throw e;
+			// }
 		}
 
 		if (elemToRender) {
@@ -203,15 +205,16 @@ var app = app || {};
 
 	// undo/redo history state UI
 	function renderHistoryLinkState () {
+		console.log(myCodeMirror.historySize());
 		if (myCodeMirror.historySize().undo > 0) {
-			$('.link-undo').removeClass('disabled');
+			$('.btn-undo').attr('disabled', false);
 		} else {
-			$('.link-undo').addClass('disabled');
+			$('.btn-undo').attr('disabled', true);
 		}
 		if (myCodeMirror.historySize().redo > 0) {
-			$('.link-redo').removeClass('disabled');
+			$('.btn-redo').attr('disabled', false);
 		} else {
-			$('.link-redo').addClass('disabled');
+			$('.btn-redo').attr('disabled', true);
 		}
 	}
 
