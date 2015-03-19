@@ -743,25 +743,25 @@ var app = app || {};
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
 			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'top': parentLayout.top+'px'
+				'top': (parentLayout.top + parentLayout.paddingTop) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentBottom', 'true')) {
 			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'bottom': parentLayout.bottom+'px'
+				'bottom': (parentLayout.bottom - parentLayout.paddingBottom) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentLeft', 'true')) {
 			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'left': parentLayout.left+'px'
+				'left': (parentLayout.left + parentLayout.paddingLeft) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentRight', 'true')) {
 			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'right': parentLayout.right+'px'
+				'right': (parentLayout.right - parentLayout.paddingRight) + 'px'
 			});
 		}
 
@@ -773,8 +773,8 @@ var app = app || {};
 						'position':'absolute',
 						'top': '50%',
 						'left': '50%',
-						'margin-left': -1*domElem.width()/2+'px',
-						'margin-top': -1*domElem.height()/2+'px'
+						'margin-left': -1*domElem.outerWidth()/2+'px',
+						'margin-top': -1*domElem.outerHeight()/2+'px'
 					});
 					console.log(domElem.width());
 				};
@@ -850,6 +850,10 @@ var app = app || {};
 		dim.height = elem.outerHeight();
 		dim.right = dim.left + dim.width;
 		dim.bottom = dim.top + dim.height;
+		dim.paddingLeft = parseInt(elem.css('paddingLeft'));
+		dim.paddingRight = parseInt(elem.css('paddingRight'));
+		dim.paddingTop = parseInt(elem.css('paddingTop'));
+		dim.paddingBottom = parseInt(elem.css('paddingBottom'));
 		
 		return dim;
 	}
