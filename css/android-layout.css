@@ -6,10 +6,6 @@ body {
 	height: 100%;
 }
 
-.output-area {
-	box-sizing: border-box;
-}
-
 *, *:before, *:after {
 	box-sizing: inherit;
 }
@@ -19,8 +15,8 @@ body {
 .phone {
 	/*position: relative;*/
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 36px;
+	left: 50%;
 	background-image: url(../images/port_back.png);
 	background-repeat: no-repeat;
 	
@@ -28,7 +24,7 @@ body {
 	height: 952px;
 	
 	
-	transform-origin: 100% 0;
+	transform-origin: 50% 0;
 }
 
 
@@ -42,33 +38,28 @@ body {
 }
 
 
+.output-area {
+	position: relative;
+}
 
-/*@media (min-width: 700px) {*/
-	.phone {
-		transform: scale(0.66);
-		margin-top: -60px;
-		margin-right: -60px;
-	}
-	
-	.input-area {
-		margin-right: 278px;
-	}
+.phone {
+	transform: scale(0.66);
+	margin-top: -60px;
+	/*margin-right: -60px;*/
+	margin-left: 0;
+}
 
-	.test-reference-image {
-		right:270px;
-		top: 0;
-	}
-/*}*/
+.test-reference-image {
+	right:270px;
+	top: 0;
+}
+
 
 @media (min-height: 600px) and (min-width: 851px) {
 	.phone {
 		transform: scale(0.75);
 		margin-top: -62px;
-		margin-right: -67px;
-	}
-	
-	.input-area {
-		margin-right: 310px;
+		margin-left: -282px;
 	}
 
 	.test-reference-image {
@@ -78,32 +69,23 @@ body {
 
 }
 
-@media (min-height: 800px) and (min-width: 1001px) {
+/*@media (min-height: 800px) and (min-width: 1001px) {
 	.phone {
 		transform: scale(1);
 		margin-top: -83px;
 		margin-right: -83px;
 	}
 
-	.input-area {
-		margin-right: 420px;
-	}
-
 	.test-reference-image {
 		right:420px;
 		top: 0;
 	}
-}
-
+}*/
 /*@media (max-width: 700px) {
 	.phone {
 		transform: scale(0.5);
 		margin-top: -45px;
 		margin-right: -44px;
-	}
-	
-	.input-area {
-		margin-right: 220px;
 	}
 }*/
 

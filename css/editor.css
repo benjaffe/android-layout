@@ -18,20 +18,20 @@ body {
 }
 
 .input-area {
-	background-color: #ccc;
-	height:90%;
-	padding: 20px;
-	margin-right: 380px;
-	max-width: 600px;
+	/*background-color: #ccc;*/
+	height:100%;
+	/*padding: 20px;*/
+	/*margin-right: 380px;*/
+	/*max-width: 600px;*/
 }
-.output-area {
+/*.output-area {
 	width:360px;
 	position: absolute;
 	top: 15px;
 	bottom: 15px;
 	right: 15px;
 }
-
+*/
 .CodeMirror {
 	height:auto;
 }
@@ -41,19 +41,19 @@ body {
 	overflow: initial;
 }
 
-.output {
+/*.output {
 	width: 100%;
-}
+}*/
 
-.code-runnable .code-input-area {
+/*.code-runnable .code-input-area {
 	border: solid 2px #999;
-}
-
+}*/
+/*
 .output-area.disabled {
 	opacity: 0.5;
 	outline: 2px solid #F00;
 }
-
+*/
 
 .error-msg {
 	position: absolute;

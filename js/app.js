@@ -256,19 +256,19 @@ var app = app || {};
 	});
 
 	// reset code button
-	$('.link-reset-code').click(function(e) {
+	$('.btn-reset-code').click(function(e) {
 		if (!confirm('Press OK to reset your code to the default for this example.\n\nNote: This will overwrite your current code, but pressing Cmd/Ctrl Z will undo this change.')) {
 			return false;
 		}
 		app.resetCodeToHashDefault();
 	});
 
-	$('.link-undo').click(function(e) {
+	$('.btn-undo').click(function(e) {
 		myCodeMirror.undo();
 		renderHistoryLinkState();
 	});
 
-	$('.link-redo').click(function(e) {
+	$('.btn-redo').click(function(e) {
 		myCodeMirror.redo();
 		renderHistoryLinkState();
 	});

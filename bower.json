@@ -1,0 +1,23 @@
+{
+  "name": "android-layout",
+  "version": "0.0.1",
+  "description": "App that lets you experiment with Android app layouts without using Android Studio.",
+  "moduleType": [
+    "globals"
+  ],
+  "authors": [
+    "Ben Jaffe"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap-material-design": "~0.3.0"
+  }
+}
