@@ -15,7 +15,7 @@ body {
 .phone {
 	/*position: relative;*/
 	position: absolute;
-	top: 36px;
+	top: 26px;
 	left: 50%;
 	background-image: url(../images/port_back.png);
 	background-repeat: no-repeat;
@@ -38,7 +38,7 @@ body {
 }
 
 
-.output-area {
+.output-area-wrapper {
 	position: relative;
 }
 

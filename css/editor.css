@@ -17,21 +17,10 @@ body {
 	box-sizing: inherit;
 }
 
-.input-area {
-	/*background-color: #ccc;*/
-	height:100%;
-	/*padding: 20px;*/
-	/*margin-right: 380px;*/
-	/*max-width: 600px;*/
+.input-area-wrapper .panel-body {
+	padding-top: 0;
 }
-/*.output-area {
-	width:360px;
-	position: absolute;
-	top: 15px;
-	bottom: 15px;
-	right: 15px;
-}
-*/
+
 .CodeMirror {
 	height:auto;
 }
