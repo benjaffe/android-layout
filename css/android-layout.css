@@ -43,7 +43,7 @@ body {
 
 
 
-@media (min-width: 700px) {
+/*@media (min-width: 700px) {*/
 	.phone {
 		transform: scale(0.66);
 		margin-top: -60px;
@@ -58,10 +58,9 @@ body {
 		right:270px;
 		top: 0;
 	}
+/*}*/
 
-}
-/*(min-height: 800px) and */
-@media (min-width: 851px) {
+@media (min-height: 600px) and (min-width: 851px) {
 	.phone {
 		transform: scale(0.75);
 		margin-top: -62px;
@@ -79,8 +78,7 @@ body {
 
 }
 
-/*(min-height: 800px) and */
-@media (min-width: 1001px) {
+@media (min-height: 800px) and (min-width: 1001px) {
 	.phone {
 		transform: scale(1);
 		margin-top: -83px;
