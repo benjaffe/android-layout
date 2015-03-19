@@ -187,6 +187,8 @@ var app = app || {};
 		if (elemToRender) {
 			$('.screen').html('').append(elemToRender);
 		}
+
+		renderHistoryLinkState();
 	};
 
 	function forwardFillTestingHistory (prefix, urls) {
@@ -198,6 +200,21 @@ var app = app || {};
 		// go to the first one
 		history.go((app.tests.length-1) * -1);
 	}
+
+	// undo/redo history state UI
+	function renderHistoryLinkState () {
+		if (myCodeMirror.historySize().undo > 0) {
+			$('.link-undo').removeClass('disabled');
+		} else {
+			$('.link-undo').addClass('disabled');
+		}
+		if (myCodeMirror.historySize().redo > 0) {
+			$('.link-redo').removeClass('disabled');
+		} else {
+			$('.link-redo').addClass('disabled');
+		}
+	}
+
 
 	function refreshEditorLayout () {
 		$('.CodeMirror-scroll').css('height', $('.input-area').height());
@@ -242,6 +259,18 @@ var app = app || {};
 		}
 		app.resetCodeToHashDefault();
 	});
+
+	$('.link-undo').click(function(e) {
+		myCodeMirror.undo();
+		renderHistoryLinkState();
+	});
+
+	$('.link-redo').click(function(e) {
+		myCodeMirror.redo();
+		renderHistoryLinkState();
+	});
+
+
 
 	if (localStorage.debug) {
 		window.myCodeMirror = myCodeMirror;

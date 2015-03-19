@@ -5,11 +5,12 @@ html {
 }
 
 body {
+	position: relative;
 	min-height: 100%;
 	min-width: 800px;
 	max-width: 1050px;
 	margin: 0 auto;
-	position: relative;
+	padding:10px 20px;
 }
 
 *, *:before, *:after {
@@ -88,9 +89,12 @@ body {
 	display: inline;
 }
 
-.link-reset-code {
+.link {
 	color: #940;
 }
-.link-reset-code:hover {
+.link:hover {
 	color: #d60;
+}
+.link.disabled {
+	color: #ccc;
 }
