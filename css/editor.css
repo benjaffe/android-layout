@@ -6,6 +6,10 @@ html {
 
 body {
 	min-height: 100%;
+	min-width: 800px;
+	max-width: 1050px;
+	margin: 0 auto;
+	position: relative;
 }
 
 *, *:before, *:after {
@@ -17,6 +21,7 @@ body {
 	height:90%;
 	padding: 20px;
 	margin-right: 380px;
+	max-width: 600px;
 }
 .output-area {
 	width:360px;
