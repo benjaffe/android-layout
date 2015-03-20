@@ -471,24 +471,29 @@ var app = app || {};
 			setTimeout(function(domElem) {
 				return function(){
 					var elemWeight = parseInt( domElem[0].xmlElem.attributes['android:layout_weight'].value );
-					var totalWeight = elemWeight; // sibling weights will be added
-					var elemWidthPercent;
+					var totalWeight = elemWeight; // sibling weights will be added to this number
+					var totalNonWeightDimension = 0; // this is the total dimension of siblings without specified weight
+					var elemDimension, dimensionName, dimensionOuterName;
 
-					if (checkAttr('android:orientation','vertical') && checkAttr('android:layout_weight')) {
-						domElem.parent().children().each(function(i, elem) {
-							console.log(elem.xmlElem);
-						});
-
+					if (checkAttributeOnParentLayout(elem, 'android:orientation') === 'vertical') {
+						dimensionName = 'height';
+						dimensionOuterName = 'outerHeight';
 					} else {
-						domElem.siblings().each(function(i, elem) {
-							totalWeight += parseInt( elem.xmlElem.attributes['android:layout_weight'].value );
-						});
-
-						elemWidthPercent = 100 * elemWeight / totalWeight;
+						dimensionName = 'width';
+						dimensionOuterName = 'outerWidth';
 					}
-					domElem.css({
-						'width': elemWidthPercent + '%'
-					});
+
+					if (checkAttr('android:layout_weight')) {
+						domElem.siblings().each(function(i, elem) {
+							if (elem.xmlElem.attributes['android:layout_weight']) {
+								totalWeight += parseInt( elem.xmlElem.attributes['android:layout_weight'].value );
+							} else {
+								totalNonWeightDimension += $(elem)[dimensionOuterName]();
+							}
+						});
+						elemDimension = (domElem.parent()[dimensionName]() * elemWeight / totalWeight) - totalNonWeightDimension;
+						domElem.css(dimensionName, elemDimension + 'px');
+					}
 					domElem.removeClass('hidden-pending-setTimeout');
 				};
 			}(domElem));
@@ -847,6 +852,26 @@ var app = app || {};
 		dim.paddingBottom = parseInt(elem.css('paddingBottom'));
 		
 		return dim;
+	}
+
+	/**
+	 * [returns the attribute on the closest parent layout tag]
+	 * @param  {[xmlObj]} elem  [the element to start with]
+	 * @param  {[str]} name  [the attribute name we're looking for]
+	 * @return {[str]}       if no value is passed, return the value.
+	 */
+	function checkAttributeOnParentLayout (elem, name) {
+		// return false if we're at the root elem
+		if (elem.tagName === undefined) {
+			return false;
+		}
+
+		// check parent if elem isn't a layout tag
+		if (app.androidLayout.layoutTags.indexOf(elem.tagName) === -1) {
+			return checkAttributeOnParentLayout(elem.parentNode, name);
+		}
+		
+		return (elem.attributes[name] && elem.attributes[name].value);
 	}
 
 	function checkAttributesOnThis (name, value) {
