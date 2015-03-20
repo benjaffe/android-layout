@@ -44,6 +44,15 @@ body {
 }
 */
 
+.input-area-wrapper .panel-heading {
+	transition: background-color 0.2s;
+}
+
+.invalid-code .input-area-wrapper .panel-heading {
+	background-color: #ff5722;
+	transition: background-color 0.8s;
+}
+
 .error-msg {
 	font-size:13px;
 	color: #a33;

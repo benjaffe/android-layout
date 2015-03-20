@@ -102,13 +102,42 @@ var app = app || {};
 
 	// this runs after code is successfully evaluated	
 	function runSuccess(code) {
+		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		
 		// save current student code
 		if (app.hash.slice(0,4) === 'test') {
 			return false;
 		}
 		localStorage['code-' + app.hash] = JSON.stringify(code);
 
-		$('html').addClass('valid-code');
+		$('html').removeClass('valid-code invalid-code')
+		requestAnimationFrame(function(){
+			$('html').addClass('valid-code');
+		});
+
+		$('.code-saved-msg').removeClass('code-not-saved');
+
+	}
+
+	// this runs if the code is considered invalid or unevaluatable
+	function runFail (code) {
+		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		app.codeEvaluationTimeout = setTimeout(function(){
+	 		$('html').addClass('invalid-code');
+		},1000);
+
+		app.errors.unshift({
+			id: 'parseError'
+		});
+
+		renderErrors();
+
+		if (!localStorage.debug) {
+			$('.code-saved-msg').addClass('code-not-saved');
+		} else {
+			console.log('failed, but saving anyway since we\'re in debug mode');
+			runSuccess(code);
+		}
 	}
 
 		
@@ -169,25 +198,12 @@ var app = app || {};
 					console.log('-------- layout pass --------');
 					app.androidLayout.evaluateXMLPass2( app.parsedXML );
 
-					$('.code-saved-msg').removeClass('code-not-saved');
 					runSuccess(codeRaw);
 				} else {
-					 $('html').removeClass('valid-code');
-						$('.code-saved-msg').addClass('code-not-saved');
-						app.errors.unshift({
-							id: 'parseError'
-						});
+					runFail(codeRaw);
 
-						// display the error (TODO: this should live in a method somewhere)
-						errors = app.errors();
-						if (errors.length > 0) {
-							$('.error-msg').show().html(errors.join('<br><br>'));
-						}
-
-						if (localStorage.debug) {
-							console.log('failed, but saving anyway since we\'re in debug mode');
-							runSuccess(codeRaw);
-						}
+					$('html').removeClass('valid-code invalid-code')
+					
 				}
 		}
 

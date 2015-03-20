@@ -23,10 +23,28 @@ body {
 	width: 563px;
 	height: 952px;
 	
-	
 	transform-origin: 50% 0;
 }
 
+.screen:before {
+	content: "?";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	z-index: 10;
+	margin-top: -250px;
+	opacity: 0;
+	font-size: 300px;
+	text-align: center;
+	pointer-events: none;
+	transition: opacity 0.2s;
+}
+
+.invalid-code .screen:before {
+	opacity: 0.4;
+	transition: opacity 0.8s;
+}
 
 .test-reference-image {
 	display: none;
