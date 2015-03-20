@@ -29,7 +29,7 @@ body {
 
 @media (max-height: 650px) {
 	.phone {
-		top: 0px;
+		top: 0;
 	}
 }
 
@@ -177,18 +177,8 @@ body {
     flex-direction: column;
 }
 
-.FrameLayout {
-	/*position: relative;*/
-}
-
 .FrameLayout > * {
 	position: absolute;
-}
-
-
-/* may be wrong... */
-.RelativeLayout {
-	/*position: relative;*/
 }
 
 .RelativeLayout > * {

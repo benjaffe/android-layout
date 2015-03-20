@@ -54,6 +54,7 @@ body {
 }
 
 .error-msg {
+	margin-top: 15px;
 	font-size:13px;
 	color: #cc4019;
 }
