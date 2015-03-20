@@ -18,6 +18,7 @@ body {
 
 .input-area-wrapper .panel-body {
 	padding-top: 0;
+	padding-bottom: 0;
 }
 
 .CodeMirror {
@@ -44,25 +45,17 @@ body {
 */
 
 .error-msg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	padding: 5px;
-	color: #a33;
-	background: rgba(255,255,255,0.8);
-	z-index:100;
 	font-size:13px;
-	line-height: 1.4;
+	color: #a33;
 }
 
 
 .code-saved-msg {
 	color: #aaa;
-	font-size: 14px;
 	font-style: italic;
-	margin: 0;
-	position: absolute;
+	padding: 10px;
+	margin: 10px 10px;
+	white-space: nowrap;
 }
 
 .code-saved-msg .not-word {
