@@ -20,6 +20,10 @@ var app = app || {};
 		errorList.push(error);
 	};
 
+	errors.unshift = function(error){
+		errorList.unshift(error);
+	};
+
 	errors.clear = function() {
 		errorList.length = 0;
 	};
