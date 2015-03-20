@@ -107,6 +107,8 @@ var app = app || {};
 			return false;
 		}
 		localStorage['code-' + app.hash] = JSON.stringify(code);
+
+		$('html').addClass('valid-code');
 	}
 
 		
@@ -133,11 +135,11 @@ var app = app || {};
 				$('html').removeClass('testing-mode');
 			}
 
-			if (app.elementOutlinesEnabled) {
-				$('html').addClass('element-outlines-enabled');
-			} else {
-				$('html').removeClass('element-outlines-enabled');
-			}
+			// if (app.elementOutlinesEnabled) {
+			// 	$('html').addClass('element-outlines-enabled');
+			// } else {
+			// 	$('html').removeClass('element-outlines-enabled');
+			// }
 			
 			// try {
 				// pre-processing hook
@@ -161,11 +163,10 @@ var app = app || {};
 				console.log('-------- layout pass --------');
 				app.androidLayout.evaluateXMLPass2( app.parsedXML );
 
-				// $('.output-area').removeClass('panel-warning');
 				$('.code-saved-msg').removeClass('code-not-saved');
 				runSuccess(codeRaw);
 			// } catch (e) {
-			// 	// $('.output-area').addClass('panel-warning');
+			//  $('html').removeClass('valid-code');
 			// 	$('.code-saved-msg').addClass('code-not-saved');
 			// 	app.errors.push({
 			// 		id: 'parseError'
