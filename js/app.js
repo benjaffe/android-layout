@@ -154,44 +154,51 @@ var app = app || {};
 				}
 
 				// parse the XML
-				app.parsedXML = jQuery.parseXML( code );
+				try {
+					app.parsedXML = jQuery.parseXML( code );
+				} catch (e) {
+					app.parsedXML = null;
+				}
 				
-				// basic parsing and styling
-				elemToRender = app.androidLayout.evaluateXML( app.parsedXML );
+
+				if (app.parsedXML !== null) {
+					// basic parsing and styling
+					elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
 				
-				// calculate all the layouts
-				console.log('-------- layout pass --------');
-				app.androidLayout.evaluateXMLPass2( app.parsedXML );
+					// calculate all the layouts
+					console.log('-------- layout pass --------');
+					app.androidLayout.evaluateXMLPass2( app.parsedXML );
 
-				$('.code-saved-msg').removeClass('code-not-saved');
-				runSuccess(codeRaw);
-			// } catch (e) {
-			//  $('html').removeClass('valid-code');
-			// 	$('.code-saved-msg').addClass('code-not-saved');
-			// 	app.errors.push({
-			// 		id: 'parseError'
-			// 	});
+					$('.code-saved-msg').removeClass('code-not-saved');
+					runSuccess(codeRaw);
+				} else {
+					 $('html').removeClass('valid-code');
+						$('.code-saved-msg').addClass('code-not-saved');
+						app.errors.unshift({
+							id: 'parseError'
+						});
 
-			// 	// display the error (TODO: this should live in a method somewhere)
-			// 	errors = app.errors();
-			// 	if (errors.length > 0) {
-			// 		$('.error-msg').show().html(errors.join('<br><br>'));
-			// 	}
+						// display the error (TODO: this should live in a method somewhere)
+						errors = app.errors();
+						if (errors.length > 0) {
+							$('.error-msg').show().html(errors.join('<br><br>'));
+						}
 
-			// 	if (localStorage.debug) {
-			// 		console.log('failed, but saving anyway since we\'re in debug mode');
-			// 		runSuccess(codeRaw);
-			// 	}
-				
-			// 	throw e;
-			// }
+						if (localStorage.debug) {
+							console.log('failed, but saving anyway since we\'re in debug mode');
+							runSuccess(codeRaw);
+						}
+				}
 		}
 
 		if (elemToRender) {
 			$('.screen').html('').append(elemToRender);
 		}
 
+		renderErrors();
+
 		renderHistoryLinkState();
+		refreshEditorLayout();
 	};
 
 	function forwardFillTestingHistory (prefix, urls) {
@@ -202,6 +209,18 @@ var app = app || {};
 
 		// go to the first one
 		history.go((app.tests.length-1) * -1);
+	}
+
+	// show the error list on the screen
+	function renderErrors () {
+		var errors = app.errors();
+		if (errors.length > 0) {
+			$('.error-msg').show().html(errors.join('<br><br>'));
+			// throw new Error('XML Parsing Error');
+		} else {
+			$('.error-msg').hide();
+			console.log('No errors!');
+		}
 	}
 
 	// undo/redo history state UI
@@ -221,7 +240,13 @@ var app = app || {};
 
 
 	function refreshEditorLayout () {
-		$('.CodeMirror-scroll').css('height', $('.input-area').height());
+		var currentHeight = $('.CodeMirror').height();
+		var containerHeight = $('.input-area-wrapper').outerHeight(true);
+		var windowHeight = $(window).height();
+		var wiggleRoom = 30;
+		console.log(currentHeight, containerHeight, windowHeight);
+
+		$('.CodeMirror-scroll').css('height', windowHeight - (containerHeight - currentHeight) - wiggleRoom);
 	}
 
 	$(window).bind('hashchange', function(e) {

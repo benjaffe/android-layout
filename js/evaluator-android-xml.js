@@ -90,15 +90,6 @@ var app = app || {};
 			checkForUnsupportedAttributesAndValues(line, i+1);
 			checkForUnevenQuotes(line, i+1);
 		});
-		
-		errors = app.errors();
-		if (errors.length > 0) {
-			$('.error-msg').show().html(errors.join('<br><br>'));
-			// throw new Error('XML Parsing Error');
-		} else {
-			$('.error-msg').hide();
-			console.log('No errors!');
-		}
 	}
 
 	/**
