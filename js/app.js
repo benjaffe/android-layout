@@ -263,7 +263,6 @@ var app = app || {};
 		var containerHeight = $('.input-area-wrapper').outerHeight(true);
 		var windowHeight = $(window).height();
 		var wiggleRoom = 30;
-		console.log(currentHeight, containerHeight, windowHeight);
 
 		$('.CodeMirror-scroll').css('height', windowHeight - (containerHeight - currentHeight) - wiggleRoom);
 	}

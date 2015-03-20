@@ -231,6 +231,11 @@ body {
 .gravity-center_horizontal {
 	text-align: center;
 }
+.gravity-center .helper-child,
+.gravity-center_horizontal .helper-child{
+	margin-left: auto;
+	margin-right: auto;
+}
 
 .gravity-center .helper-child,
 .gravity-center_vertical .helper-child {
