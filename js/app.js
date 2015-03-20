@@ -195,7 +195,7 @@ var app = app || {};
 					elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
 				
 					// calculate all the layouts
-					console.log('-------- layout pass --------');
+					console.log('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
 					app.androidLayout.evaluateXMLPass2( app.parsedXML );
 					if (app.errors().length > 0) {
 						runFail(codeRaw);

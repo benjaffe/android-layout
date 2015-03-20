@@ -65,9 +65,19 @@ body {
 	transition: opacity 0.8s;
 }
 
+.testing-mode body {
+	position: absolute;
+	left: 0;
+	width: 860px;
+}
 .test-reference-image {
 	display: none;
 	position: absolute;
+	top: 12px;
+	right: -310px;
+	transform: scale(1.333);
+	transform-origin: 50% 0;
+	z-index: -1;
 }
 
 .testing-mode .test-reference-image {
@@ -85,10 +95,6 @@ body {
 	margin-left: -282px;
 }
 
-.test-reference-image {
-	right:318px;
-	top: 0;
-}
 
 
 
