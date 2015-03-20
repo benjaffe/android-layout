@@ -197,8 +197,11 @@ var app = app || {};
 					// calculate all the layouts
 					console.log('-------- layout pass --------');
 					app.androidLayout.evaluateXMLPass2( app.parsedXML );
-
-					runSuccess(codeRaw);
+					if (app.errors().length > 0) {
+						runFail(codeRaw);
+					} else {
+						runSuccess(codeRaw);
+					}
 				} else {
 					runFail(codeRaw);
 
