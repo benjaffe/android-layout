@@ -4,6 +4,7 @@ html, body {
 
 body {
 	height: 100%;
+	min-width: 860px;
 }
 
 *, *:before, *:after {
@@ -13,7 +14,6 @@ body {
 /* ===== The Phone and Screen ===== */
 
 .phone {
-	/*position: relative;*/
 	position: absolute;
 	top: 26px;
 	left: 50%;
@@ -21,9 +21,28 @@ body {
 	background-repeat: no-repeat;
 	
 	width: 563px;
-	height: 952px;
+	height: 880px;
 	
 	transform-origin: 50% 0;
+	transition: top 1s ease-in-out;
+}
+
+@media (max-height: 650px) {
+	.phone {
+		top: 0px;
+	}
+}
+
+@media (max-height: 580px) {
+	.phone {
+		top: -13px;
+	}
+}
+
+@media (max-height: 540px) {
+	.phone {
+		top: -50px;
+	}
 }
 
 .screen:before {
@@ -61,51 +80,17 @@ body {
 }
 
 .phone {
-	transform: scale(0.66);
-	margin-top: -60px;
-	/*margin-right: -60px;*/
-	margin-left: 0;
+	transform: scale(0.75);
+	margin-top: -62px;
+	margin-left: -282px;
 }
 
 .test-reference-image {
-	right:270px;
+	right:318px;
 	top: 0;
 }
 
 
-@media (min-height: 600px) and (min-width: 851px) {
-	.phone {
-		transform: scale(0.75);
-		margin-top: -62px;
-		margin-left: -282px;
-	}
-
-	.test-reference-image {
-		right:318px;
-		top: 0;
-	}
-
-}
-
-/*@media (min-height: 800px) and (min-width: 1001px) {
-	.phone {
-		transform: scale(1);
-		margin-top: -83px;
-		margin-right: -83px;
-	}
-
-	.test-reference-image {
-		right:420px;
-		top: 0;
-	}
-}*/
-/*@media (max-width: 700px) {
-	.phone {
-		transform: scale(0.5);
-		margin-top: -45px;
-		margin-right: -44px;
-	}
-}*/
 
 .phone canvas {
 	max-width:100%;
@@ -231,6 +216,7 @@ body {
 .gravity-center_horizontal {
 	text-align: center;
 }
+
 .gravity-center .helper-child,
 .gravity-center_horizontal .helper-child{
 	margin-left: auto;
