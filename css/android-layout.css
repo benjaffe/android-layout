@@ -162,6 +162,7 @@ body {
 .layout_width-wrap_content,
 .layout_height-wrap_content {
 	display: table;
+	line-height: 1.2;
 }
 
 
