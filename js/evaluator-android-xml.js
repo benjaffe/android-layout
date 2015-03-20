@@ -447,7 +447,7 @@ var app = app || {};
 			setTimeout(function(){
 				var heights = [];
 				domElem.children().each(function(i, child){
-					heights.push($(child).offset().top, $(child).offset().top+$(child).outerHeight());
+					heights.push(child.offsetTop, child.offsetTop+$(child).outerHeight());
 				});
 				height = Math.max.apply(null, heights) - Math.min.apply(null, heights);
 				console.log(heights, height);
@@ -457,7 +457,7 @@ var app = app || {};
 			setTimeout(function(){
 				var widths = [];
 				domElem.children().each(function(i, child){
-					widths.push($(child).offset().left, $(child).offset().left+$(child).outerWidth());
+					widths.push(child.offsetLeft, child.offsetLeft+$(child).outerWidth());
 				});
 				width = Math.max.apply(null, widths) - Math.min.apply(null, widths);
 				console.log(widths, width);
