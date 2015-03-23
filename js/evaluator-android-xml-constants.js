@@ -3,6 +3,8 @@ var app = app || {};
 (function() {
 	app.androidLayout = app.androidLayout || {};
 
+	app.androidLayout.screenScaler = 0.75;
+
 	// hash of error names and their full text
 	app.androidLayout.errorList = {
 		'parseError': 'The computer wasn\'t able to parse your XML. Give your code another look, and pay attention to the coloring. Sometimes red code has an error just before it.',

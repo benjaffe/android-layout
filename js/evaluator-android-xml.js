@@ -375,7 +375,9 @@ var app = app || {};
 		// If elem is the xml document itself, return early
 		// Otherwise, let's do some parsing!
 		if (!type) {
-			domElem.addClass('screen-wrapper');
+			domElem
+				.addClass('screen-wrapper')
+				.appendTo('.screen');
 			return domElem;
 		}
 
@@ -745,7 +747,7 @@ var app = app || {};
 		if (checkAttr('android:layout_alignParentBottom', 'true')) {
 			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'bottom': (parentLayout.bottom - parentLayout.paddingBottom) + 'px'
+				'bottom': (parentLayout.height - parentLayout.bottom + parentLayout.paddingBottom) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentLeft', 'true')) {
@@ -757,7 +759,7 @@ var app = app || {};
 		if (checkAttr('android:layout_alignParentRight', 'true')) {
 			parentLayout = layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
-				'right': (parentLayout.right - parentLayout.paddingRight) + 'px'
+				'right': (parentLayout.width - parentLayout.right + parentLayout.paddingRight) + 'px'
 			});
 		}
 
@@ -779,18 +781,6 @@ var app = app || {};
 
 		// TODO: Simplify the following four conditionals into a single conditional in a loop
 		// check for alignment relative to other views
-		if (checkAttr('android:layout_toStartOf')) {
-			idOfRelativeElem = attributes['android:layout_toStartOf'].value;
-			if (idOfRelativeElem === xmlElem.id) {
-				throw new Error('This element cannot position itself relative to itself.');
-			} else {
-				relativeElem = getElemById(idOfRelativeElem);
-				positionOfRelativeElem = layoutElem(relativeElem);
-				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.top);
-				domElem.css('bottom', positionOfRelativeElem.top+'px');
-			}
-		}
-
 		if (checkAttr('android:layout_below')) {
 			idOfRelativeElem = attributes['android:layout_below'].value;
 			if (idOfRelativeElem === xmlElem.id) {
@@ -812,7 +802,23 @@ var app = app || {};
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.right);
-				domElem.css('left', positionOfRelativeElem.right+'px');
+				parentLayout = layoutElem(xmlElem.parentNode);
+				domElem.css('bottom', parentLayout.height - positionOfRelativeElem.top+'px');
+			}
+		}
+
+		if (checkAttr('android:layout_toLeftOf')) {
+			idOfRelativeElem = attributes['android:layout_toLeftOf'].value;
+			console.log(' - - HI HI HI ' + idOfRelativeElem);
+			if (idOfRelativeElem === xmlElem.id) {
+				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
+			} else {
+				relativeElem = getElemById(idOfRelativeElem);
+				positionOfRelativeElem = layoutElem(relativeElem);
+				// debugger;
+				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.left);
+				parentLayout = layoutElem(xmlElem.parentNode);
+				domElem.css('right', (parentLayout.width - positionOfRelativeElem.left)+'px');
 			}
 		}
 
@@ -824,7 +830,7 @@ var app = app || {};
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.left);
-				domElem.css('right', positionOfRelativeElem.left+'px');
+				domElem.css('left', positionOfRelativeElem.right+'px');
 			}
 		}
 
@@ -835,12 +841,13 @@ var app = app || {};
 
 	// takes a jQuery element and gets all offsets and dimensions
 	function getOffsetAllFromPhone (elem) {
-		var dim = elem.offset();
-		var dimPhone = $('.phone').offset();
+		var dim = elem.position();
 		
 		// the following is handled by the position:absolute on the screen-wrapper
 		// dim.left = dim.left - dimPhone.left;
 		// dim.top = dim.top - dimPhone.top;
+		dim.left = dim.left * (1/app.androidLayout.screenScaler);
+		dim.top = dim.top * (1/app.androidLayout.screenScaler);
 		
 		dim.width = elem.outerWidth();
 		dim.height = elem.outerHeight();
