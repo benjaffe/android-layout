@@ -134,6 +134,11 @@ var app = app || {};
 			name: 'android:layout_centerInParent',
 			pattern: /^(true|false)$/
 		},
+
+		{
+			name: 'android:layout_centerHorizontal',
+			pattern: /^(true|false)$/
+		},
 		
 
 		{
