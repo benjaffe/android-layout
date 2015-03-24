@@ -739,25 +739,25 @@ var app = app || {};
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
-			parentLayout = layoutElem(xmlElem.parentNode);
+			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
 				'top': (parentLayout.top + parentLayout.paddingTop) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentBottom', 'true')) {
-			parentLayout = layoutElem(xmlElem.parentNode);
+			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
 				'bottom': (parentLayout.height - parentLayout.bottom + parentLayout.paddingBottom) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentLeft', 'true')) {
-			parentLayout = layoutElem(xmlElem.parentNode);
+			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
 				'left': (parentLayout.left + parentLayout.paddingLeft) + 'px'
 			});
 		}
 		if (checkAttr('android:layout_alignParentRight', 'true')) {
-			parentLayout = layoutElem(xmlElem.parentNode);
+			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 			domElem.addClass('absolute').css({
 				'right': (parentLayout.width - parentLayout.right + parentLayout.paddingRight) + 'px'
 			});
@@ -814,7 +814,7 @@ var app = app || {};
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.right);
-				parentLayout = layoutElem(xmlElem.parentNode);
+				parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 				domElem.css('bottom', parentLayout.height - positionOfRelativeElem.top+'px');
 			}
 		}
@@ -829,7 +829,7 @@ var app = app || {};
 				positionOfRelativeElem = layoutElem(relativeElem);
 				// debugger;
 				console.log('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + positionOfRelativeElem.left);
-				parentLayout = layoutElem(xmlElem.parentNode);
+				parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 				domElem.css('right', (parentLayout.width - positionOfRelativeElem.left)+'px');
 			}
 		}
