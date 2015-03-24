@@ -633,7 +633,7 @@ var app = app || {};
 			inRelativeLayout = true;
 		}
 
-		layoutInvalidated = true;
+		// layoutInvalidated = true;
 		// if (inRelativeLayout) {
 			layoutElem(elem);
 		// }
