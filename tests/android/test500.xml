@@ -1,0 +1,5 @@
+    <ImageView
+        android:src="@drawable/cakesmall"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:scaleType="center"/>

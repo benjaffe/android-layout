@@ -1,0 +1,6 @@
+<TextView
+    android:text="Hapy Birthday"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:background="@android:color/darker_groy"
+/>

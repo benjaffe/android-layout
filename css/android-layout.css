@@ -75,6 +75,7 @@ body {
 	position: absolute;
 	top: 12px;
 	right: -310px;
+	width: 242px;
 	transform: scale(1.333);
 	transform-origin: 50% 0;
 	z-index: -1;

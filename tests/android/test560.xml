@@ -1,0 +1,77 @@
+<RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   <TextView
+        android:id="@+id/mom_text_view"
+        android:text="Mom"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+       android:layout_alignParentLeft="true" />
+
+      <TextView
+        android:id="@+id/dad_text_view"
+        android:text="Dad"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/mom_textview"
+       android:layout_alignParentBottom="true" />
+
+   <TextView
+        android:id="@+id/me_text_view"
+        android:text="Me"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+         android:layout_above="@id/mom_textview"
+       android:layout_alignParentLeft="true" />
+
+   <TextView
+        android:id="@+id/lily_text_view"
+        android:text="Lily"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+       android:layout_alignParentRight="true" />
+
+      <TextView
+        android:id="@+id/denny_text_view"
+        android:text="Denny"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toLeftOf="@id/lily_textview"
+       android:layout_alignParentBottom="true" />
+
+   <TextView
+        android:id="@+id/alex_text_view"
+        android:text="Cousin Alex"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+         android:layout_toLeftOf="@id/denny_textview"
+       android:layout_alignParentBottom="true" />
+
+   <TextView
+        android:id="@+id/grandma_text_view"
+        android:text="Grandma"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+       android:layout_centerHorizontal="true" />
+
+ <TextView
+        android:id="@+id/john_text_view"
+        android:text="John"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toLeftOf="@id/grandma_textview"
+       android:layout_alignParentTop="true" />
+
+   <TextView
+        android:id="@+id/molly_text_view"
+        android:text="Molly"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+         android:layout_toLeftOf="@id/grandma_text_view"
+       android:layout_alignParentTop="true" />
+
+</RelativeLayout>
