@@ -779,13 +779,13 @@ var app = app || {};
 		}
 
 		if (checkAttr('android:layout_centerHorizontal', 'true')) {
+			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 			domElem.addClass('layout_centerHorizontal');
 			// setTimeout(function(domElem){
 				// return function() {
 					domElem.css({
 						'position':'absolute',
-						'left': '50%',
-						'margin-left': -1*domElem.outerWidth()/2+'px'
+						'left': (0.5*parentLayout.width - domElem.outerWidth()/2)+'px'
 					});
 				// };
 			// }(domElem));
