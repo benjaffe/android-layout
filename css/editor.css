@@ -44,19 +44,22 @@ body {
 }
 */
 
-.input-area-wrapper .panel-heading {
-	transition: background-color 0.2s;
-}
-
-.invalid-code .input-area-wrapper .panel-heading {
-	background-color: #ff5722;
-	transition: background-color 0.8s;
-}
-
 .error-msg {
+	padding:15px;
+	margin: -15px -15px 0;
+	font-size: 15px;
+	line-height: 1.4;
+	transition: all 0.2s;
+	border: solid 5px transparent;
 	margin-top: 15px;
-	font-size:13px;
 	color: #cc4019;
+}
+
+.invalid-code .error-msg {
+	background: rgba(255,87,34,0.2);
+	border-color: #ff5722;
+	color: #333;
+	transition: all 1.5s;
 }
 
 

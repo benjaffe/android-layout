@@ -124,7 +124,7 @@ var app = app || {};
 		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
 		app.codeEvaluationTimeout = setTimeout(function(){
 	 		$('html').addClass('invalid-code');
-		},1000);
+		},2000);
 
 		app.errors.unshift({
 			id: 'parseError'
