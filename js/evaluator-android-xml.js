@@ -546,6 +546,8 @@ var app = app || {};
 							maxWidth: domElem.parent().width() + 'px'
 						});
 					}
+					layoutElem(domElem[0].xmlElem, true);
+					// TODO: Force layout elements that depend on this to re-layout
 				};
 			}
 			
@@ -712,8 +714,9 @@ var app = app || {};
 
 	// This function calculates the positioning of an element.
 	// If the elem is relative to another, it calls layoutElem
-	// on the elem it's positioned relative to.
-	function layoutElem (xmlElem) {
+	// on the elem it's positioned relative to. If the second
+	// argument is true, it ignores previously-calculated layout
+	function layoutElem (xmlElem, forceLayout) {
 		var idOfRelativeElem, relativeElem, attributes, checkAttr, parentLayout, positionOfRelativeElem;
 		var domElem = xmlElem.domElem;
 
@@ -725,7 +728,7 @@ var app = app || {};
 
 		// if we're already layed out, return early
 		// TODO: This isn't running because layoutInvalidated is true too often
-		if (xmlElem.domElemLayout && !layoutInvalidated) {
+		if (xmlElem.domElemLayout && !layoutInvalidated && !forceLayout) {
 			// console.log('\tSweet, we\'ve already layed out ' + xmlElem.id);
 			xmlElem.currentlyLayingOut = false;
 			return xmlElem.domElemLayout;
@@ -763,15 +766,14 @@ var app = app || {};
 		}
 
 		if (checkAttr('android:layout_centerInParent', 'true')) {
+			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 			domElem.addClass('layout_centerInParent');
 			// setTimeout(function(domElem){
 				// return function() {
 			domElem.css({
 				'position':'absolute',
-				'top': '50%',
-				'left': '50%',
-				'margin-left': -1*domElem.outerWidth()/2+'px',
-				'margin-top': -1*domElem.outerHeight()/2+'px'
+				'top': (0.5*parentLayout.height - domElem.outerHeight()/2)+'px',
+				'left': (0.5*parentLayout.width - domElem.outerWidth()/2)+'px'
 			});
 				// };
 			// }(domElem));
