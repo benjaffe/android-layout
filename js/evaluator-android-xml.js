@@ -569,15 +569,31 @@ var app = app || {};
 
 		// background styling
 		if (checkAttr('android:background')) {
-			color = getColor(attributes['android:background'].value);
-			domElem.css('background-color', color);
+			colorOrig = attributes['android:background'].value;
+			color = getColor(colorOrig);
+			if (color) {
+				domElem.css('background-color', color);
+			} else {
+				app.errors.push({
+					id: 'colorNotSupported',
+					$color: colorOrig
+				});
+			}
 		}
 
 
 		// text styling
 		if (checkAttr('android:textColor')) {
-			color = getColor(attributes['android:textColor'].value);
-			domElem.css('color', color);
+			colorOrig = attributes['android:textColor'].value;
+			color = getColor(colorOrig);
+			if (color) {
+				domElem.css('color', color);
+			} else {
+				app.errors.push({
+					id: 'colorNotSupported',
+					$color: colorOrig
+				});
+			}
 		}
 
 
