@@ -84,12 +84,41 @@ var app = app || {};
 
 		checkForImproperAngleBracketOrder(code);
 		checkForUnclosedSelfClosingTags(code);
+		checkForTagHierarchy(code);
+
 		
 		codeLines.forEach(function(line, i, code) {
 			checkForUnsupportedTags(line, i+1);
 			checkForUnsupportedAttributesAndValues(line, i+1);
 			checkForUnevenQuotes(line, i+1);
 		});
+	}
+
+	function checkForTagHierarchy (code) {
+		var i;
+		var stack = [];
+		var numRootTags = 0;
+		for(var i=0; i < code.length; i++) {
+			if (code.substr(i, 2) === '</') {
+				if (code.slice(i+2).match(/([^\s>]*)/)[0] === stack[ stack.length-1 ]) {
+					stack.pop();
+				}
+			} else if (code[i] === '<') {
+				if (stack.length === 0) {
+					numRootTags++;
+				}
+				stack.push(code.slice(i+1).match(/([^\s>]*)/)[0]);
+			} else if (code.substr(i, 2) === '/>') {
+				stack.pop();
+				i++; // skipping the >
+			}
+		}
+
+		if (numRootTags > 1) {
+			app.errors.push({
+				id: 'moreThanOneRootTag'
+			});
+		}
 	}
 
 	/**

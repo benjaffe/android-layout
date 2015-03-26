@@ -12,6 +12,7 @@ var app = app || {};
 		'doubleCloseBracket': 'There are two >\'s in a row, on lines $lineNumInitialClosing and $lineNumSecondClosing. Double-check your tags to make sure you\'ve formed them properly. Remember, every tag or closing tag should be formed with < at the beginning, and a > at the end.',
 		'doubleCloseBracketSameLine': 'There are two >\'s in a row on line $lineNum. Did you accidentally add two >\'s?',
 		'unevenQuotesPerLine': 'Line $lineNum has an uneven number of quotes. Did you forget to open or close a quote?',
+		'moreThanOneRootTag': 'Your XML document has more than one root tag. There can only be one root tag, and it should enclose all of your other tags.',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
@@ -375,12 +376,7 @@ var app = app || {};
 		"test30", 
 		"test570",
 		"test190",
-		"test360",
-		"test440", 
-		"test450", 
-		"test490", 
-		"test500", 
-		"test560", 
-		"test570"
+		"test360", 
+		"test560"
 	];
 })();
