@@ -161,7 +161,7 @@ var app = app || {};
 		},
 		{
 			name: 'android:scaleType',
-			pattern: /^(centerCrop)$/
+			pattern: /^(centerCrop|center)$/
 		}
 	];
 
