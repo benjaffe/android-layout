@@ -561,6 +561,18 @@ var app = app || {};
 		if (attributes['android:padding']) {
 			domElem.css('padding', dpToPx(attributes['android:padding'].value)+'px');
 		}
+		if (attributes['android:paddingTop']) {
+			domElem.css('paddingTop', dpToPx(attributes['android:paddingTop'].value)+'px');
+		}
+		if (attributes['android:paddingBottom']) {
+			domElem.css('paddingBottom', dpToPx(attributes['android:paddingBottom'].value)+'px');
+		}
+		if (attributes['android:paddingLeft']) {
+			domElem.css('paddingLeft', dpToPx(attributes['android:paddingLeft'].value)+'px');
+		}
+		if (attributes['android:paddingRight']) {
+			domElem.css('paddingRight', dpToPx(attributes['android:paddingRight'].value)+'px');
+		}
 
 
 		// background styling
