@@ -203,6 +203,7 @@ body {
 .TextView {
 	overflow-wrap: break-word;
 	overflow: hidden;
+	line-height: 1.2;
 }
 
 
