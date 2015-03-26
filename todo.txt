@@ -1,36 +1,12 @@
 
-[X] screen needs overflow:hidden;
-
-[ ] test error when text tag isn't closed
-
-[X] same error for attributes and attribute values, not just tags (attribute values don't have numbers in them)
-
-[X] not a valid tag - wrong line numbers
-
-[X] enforce units on numbers (sp for fonts, dp for everything else)
-[ ] check layout_width="wrap_content" on TextView (node 9 in script)
-
-[X] remove auto-adding LinearLayout
-
-[ ] explore defaults around image views
-[ ] centerInside is the default
+Test 360 broken
 
 
-[X] remove layout_gravity for now
+[ ] "Did you mean to type 'blah'?"
 
-[X] implement gravity
+[ ] feature detection for onhashchange?
+[ ] browsers support?
 
-
-[ ] check how codemirror handles indentation
-[ ] have to implement layout_gravity
-
-[ ] let's do scaling later, when we have an example layout to play with
-
-
-[ ] feature detection for onhashchange
-
-
-[ ] layout_width and layout_height with wrap_content gets the height of the image, then squeezes it down.
 
 
 [ ] Button
@@ -44,6 +20,3 @@ grey bg, Button XML class
 RatingBar?
 
 EditText?
-
-Don't forget to put the phone around it
-Check with Kavita around design
