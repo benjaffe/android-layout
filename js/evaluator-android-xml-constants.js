@@ -7,7 +7,7 @@ var app = app || {};
 
 	// hash of error names and their full text
 	app.androidLayout.errorList = {
-		'parseError': 'The computer wasn\'t able to parse your XML. Give your code another look, and pay attention to the coloring. Sometimes red code has an error just before it.',
+		'parseError': 'The computer wasn\'t able to understand your XML. (If any of your code is colored red, the error might be just before it.)',
 		'doubleOpenBracket': 'Did you forget to close the tag that you opened on line $lineNumInitialOpening?',
 		'doubleCloseBracket': 'There are two >\'s in a row, on lines $lineNumInitialClosing and $lineNumSecondClosing. Double-check your tags to make sure you\'ve formed them properly. Remember, every tag or closing tag should be formed with < at the beginning, and a > at the end.',
 		'doubleCloseBracketSameLine': 'There are two >\'s in a row on line $lineNum. Did you accidentally add two >\'s?',

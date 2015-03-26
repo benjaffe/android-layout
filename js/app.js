@@ -120,11 +120,21 @@ var app = app || {};
 	}
 
 	// this runs if the code is considered invalid or unevaluatable
-	function runFail (code) {
+	function runFail (opt) {
+		var code = opt.code;
 		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
 		app.codeEvaluationTimeout = setTimeout(function(){
 	 		$('html').addClass('invalid-code');
 		},2000);
+
+		if (opt.errors) {
+			opt.errors.forEach(function(errorID){
+				// add any errors to the error stack
+				app.errors.push({
+					id: errorID
+				});
+			});
+		}
 
 		renderErrors();
 
@@ -194,17 +204,18 @@ var app = app || {};
 					console.log('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
 					app.androidLayout.evaluateXMLPass2( app.parsedXML );
 					if (app.errors().length > 0) {
-						runFail(codeRaw);
+						runFail({
+							code: codeRaw
+						});
 					} else {
 						runSuccess(codeRaw);
 					}
 				} else {
 
-					app.errors.unshift({
-						id: 'parseError'
+					runFail({
+						code: codeRaw,
+						errors: ['parseError']
 					});
-
-					runFail(codeRaw);
 
 					$('html').removeClass('valid-code invalid-code')
 					
