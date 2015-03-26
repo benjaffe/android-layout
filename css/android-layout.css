@@ -61,19 +61,15 @@ body {
 }
 
 .invalid-code .screen:before {
-	opacity: 0.4;
-	transition: opacity 0.8s;
-}
-
-.invalid-code .screen {
-	background-color: rgba(255,255,255,0.6);
+	opacity: 0.1;
+	transition: opacity 2s;
 }
 
 .evaluating-invalid-code .screen-wrapper,
 .invalid-code .screen-wrapper {
-	z-index: -1;
 	-webkit-filter: blur(2px);
     filter: blur(2px);
+    opacity: 0.4;
 }
 
 .testing-mode body {
@@ -120,13 +116,13 @@ body {
 .screen {
 	position: absolute;
 	
-	background-color: transparent;
-	
 	top: 148px;
 	right: 102px;
 	
 	width: 360px;
 	height: 635px;
+	
+	background-color: #eee;
 	
 	/*opacity:0.5;*/
 	/*transform: translateY(-600px) translateX(280px) scale(0.333333);*/
@@ -143,7 +139,7 @@ body {
 	
 	-webkit-filter: blur(0);
     filter: blur(0);
-	transition-property: -webkit-filter, filter;
+	transition-property: -webkit-filter, filter, opacity;
 	transition-duration: 0.2s;
 }
 
@@ -225,6 +221,11 @@ body {
 
 .scaleType-centerCrop {
 	background-size: cover;
+	background-position: center;
+}
+
+.scaleType-center {
+	background-size: auto;
 	background-position: center;
 }
 
