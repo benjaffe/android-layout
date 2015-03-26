@@ -87,6 +87,27 @@ var app = app || {};
 			pattern: /(^\d*dp$)/
 		},
 
+		{
+			name: 'android:layout_margin',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:layout_marginTop',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:layout_marginRight',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:layout_marginBottom',
+			pattern: /(^\d*dp$)/
+		},
+		{
+			name: 'android:layout_marginLeft',
+			pattern: /(^\d*dp$)/
+		},
+
 
 		{
 			name: 'android:layout_alignParentTop',
@@ -359,6 +380,7 @@ var app = app || {};
 		"test450", 
 		"test490", 
 		"test500", 
-		"test560"
+		"test560", 
+		"test570"
 	];
 })();

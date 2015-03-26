@@ -574,6 +574,23 @@ var app = app || {};
 			domElem.css('paddingRight', dpToPx(attributes['android:paddingRight'].value)+'px');
 		}
 
+		// margin
+		if (attributes['android:layout_margin']) {
+			domElem.css('margin', dpToPx(attributes['android:layout_margin'].value)+'px');
+		}
+		if (attributes['android:layout_marginTop']) {
+			domElem.css('marginTop', dpToPx(attributes['android:layout_marginTop'].value)+'px');
+		}
+		if (attributes['android:layout_marginBottom']) {
+			domElem.css('marginBottom', dpToPx(attributes['android:layout_marginBottom'].value)+'px');
+		}
+		if (attributes['android:layout_marginLeft']) {
+			domElem.css('marginLeft', dpToPx(attributes['android:layout_marginLeft'].value)+'px');
+		}
+		if (attributes['android:layout_marginRight']) {
+			domElem.css('marginRight', dpToPx(attributes['android:layout_marginRight'].value)+'px');
+		}
+
 
 		// background styling
 		if (checkAttr('android:background')) {
