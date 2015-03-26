@@ -224,7 +224,7 @@ var app = app || {};
 
 
 		tagsOpen.forEach(function(tag) {
-			if (validTags.indexOf(tag) === -1) {
+			if (validTags.indexOf(tag) === -1 && tag.length > 4) {
 				app.errors.push({
 					id: 'invalidOpeningTag',
 					$tag: tag,
@@ -234,7 +234,7 @@ var app = app || {};
 		});
 
 		tagsClose.forEach(function(tag) {
-			if (validTags.indexOf(tag) === -1) {
+			if (validTags.indexOf(tag) === -1 && tag.length > 4) {
 				app.errors.push({
 					id: 'invalidClosingTag',
 					$tag: tag,
