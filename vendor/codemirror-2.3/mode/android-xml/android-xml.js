@@ -311,7 +311,11 @@ CodeMirror.defineMode("android-xml", function(config, parserConfig) {
         return context.indent + indentUnit;
       }
       else {
-        return 0;
+        if (fullLine[0] === '>') {
+          return indentUnit;
+        } else {
+          return 0;
+        }
       }
     },
 
