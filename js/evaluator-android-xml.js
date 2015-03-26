@@ -242,10 +242,11 @@ var app = app || {};
 		var lineTrimmed = line.trim();
 		var validAttributes = app.androidLayout.validAttributes;
 		var attrMatcher = /(android:(?:[^\s"=]*))="(?:[^"\s]*)"/g;
-		var attrValueMatcher = /="(\S*)"/g;
+		var attrValueMatcher = /="([^\s"]*)"/g;
 		var attributes = attrMatcher.exec(line);
 		attributes = attributes ? attributes.slice(1) : null;
-		var attributeValues = line.match(attrValueMatcher);
+		var attributeValues = attrValueMatcher.exec(line);
+		attributeValues = attributeValues ? attributeValues.slice(1) : null;
 		
 		var attrSemicolonMatcher = /(android;(?:\S*))=/g;
 		var attrSemicolonValues = attrSemicolonMatcher.exec(line);
@@ -289,13 +290,9 @@ var app = app || {};
 			return false;
 		}
 
-		attributeValues = attributeValues.map(function(str){
-			return str.slice(2, -1);
-		});
 
 		attributes.forEach(function(attributeName, i) {
 			var attributeObj = validAttributes.filter(function(attributeItem){
-				console.log(attributeItem.name, attributeName);
 				if (attributeItem.name === attributeName) {
 					return true;
 				} else {
