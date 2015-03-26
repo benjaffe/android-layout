@@ -126,10 +126,6 @@ var app = app || {};
 	 		$('html').addClass('invalid-code');
 		},2000);
 
-		app.errors.unshift({
-			id: 'parseError'
-		});
-
 		renderErrors();
 
 		if (!localStorage.debug) {
@@ -203,6 +199,11 @@ var app = app || {};
 						runSuccess(codeRaw);
 					}
 				} else {
+
+					app.errors.unshift({
+						id: 'parseError'
+					});
+
 					runFail(codeRaw);
 
 					$('html').removeClass('valid-code invalid-code')
