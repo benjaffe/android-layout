@@ -241,9 +241,10 @@ var app = app || {};
 	function checkForUnsupportedAttributesAndValues (line, lineNum) {
 		var lineTrimmed = line.trim();
 		var validAttributes = app.androidLayout.validAttributes;
-		var attrMatcher = /(^android:(?:[^\s"=]*))="([^"\s]*)"/g;
+		var attrMatcher = /(android:(?:[^\s"=]*))="(?:[^"\s]*)"/g;
 		var attrValueMatcher = /="(\S*)"/g;
-		var attributes = line.match(attrMatcher);
+		var attributes = attrMatcher.exec(line);
+		attributes = attributes ? attributes.slice(1) : null;
 		var attributeValues = line.match(attrValueMatcher);
 		
 		var attrSemicolonMatcher = /(android;(?:\S*))=/g;
@@ -288,18 +289,13 @@ var app = app || {};
 			return false;
 		}
 
-		// remove the inclusive characters TODO: fix the RegExps
-		attributes = attributes.map(function(str){
-			return str.slice(0, -1);
-		});
-
 		attributeValues = attributeValues.map(function(str){
 			return str.slice(2, -1);
 		});
 
 		attributes.forEach(function(attributeName, i) {
 			var attributeObj = validAttributes.filter(function(attributeItem){
-				// console.log(attributeItem.name, attributeName);
+				console.log(attributeItem.name, attributeName);
 				if (attributeItem.name === attributeName) {
 					return true;
 				} else {
@@ -558,6 +554,8 @@ var app = app || {};
 			domElem.addClass('scaleType-centerCrop');
 		} else if (checkAttr('android:scaleType', 'centerInside')) {
 			domElem.addClass('scaleType-centerInside');
+		} else if (checkAttr('android:scaleType', 'center')) {
+			domElem.addClass('scaleType-center');
 		}
 
 
