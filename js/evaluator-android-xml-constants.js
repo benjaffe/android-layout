@@ -13,6 +13,7 @@ var app = app || {};
 		'doubleCloseBracketSameLine': 'There are two >\'s in a row on line $lineNum. Did you accidentally add two >\'s?',
 		'unevenQuotesPerLine': 'Line $lineNum has an uneven number of quotes. Did you forget to open or close a quote?',
 		'moreThanOneRootTag': 'Your XML document has more than one root tag. There can only be one root tag, and it should enclose all of your other tags.',
+		'unclosedTag': 'It looks like you didn\'t close your $tag tag. Remember that every tag needs to be closed.',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',

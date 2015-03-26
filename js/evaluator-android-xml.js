@@ -119,6 +119,17 @@ var app = app || {};
 				id: 'moreThanOneRootTag'
 			});
 		}
+
+		// stack = stack.filter(function(tag) {
+		// 	return tag.length > 4;
+		// });
+
+		// if (stack.length > 0) {
+		// 	app.errors.push({
+		// 		id: 'unclosedTag',
+		// 		$tag: stack[ stack.length-1 ]
+		// 	});
+		// }
 	}
 
 	/**
