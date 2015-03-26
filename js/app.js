@@ -239,14 +239,16 @@ var app = app || {};
 		refreshEditorLayout();
 	};
 
-	function forwardFillTestingHistory (prefix, urls) {
+	function forwardFillTestingHistory (prefix, urls, startAtBeginning) {
 		// add each test to the history
 		urls.forEach(function(url){
 			history.pushState({}, '', prefix + url);
 		});
 
 		// go to the first one
-		history.go((app.tests.length-1) * -1);
+		if (startAtBeginning) {
+			history.go((app.tests.length-1) * -1);
+		}
 	}
 
 	// show the error list on the screen
