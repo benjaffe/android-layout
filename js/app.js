@@ -55,7 +55,7 @@ var app = app || {};
 	app.getCodeForHash = function() {
 		// this is for testing code (#/test/...)
 		if (app.hash.slice(0,4) === 'test') {
-			$.get('tests/android/' + app.hash.slice(9) + '.xml', function(data){
+			$.get('tests/android/' + app.hash.slice(12) + '.xml', function(data){
 				myCodeMirror.setValue(data);
 				myCodeMirror.refresh();
 				app.run({
@@ -63,7 +63,7 @@ var app = app || {};
 					force: true
 				});
 			}, 'text');
-			$('.test-reference-image').attr('src', 'tests/android/' + app.hash.slice(9) + '.png');
+			$('.test-reference-image').attr('src', 'tests/android/' + app.hash.slice(12) + '.png');
 			return '';
 		}
 
@@ -168,8 +168,8 @@ var app = app || {};
 
 			if (app.hash.slice(0,4) === 'test') {
 				$('html').addClass('testing-mode');
-				if (app.hash === 'test/and') {
-					forwardFillTestingHistory('#/test/and/', app.tests);
+				if (app.hash === 'test/android' || app.hash === 'test/android/') {
+					forwardFillTestingHistory('#/test/android/', app.tests);
 				}
 			} else {
 				$('html').removeClass('testing-mode');
