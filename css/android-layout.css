@@ -65,6 +65,17 @@ body {
 	transition: opacity 0.8s;
 }
 
+.invalid-code .screen {
+	background-color: rgba(255,255,255,0.6);
+}
+
+.evaluating-invalid-code .screen-wrapper,
+.invalid-code .screen-wrapper {
+	z-index: -1;
+	-webkit-filter: blur(2px);
+    filter: blur(2px);
+}
+
 .testing-mode body {
 	position: absolute;
 	left: 0;
@@ -109,6 +120,8 @@ body {
 .screen {
 	position: absolute;
 	
+	background-color: transparent;
+	
 	top: 148px;
 	right: 102px;
 	
@@ -127,6 +140,11 @@ body {
 	width: 100%;
 	background-color: #eee;
 	overflow: hidden;
+	
+	-webkit-filter: blur(0);
+    filter: blur(0);
+	transition-property: -webkit-filter, filter;
+	transition-duration: 0.2s;
 }
 
 

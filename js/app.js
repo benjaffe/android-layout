@@ -105,12 +105,11 @@ var app = app || {};
 		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
 		
 		// save current student code
-		if (app.hash.slice(0,4) === 'test') {
-			return false;
+		if (app.hash.slice(0,4) !== 'test') {
+			localStorage['code-' + app.hash] = JSON.stringify(code);
 		}
-		localStorage['code-' + app.hash] = JSON.stringify(code);
 
-		$('html').removeClass('valid-code invalid-code')
+		$('html').removeClass('valid-code invalid-code evaluating-invalid-code');
 		requestAnimationFrame(function(){
 			$('html').addClass('valid-code');
 		});
@@ -123,8 +122,9 @@ var app = app || {};
 	function runFail (opt) {
 		var code = opt.code;
 		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		$('html').addClass('evaluating-invalid-code');
 		app.codeEvaluationTimeout = setTimeout(function(){
-	 		$('html').addClass('invalid-code');
+	 		$('html').removeClass('evaluating-invalid-code').addClass('invalid-code');
 		},2000);
 
 		if (opt.errors) {
@@ -149,6 +149,7 @@ var app = app || {};
 		
 	// this function evaluates code based on the mode the app is in
 	app.run = function (opt) {
+		console.log('running');
 		opt = opt || {};
 
 		if (!app.readyToRun && !opt.force) return false;
@@ -208,6 +209,7 @@ var app = app || {};
 							code: codeRaw
 						});
 					} else {
+						console.log('woot!');
 						runSuccess(codeRaw);
 					}
 				} else {
