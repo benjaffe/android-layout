@@ -531,7 +531,8 @@ var app = app || {};
 
 					if (checkAttr('android:layout_height', 'wrap_content')) {
 						domElem.css({ 
-							height: this.height + 'px'
+							height: this.height + 'px',
+							maxHeight: domElem.parent().height() + 'px'
 						});
 					}
 					if (checkAttr('android:layout_width', 'wrap_content')) {
