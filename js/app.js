@@ -123,7 +123,7 @@ var app = app || {};
 	function runFail (opt) {
 		var code = opt.code;
 		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
-		$('html').removeClass('invalid-code evaluating-invalid-code');
+		$('html').removeClass('invalid-code');
 		setTimeout(function(){
 			$('html').addClass('evaluating-invalid-code');
 		});

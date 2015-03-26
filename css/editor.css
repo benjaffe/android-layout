@@ -54,7 +54,7 @@ body {
 	transition: all 0.2s;
 	border: solid 5px transparent;
 	margin-top: 15px;
-	color: #cc4019;
+	color: #999;
 }
 
 @media (min-height: 600px) {
