@@ -1,4 +1,4 @@
-CodeMirror.defineMode("xml", function(config, parserConfig) {
+CodeMirror.defineMode("android-xml", function(config, parserConfig) {
   var indentUnit = config.indentUnit;
   var Kludges = parserConfig.htmlMode ? {
     autoSelfClosers: {'area': true, 'base': true, 'br': true, 'col': true, 'command': true,
@@ -304,8 +304,15 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
         context = context.prev;
       while (context && !context.startOfLine)
         context = context.prev;
-      if (context) return context.indent + indentUnit;
-      else return 0;
+      if (context) {
+        if (state.cc.length > 0) {
+          return context.indent + (2 * indentUnit);
+        }
+        return context.indent + indentUnit;
+      }
+      else {
+        return 0;
+      }
     },
 
     compareStates: function(a, b) {

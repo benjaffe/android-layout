@@ -42,8 +42,9 @@ var app = app || {};
 		
 		myCodeMirror = CodeMirror(document.querySelector('.input-area'), {
 			value: app.getCodeForHash(),
-			mode: "xml",
+			mode: "android-xml",
 			lineNumbers: true,
+			indentUnit: 4,
 			fixedGutter: true,
 			viewportMargin: Infinity,
 			onChange: function() {
