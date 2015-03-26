@@ -298,13 +298,19 @@ var app = app || {};
 	};
 
 	app.tests = [
+		// deprecated tests
+		// "test170", 
+		// "test240", 
+		// "test260", 
+		// "test270", 
+		
+		// tests that currently pass
 		"test10", 
 		"test20", 
-		"test30", 
 		"test40", 
 		"test50", 
 		"test60", 
-		"test70", 
+		"test70",
 		"test80", 
 		"test90", 
 		"test100", 
@@ -314,17 +320,12 @@ var app = app || {};
 		"test140", 
 		"test150", 
 		"test160", 
-		"test170", 
 		"test180", 
-		"test190", 
 		"test200",
 		"test210", 
 		"test220", 
 		"test230", 
-		"test240", 
 		"test250", 
-		"test260", 
-		"test270", 
 		"test280", 
 		"test290", 
 		"test300", 
@@ -333,7 +334,6 @@ var app = app || {};
 		"test330",
 		"test340",
 		"test350",
-		"test360",
 		"test370",
 		"test380",
 		"test390",
@@ -341,19 +341,24 @@ var app = app || {};
 		"test410", 
 		"test420", 
 		"test430", 
-		"test440", 
-		"test450", 
 		"test460", 
 		"test470", 
 		"test480", 
-		"test490", 
-		"test500", 
 		"test510",
 		"test520",
 		"test530",
 		"test540",
 		"test550",
-		"test560",
-		"test570"
+
+		// broken!
+		"test30", 
+		"test570",
+		"test190",
+		"test360",
+		"test440", 
+		"test450", 
+		"test490", 
+		"test500", 
+		"test560"
 	];
 })();
