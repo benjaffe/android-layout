@@ -17,8 +17,8 @@ var app = app || {};
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
 		'invalidAttribute': 'The attribute $attribute (Line $lineNum) is not supported here.',
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
-		'androidSemicolon': 'Line $lineNum: You typed <code>$property="..."</code>.<br>You probably meant to type a colon, not a semi-colon. <code>$propertyCorrected="..."</code>',
-		'androidNoColon': 'Line $lineNum: You typed <code>$property="..."</code>.<br>You probably forgot the colon after "android". <code>$propertyCorrected="..."</code>',
+		'androidSemicolon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably meant to type a colon, not a semi-colon. <pre>$propertyCorrected="..."</pre>',
+		'androidNoColon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably forgot the colon after "android". <pre>$propertyCorrected="..."</pre>',
 		'androidNoEquals': 'Did you forget an <code>=</code> in line $lineNum? You typed: <pre>$lineIncorrect</pre> Here it is with an = sign. <pre>$lineCorrected</pre>',
 		'colorNotSupported': 'The color $color is not supported. Did you type it incorrectly?'
 	};

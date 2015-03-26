@@ -49,10 +49,29 @@ body {
 	margin: -15px -15px 0;
 	font-size: 15px;
 	line-height: 1.4;
+	max-height: 200px;
+	overflow-y: scroll;
 	transition: all 0.2s;
 	border: solid 5px transparent;
 	margin-top: 15px;
 	color: #cc4019;
+}
+
+@media (min-height: 600px) {
+	.error-msg {
+		max-height: 350px;
+	}
+}
+
+.error-msg pre {
+	margin: 5px 30px 10px;
+	color: #a33;
+}
+
+.error-msg hr {
+	background-color: rgba(200,100,100,0.3);
+	border: none;
+	height: 1px;
 }
 
 .invalid-code .error-msg {

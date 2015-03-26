@@ -246,8 +246,7 @@ var app = app || {};
 	function renderErrors () {
 		var errors = app.errors();
 		if (errors.length > 0) {
-			$('.error-msg').show().html(errors.join('<br><br>'));
-			// throw new Error('XML Parsing Error');
+			$('.error-msg').show().html(errors.join('<hr>'));
 		} else {
 			$('.error-msg').hide();
 			console.log('No errors!');
