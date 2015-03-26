@@ -19,7 +19,7 @@ var app = app || {};
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
 		'androidSemicolon': 'Line $lineNum: You typed <code>$property="..."</code>.<br>You probably meant to type a colon, not a semi-colon. <code>$propertyCorrected="..."</code>',
 		'androidNoColon': 'Line $lineNum: You typed <code>$property="..."</code>.<br>You probably forgot the colon after "android". <code>$propertyCorrected="..."</code>',
-		'androidNoEquals': 'Line $lineNum: You typed <code>$lineIncorrect</code>.<br>You probably forgot the equals sign before the ". <code>$lineCorrected</code>',
+		'androidNoEquals': 'Did you forget an <code>=</code> in line $lineNum? You typed: <pre>$lineIncorrect</pre> Here it is with an = sign. <pre>$lineCorrected</pre>',
 		'colorNotSupported': 'The color $color is not supported. Did you type it incorrectly?'
 	};
 

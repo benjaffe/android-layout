@@ -239,8 +239,9 @@ var app = app || {};
 	 * @param  {[str]} line [line of code to be processed]
 	 */
 	function checkForUnsupportedAttributesAndValues (line, lineNum) {
+		var lineTrimmed = line.trim();
 		var validAttributes = app.androidLayout.validAttributes;
-		var attrMatcher = /android:(\S*)=/g;
+		var attrMatcher = /(^android:(?:[^\s"=]*))="([^"\s]*)"/g;
 		var attrValueMatcher = /="(\S*)"/g;
 		var attributes = line.match(attrMatcher);
 		var attributeValues = line.match(attrValueMatcher);
@@ -249,8 +250,8 @@ var app = app || {};
 		var attrSemicolonValues = attrSemicolonMatcher.exec(line);
 		var attrNoColonMatcher = /(android[^:](\S*))=/;
 		var attrNoColonValues = attrNoColonMatcher.exec(line);
-		var attrNoEqualsMatcher = /(android:(\S*))[^=]"(\S*)"/;
-		var attrNoEqualsValues = attrNoEqualsMatcher.exec(line);
+		var attrNoEqualsMatcher = /(^android:(?:[^\s="]*))"/;
+		var attrNoEqualsValues = attrNoEqualsMatcher.exec(lineTrimmed);
 
 		
 		if (attrSemicolonValues) {
@@ -276,8 +277,8 @@ var app = app || {};
 		if (attrNoEqualsValues) {
 			app.errors.push({
 				id: 'androidNoEquals',
-				$lineIncorrect: attrNoEqualsValues[0],
-				$lineCorrected: attrNoEqualsValues[0].replace(/"(\S*)"/, '="'+attrNoEqualsValues[3])+'"',
+				$lineIncorrect: lineTrimmed,
+				$lineCorrected: lineTrimmed.replace(attrNoEqualsValues[1], attrNoEqualsValues[1]+'='),
 				$lineNum: lineNum
 			});
 			return false;
