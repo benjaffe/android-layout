@@ -27,7 +27,7 @@ body {
 
 .CodeMirror-scroll {
 	height:500px;
-	overflow: initial;
+	/*overflow: initial;*/
 }
 
 /*.output {
