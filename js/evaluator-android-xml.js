@@ -116,7 +116,7 @@ var app = app || {};
 
 		if (numRootTags > 1) {
 			app.errors.push({
-				id: 'moreThanOneRootTag'
+				id: 'moreThanOneRootView'
 			});
 		}
 

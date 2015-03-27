@@ -12,7 +12,7 @@ var app = app || {};
 		'doubleCloseBracket': 'There are two >\'s in a row, on lines $lineNumInitialClosing and $lineNumSecondClosing. Double-check your tags to make sure you\'ve formed them properly. Remember, every tag or closing tag should be formed with < at the beginning, and a > at the end.',
 		'doubleCloseBracketSameLine': 'There are two >\'s in a row on line $lineNum. Did you accidentally add two >\'s?',
 		'unevenQuotesPerLine': 'Line $lineNum has an uneven number of quotes. Did you forget to open or close a quote?',
-		'moreThanOneRootTag': 'Your XML document has more than one root tag. There can only be one root tag, and it should enclose all of your other tags.',
+		'moreThanOneRootView': 'Your XML document has more than one root view. There can only be one root view, and it should enclose all of your other views.',
 		'unclosedTag': 'It looks like you didn\'t close your $tag tag. Remember that every tag needs to be closed.',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
