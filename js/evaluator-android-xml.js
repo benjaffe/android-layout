@@ -207,6 +207,7 @@ var app = app || {};
 	 * @param  {[str]} line [line of code to be processed]
 	 */
 	function checkForUnsupportedTags (line, lineNum) {
+		var suggestionSensitivity = app.androidLayout.suggestionSensitivity;
 		var reOpen = /<(?!\/)([^\s>\/]*) */g;
 		var reClose = /(<\/)(\S*) */g;
 		var validTags = app.androidLayout.validTags;
@@ -226,8 +227,7 @@ var app = app || {};
 		tagsOpen.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1 && tag.length > 2) {
 				suggestion = getSuggestion('tag', tag);
-				if (suggestion.distance < 10) {
-					console.log(suggestion);
+				if (suggestion.distance < suggestionSensitivity) {
 					app.errors.push({
 						id: 'invalidOpeningTagSuggestion',
 						$tag: tag,
@@ -306,6 +306,8 @@ var app = app || {};
 		var attrNoEqualsMatcher = /(^android:(?:[^\s="]*))"/;
 		var attrNoEqualsValues = attrNoEqualsMatcher.exec(lineTrimmed);
 
+		var suggestion;
+		var suggestionSensitivity = app.androidLayout.suggestionSensitivity;
 		
 		if (attrSemicolonValues) {
 			app.errors.push({
@@ -353,14 +355,25 @@ var app = app || {};
 
 			var attributeValue = attributeValues[i];
 			
-			// console.log(attributeObj);
-
 			if (!attributeObj) {
-				app.errors.push({
-					id: 'invalidAttribute',
-					$attribute: attributeName,
-					$lineNum: lineNum
-				});
+				suggestion = getSuggestion('attribute', attributeName);
+				if (suggestion.distance < suggestionSensitivity) {
+					app.errors.push({
+						id: 'invalidAttributeSuggestion',
+						$attribute: attributeName,
+						$suggestion: suggestion.value,
+						$lineNum: lineNum
+					});
+				} else {
+					app.errors.push({
+						id: 'invalidAttribute',
+						$attribute: attributeName,
+						$lineNum: lineNum
+					});
+				}
+
+
+				
 				return false;
 			}
 
@@ -395,6 +408,10 @@ var app = app || {};
 
 		if (listName === 'tag') {
 			list = app.androidLayout.validTags;
+		}
+
+		if (listName === 'attribute') {
+			list = app.androidLayout.validAttributes.map(function(obj){ return obj.name; });
 		}
 
 		list.forEach(function(listItem){

@@ -5,6 +5,9 @@ var app = app || {};
 
 	app.androidLayout.screenScaler = 0.75;
 
+	// the higher the number, the wider the range of suggestions (and the less accurate)
+	app.androidLayout.suggestionSensitivity = 3;
+
 	// hash of error names and their full text
 	app.androidLayout.errorList = {
 		'parseError': 'The computer wasn\'t able to understand your XML. (If any of your code is colored red, the error might be just before it.)',
@@ -15,10 +18,11 @@ var app = app || {};
 		'moreThanOneRootView': 'Your XML document has more than one root view. There can only be one root view, and it should enclose all of your other views.',
 		'unclosedTag': 'It looks like you didn\'t close your $tag tag. Remember that every tag needs to be closed.',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
-		'invalidOpeningTagSuggestion': 'Line $lineNum: Tag `$tag` is not a supported opening tag. Did you mean to type $suggestion?',
+		'invalidOpeningTagSuggestion': 'Line $lineNum: Tag `$tag` is not a supported opening tag. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
-		'invalidAttribute': 'The attribute $attribute (Line $lineNum) is not supported here.',
+		'invalidAttribute': 'The attribute `$attribute` (Line $lineNum) is not supported here.',
+		'invalidAttributeSuggestion': 'The attribute `$attribute` (Line $lineNum) is not supported here. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
 		'androidSemicolon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably meant to type a colon, not a semi-colon. <pre>$propertyCorrected="..."</pre>',
 		'androidNoColon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably forgot the colon after "android". <pre>$propertyCorrected="..."</pre>',
