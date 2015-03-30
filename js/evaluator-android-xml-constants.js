@@ -15,6 +15,7 @@ var app = app || {};
 		'moreThanOneRootView': 'Your XML document has more than one root view. There can only be one root view, and it should enclose all of your other views.',
 		'unclosedTag': 'It looks like you didn\'t close your $tag tag. Remember that every tag needs to be closed.',
 		'invalidOpeningTag': 'Line $lineNum: Tag `$tag` is not a supported opening tag.',
+		'invalidOpeningTagSuggestion': 'Line $lineNum: Tag `$tag` is not a supported opening tag. Did you mean to type $suggestion?',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
 		'invalidAttribute': 'The attribute $attribute (Line $lineNum) is not supported here.',

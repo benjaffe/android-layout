@@ -210,7 +210,7 @@ var app = app || {};
 		var reOpen = /<(?!\/)([^\s>\/]*) */g;
 		var reClose = /(<\/)(\S*) */g;
 		var validTags = app.androidLayout.validTags;
-		var openTags, closeTags;
+		var openTags, closeTags, suggestion;
 
 		openTags = line.match(reOpen) || [];
 		var tagsOpen = openTags.map(function(item){
@@ -225,11 +225,22 @@ var app = app || {};
 
 		tagsOpen.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1 && tag.length > 2) {
-				app.errors.push({
-					id: 'invalidOpeningTag',
-					$tag: tag,
-					$lineNum: lineNum
-				});
+				suggestion = getSuggestion('tag', tag);
+				if (suggestion.distance < 10) {
+					console.log(suggestion);
+					app.errors.push({
+						id: 'invalidOpeningTagSuggestion',
+						$tag: tag,
+						$suggestion: suggestion.value,
+						$lineNum: lineNum
+					});
+				} else {
+					app.errors.push({
+						id: 'invalidOpeningTag',
+						$tag: tag,
+						$lineNum: lineNum
+					});
+				}
 			}
 		});
 
@@ -371,6 +382,69 @@ var app = app || {};
 			
 		});
 	}
+
+	/**
+	 * Returns a suggestion if the original is sufficiently 
+	 * close to other options
+	 * @param  {string} list [the name of the list to pull from]
+	 * @param  {string} str  [the misspelled thing]
+	 * @return {object}      [a suggestion object]
+	 */
+	function getSuggestion(listName, str) {
+		var distance, suggestion, list;
+
+		if (listName === 'tag') {
+			list = app.androidLayout.validTags;
+		}
+
+		list.forEach(function(listItem){
+			var dist = getEditDistance(listItem, str);
+			if (!distance || (dist < distance)) {
+				distance = dist;
+				suggestion = listItem;
+			}
+		});
+
+		return {
+			distance: distance,
+			value: suggestion
+		};
+	}
+
+	// https://gist.github.com/andrei-m/982927
+	function getEditDistance(a, b){
+	  if(a.length == 0) return b.length; 
+	  if(b.length == 0) return a.length; 
+	 
+	  var matrix = [];
+	 
+	  // increment along the first column of each row
+	  var i;
+	  for(i = 0; i <= b.length; i++){
+	    matrix[i] = [i];
+	  }
+	 
+	  // increment each column in the first row
+	  var j;
+	  for(j = 0; j <= a.length; j++){
+	    matrix[0][j] = j;
+	  }
+	 
+	  // Fill in the rest of the matrix
+	  for(i = 1; i <= b.length; i++){
+	    for(j = 1; j <= a.length; j++){
+	      if(b.charAt(i-1) == a.charAt(j-1)){
+	        matrix[i][j] = matrix[i-1][j-1];
+	      } else {
+	        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+	                                Math.min(matrix[i][j-1] + 1, // insertion
+	                                         matrix[i-1][j] + 1)); // deletion
+	      }
+	    }
+	  }
+	 
+	  return matrix[b.length][a.length];
+	};
 
 
 	/**
