@@ -134,12 +134,9 @@ body {
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	background-color: #eee;
 	overflow: hidden;
 	
-	-webkit-filter: blur(0);
-    filter: blur(0);
-	transition-property: -webkit-filter, filter, opacity;
+	transition-property: opacity;
 	transition-duration: 0.2s;
 }
 
