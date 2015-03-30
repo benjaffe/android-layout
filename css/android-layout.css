@@ -20,8 +20,8 @@ body {
 	background-image: url(../images/port_back.png);
 	background-repeat: no-repeat;
 	
-	width: 563px;
-	height: 880px;
+	width: 523px;
+	height: 878px;
 	
 	transform-origin: 50% 0;
 	transition: top 1s ease-in-out;
@@ -100,7 +100,7 @@ body {
 .phone {
 	transform: scale(0.75);
 	margin-top: -62px;
-	margin-left: -282px;
+	margin-left: -265px;
 }
 
 
@@ -116,11 +116,11 @@ body {
 .screen {
 	position: absolute;
 	
-	top: 148px;
-	right: 102px;
+	top: 122px;
+	right: 82px;
 	
 	width: 360px;
-	height: 635px;
+	height: 640px;
 	
 	background-color: #eee;
 	
