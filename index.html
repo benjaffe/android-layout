@@ -32,12 +32,12 @@
 			    </div>
 			    <div class="panel-body">
 				    <ul class="nav nav-pills">
-				        <li><a href="javascript:void(0)" class="btn btn-default btn-undo">Undo</a></li>
-				        <li><a href="javascript:void(0)" class="btn btn-default btn-redo">Redo</a></li>
+				        <li><button class="btn btn-default btn-undo">Undo</button></li>
+				        <li><button class="btn btn-default btn-redo">Redo</button></li>
 				        <li>
 			        	    <p class="code-saved-msg">Code has <span class="not-word">not</span> been saved</p>
 				        </li>
-					    <li class="pull-right"><a href="javascript:void(0)" class="btn btn-link btn-reset-code">Reset Code</a></li>
+					    <li class="pull-right"><button class="btn btn-link btn-reset-code">Reset Code</button></li>
 				    </ul>
 
 			        <div class="input-area">
@@ -47,8 +47,8 @@
 					<div class="error-msg"></div>
 
 					<ul class="nav nav-pills">
-				        <li class=""><a href="javascript:void(0)" class="btn btn-default btn-available-images">Available Images</a></li>
-				        <li class="pull-right"><a href="javascript:void(0)" class="btn btn-default btn-cheatsheet">Cheat Sheet</a></li>
+				        <li><button class="btn btn-default btn-available-images" data-toggle="modal" data-target="#images-dialog">Available Images</button></li>
+				        <li class="pull-right"><button class="btn btn-default btn-cheatsheet">Cheat Sheet</button></li>
 				    </ul>
 			    </div>
 			    
@@ -59,6 +59,34 @@
 		        <div class="phone">
 		        	<div class="screen"></div>
 		        </div>
+			</div>
+		</div>
+	</div>
+
+	<div id="images-dialog" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Available Images</h4>
+				</div>
+				<div class="modal-body">
+					<p>The following images are available to you:</p>
+					<ul>
+						<li>@drawable/android</li>
+						<li>@drawable/cake</li>
+						<li>@drawable/cakesmall</li>
+						<li>@drawable/fish</li>
+						<li>@drawable/mountains</li>
+						<li>@drawable/ocean</li>
+						<li>@drawable/rocks</li>
+						<li>@drawable/water</li>
+						<li>@drawable/xmas</li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" data-dismiss="modal">Dismiss</button>
+				</div>
 			</div>
 		</div>
 	</div>
