@@ -153,7 +153,6 @@ var app = app || {};
 		
 	// this function evaluates code based on the mode the app is in
 	app.run = function (opt) {
-		console.log('running');
 		opt = opt || {};
 
 		if (!app.readyToRun && !opt.force) return false;
@@ -199,14 +198,14 @@ var app = app || {};
 				elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
 			
 				// calculate all the layouts
-				console.log('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
+				console.debug('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
 				app.androidLayout.evaluateXMLPass2( app.parsedXML );
 				if (app.errors().length > 0) {
 					runFail({
 						code: codeRaw
 					});
 				} else {
-					console.log('woot!');
+					console.debug('woot!');
 					runSuccess(codeRaw);
 				}
 			} else {
@@ -260,14 +259,14 @@ var app = app || {};
 		} else {
 			$('.error-msg').hide();
 			$('.highlighted-code').removeClass('highlighted-code');
-			console.log('No errors!');
+			console.debug('No errors!');
 		}
 	}
 
 
 	// undo/redo history state UI
 	function renderHistoryLinkState () {
-		console.log(myCodeMirror.historySize());
+		console.debug(myCodeMirror.historySize());
 		if (myCodeMirror.historySize().undo > 0) {
 			$('.btn-undo').attr('disabled', false);
 		} else {
