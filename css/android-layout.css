@@ -122,8 +122,6 @@ body {
 	width: 360px;
 	height: 640px;
 	
-	background-color: #eee;
-	
 	/*opacity:0.5;*/
 	/*transform: translateY(-600px) translateX(280px) scale(0.333333);*/
 	
@@ -135,6 +133,8 @@ body {
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
+	
+	background-color: #eee;
 	
 	transition-property: opacity;
 	transition-duration: 0.2s;
