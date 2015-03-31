@@ -21,6 +21,11 @@ body {
 	padding-bottom: 0;
 }
 
+.input-area-wrapper .nav-pills .btn {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .CodeMirror {
 	height:auto;
 }
