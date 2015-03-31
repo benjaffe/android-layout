@@ -142,8 +142,6 @@ var app = app || {};
 			});
 		}
 
-		renderErrors();
-
 		if (!localStorage.debug) {
 			$('.code-saved-msg').addClass('code-not-saved');
 		} else {
@@ -177,57 +175,50 @@ var app = app || {};
 				$('html').removeClass('testing-mode');
 			}
 
-			// if (app.elementOutlinesEnabled) {
-			// 	$('html').addClass('element-outlines-enabled');
-			// } else {
-			// 	$('html').removeClass('element-outlines-enabled');
-			// }
+			// pre-processing hook
+			code = app.androidLayout.prepareCodeForParsing( codeRaw );
 			
-			// try {
-				// pre-processing hook
-				code = app.androidLayout.prepareCodeForParsing( codeRaw );
-				
-				// catch easy-to-detect errors (like misaligned <>'s, quotes)
-				app.androidLayout.xmlSanityCheck( codeRaw );
+			// catch easy-to-detect errors (like misaligned <>'s, quotes)
+			app.androidLayout.xmlSanityCheck( codeRaw );
 
-				// if we don't have code to render, exit early rather than throwing an error
-				if (codeRaw === '') {
-					return false;
-				}
+			// if we don't have code to render, exit early rather than throwing an error
+			if (codeRaw === '') {
+				return false;
+			}
 
-				// parse the XML
-				try {
-					app.parsedXML = jQuery.parseXML( code );
-				} catch (e) {
-					app.parsedXML = null;
-				}
-				
+			// parse the XML
+			try {
+				app.parsedXML = jQuery.parseXML( code );
+			} catch (e) {
+				app.parsedXML = null;
+			}
+			
 
-				if (app.parsedXML !== null) {
-					// basic parsing and styling
-					elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
-				
-					// calculate all the layouts
-					console.log('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
-					app.androidLayout.evaluateXMLPass2( app.parsedXML );
-					if (app.errors().length > 0) {
-						runFail({
-							code: codeRaw
-						});
-					} else {
-						console.log('woot!');
-						runSuccess(codeRaw);
-					}
-				} else {
-
+			if (app.parsedXML !== null) {
+				// basic parsing and styling
+				elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
+			
+				// calculate all the layouts
+				console.log('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
+				app.androidLayout.evaluateXMLPass2( app.parsedXML );
+				if (app.errors().length > 0) {
 					runFail({
-						code: codeRaw,
-						errors: ['parseError']
+						code: codeRaw
 					});
-
-					$('html').removeClass('valid-code invalid-code')
-					
+				} else {
+					console.log('woot!');
+					runSuccess(codeRaw);
 				}
+			} else {
+
+				runFail({
+					code: codeRaw,
+					errors: ['parseError']
+				});
+
+				$('html').removeClass('valid-code invalid-code')
+				
+			}
 		}
 
 		if (elemToRender) {
@@ -240,7 +231,9 @@ var app = app || {};
 		refreshEditorLayout();
 	};
 
+
 	function forwardFillTestingHistory (prefix, urls, startAtBeginning) {
+
 		// add each test to the history
 		urls.forEach(function(url){
 			history.pushState({}, '', prefix + url);
@@ -252,7 +245,8 @@ var app = app || {};
 		}
 	}
 
-	// show the error list on the screen
+
+	// show the error list in the document
 	function renderErrors () {
 		var errors = app.errors();
 		var errorStrArr = errors.map(function(error){ return error.value; });
@@ -270,6 +264,7 @@ var app = app || {};
 		}
 	}
 
+
 	// undo/redo history state UI
 	function renderHistoryLinkState () {
 		console.log(myCodeMirror.historySize());
@@ -285,7 +280,7 @@ var app = app || {};
 		}
 	}
 
-
+	// recalculate and resize the editor to the proper height
 	function refreshEditorLayout () {
 		var currentHeight = $('.CodeMirror').height();
 		var containerHeight = $('.input-area-wrapper').outerHeight(true);
@@ -294,6 +289,7 @@ var app = app || {};
 
 		$('.CodeMirror-scroll').css('height', windowHeight - (containerHeight - currentHeight) - wiggleRoom);
 	}
+
 
 	$(window).bind('hashchange', function(e) {
 		app.init();
@@ -335,6 +331,7 @@ var app = app || {};
 		app.resetCodeToHashDefault();
 	});
 
+	// undo/redo
 	$('.btn-undo').click(function(e) {
 		myCodeMirror.undo();
 		renderHistoryLinkState();
@@ -346,7 +343,7 @@ var app = app || {};
 	});
 
 
-
+	// hooks for debugging
 	if (localStorage.debug) {
 		window.myCodeMirror = myCodeMirror;
 	}
