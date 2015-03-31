@@ -227,7 +227,7 @@ var app = app || {};
 		tagsOpen.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1 && tag.length > 2) {
 				suggestion = getSuggestion(app.androidLayout.validTags, tag);
-				if (suggestion.distance < suggestionSensitivity) {
+				if (suggestion.distance <= suggestionSensitivity) {
 					app.errors.push({
 						id: 'invalidOpeningTagSuggestion',
 						$tag: tag,
@@ -359,7 +359,7 @@ var app = app || {};
 			
 			if (!attributeObj) {
 				suggestion = getSuggestion(attributeList, attributeName);
-				if (suggestion.distance < suggestionSensitivity) {
+				if (suggestion.distance <= suggestionSensitivity) {
 					app.errors.push({
 						id: 'invalidAttributeSuggestion',
 						$attribute: attributeName,
