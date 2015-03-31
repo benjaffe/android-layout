@@ -305,16 +305,13 @@ CodeMirror.defineMode("android-xml", function(config, parserConfig) {
       while (context && !context.startOfLine)
         context = context.prev;
       if (context) {
-        if (state.cc.length > 0) {
-          return context.indent + (2 * indentUnit);
-        }
-        return context.indent + indentUnit;
+        return context.indent + indentUnit; //
       }
       else {
         if (fullLine[0] === '>') {
           return indentUnit;
         } else {
-          return 0;
+          return state.indented;
         }
       }
     },
