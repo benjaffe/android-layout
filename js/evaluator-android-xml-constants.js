@@ -180,6 +180,10 @@ var app = app || {};
 			pattern: /^(?:bold\|italic|italic\|bold|italic|bold|normal)$/
 		},
 		{
+			name: 'android:textAllCaps',
+			pattern: /^(true|false)$/
+		},
+		{
 			name: 'android:fontFamily',
 			pattern: /^sans-serif(-light|-condensed|-thin|-medium|-black)?$/
 		},

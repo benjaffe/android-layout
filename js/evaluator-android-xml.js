@@ -697,6 +697,11 @@ var app = app || {};
 			}
 		}
 
+		if (checkAttr('android:textAllCaps', 'true')) {
+			alert('woot');
+			domElem.css('text-transform', 'capitalize');
+		}
+
 		if (checkAttr('android:fontFamily')) {
 			fontFamilyOrig = attributes['android:fontFamily'].value;
 			fontFamilyObj = fontFamilyList[fontFamilyOrig];
