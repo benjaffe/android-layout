@@ -226,7 +226,7 @@ var app = app || {};
 
 		tagsOpen.forEach(function(tag) {
 			if (validTags.indexOf(tag) === -1 && tag.length > 2) {
-				suggestion = getSuggestion('tag', tag);
+				suggestion = getSuggestion(app.androidLayout.validTags, tag);
 				if (suggestion.distance < suggestionSensitivity) {
 					app.errors.push({
 						id: 'invalidOpeningTagSuggestion',
@@ -345,6 +345,8 @@ var app = app || {};
 
 
 		attributes.forEach(function(attributeName, i) {
+			var attributeList = app.androidLayout.validAttributes.map(function(obj){ return obj.name; });
+			
 			var attributeObj = validAttributes.filter(function(attributeItem){
 				if (attributeItem.name === attributeName) {
 					return true;
@@ -356,7 +358,7 @@ var app = app || {};
 			var attributeValue = attributeValues[i];
 			
 			if (!attributeObj) {
-				suggestion = getSuggestion('attribute', attributeName);
+				suggestion = getSuggestion(attributeList, attributeName);
 				if (suggestion.distance < suggestionSensitivity) {
 					app.errors.push({
 						id: 'invalidAttributeSuggestion',
@@ -371,9 +373,6 @@ var app = app || {};
 						$lineNum: lineNum
 					});
 				}
-
-
-				
 				return false;
 			}
 
@@ -403,16 +402,8 @@ var app = app || {};
 	 * @param  {string} str  [the misspelled thing]
 	 * @return {object}      [a suggestion object]
 	 */
-	function getSuggestion(listName, str) {
+	function getSuggestion(list, str) {
 		var distance, suggestion, list;
-
-		if (listName === 'tag') {
-			list = app.androidLayout.validTags;
-		}
-
-		if (listName === 'attribute') {
-			list = app.androidLayout.validAttributes.map(function(obj){ return obj.name; });
-		}
 
 		list.forEach(function(listItem){
 			var dist = app.util.getEditDistance(listItem, str);
