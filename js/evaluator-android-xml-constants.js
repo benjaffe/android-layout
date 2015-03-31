@@ -176,6 +176,10 @@ var app = app || {};
 			pattern: /(^\d*sp$)/
 		},
 		{
+			name: 'android:textAppearance',
+			pattern: /^\?android:textAppearance(Small|Medium|Large)$/
+		},
+		{
 			name: 'android:textStyle',
 			pattern: /^(?:bold\|italic|italic\|bold|italic|bold|normal)$/
 		},

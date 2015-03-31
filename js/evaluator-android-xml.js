@@ -673,7 +673,13 @@ var app = app || {};
 		}
 
 
-		if (checkAttr('android:textSize')) {
+		if (checkAttr('android:textAppearance', '?android:textAppearanceLarge')) {
+			sizeOrig = '22sp';
+		} else if (checkAttr('android:textAppearance', '?android:textAppearanceMedium')) {
+			sizeOrig = '18sp';
+		} else if (checkAttr('android:textAppearance', '?android:textAppearanceSmall')) {
+			sizeOrig = '14sp';
+		} else if (checkAttr('android:textSize')) {
 			sizeOrig = attributes['android:textSize'].value;
 		} else {
 			sizeOrig = '14sp';
@@ -698,8 +704,7 @@ var app = app || {};
 		}
 
 		if (checkAttr('android:textAllCaps', 'true')) {
-			alert('woot');
-			domElem.css('text-transform', 'capitalize');
+			domElem.css('text-transform', 'uppercase');
 		}
 
 		if (checkAttr('android:fontFamily')) {
