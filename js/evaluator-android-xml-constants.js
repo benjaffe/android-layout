@@ -21,8 +21,8 @@ var app = app || {};
 		'invalidOpeningTagSuggestion': 'Line $lineNum: Tag `$tag` is not a supported opening tag. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
-		'invalidAttribute': 'The attribute `$attribute` (Line $lineNum) is not supported here.',
-		'invalidAttributeSuggestion': 'The attribute `$attribute` (Line $lineNum) is not supported here. <br><strong>Did you mean to type $suggestion?</strong>',
+		'invalidAttribute': 'Line $lineNum: The attribute `$attribute` is not supported here.',
+		'invalidAttributeSuggestion': 'Line $lineNum: The attribute `$attribute` is not supported here. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
 		'androidSemicolon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably meant to type a colon, not a semi-colon. <pre>$propertyCorrected="..."</pre>',
 		'androidNoColon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably forgot the colon after "android". <pre>$propertyCorrected="..."</pre>',
@@ -40,7 +40,8 @@ var app = app || {};
 			pattern: /^\@\+id\/[a-z_]+$/  // is the + necessary?
 		},
 		{
-			name: 'android:text'
+			name: 'android:text',
+			pattern: /^="([^"]*)"/
 		},
 
 
