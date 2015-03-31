@@ -69,9 +69,9 @@ body {
 }
 
 .error-msg hr {
-	background-color: rgba(200,100,100,0.3);
 	border: none;
-	height: 1px;
+	border-bottom: solid 1px rgba(200,100,100,0.3);
+	height: 0;
 }
 
 .invalid-code .error-msg {
@@ -79,6 +79,16 @@ body {
 	border-color: #ff5722;
 	color: #333;
 	transition: all 1.5s;
+}
+
+.highlighted-code {
+	transition: all 1.5s;
+}
+
+.invalid-code .highlighted-code {
+	background: rgba(255,200,100,0.5);
+	/*border-right: solid 5px #fd8;*/
+	/*margin-right: -5px;*/
 }
 
 
