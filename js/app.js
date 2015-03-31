@@ -255,10 +255,17 @@ var app = app || {};
 	// show the error list on the screen
 	function renderErrors () {
 		var errors = app.errors();
+		var errorStrArr = errors.map(function(error){ return error.value; });
 		if (errors.length > 0) {
-			$('.error-msg').show().html(errors.join('<hr>'));
+			$('.error-msg').show().html(errorStrArr.join('<hr>'));
+			errors.forEach(function(error){
+				if (error.line) {
+					$('.CodeMirror-lines > div > div:last-child > pre:nth-child('+error.line+')').addClass('highlighted-code');
+				}
+			});
 		} else {
 			$('.error-msg').hide();
+			$('.highlighted-code').removeClass('highlighted-code');
 			console.log('No errors!');
 		}
 	}

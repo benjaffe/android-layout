@@ -4,14 +4,22 @@ var app = app || {};
 	var errorList = [];
 	var errors = function() {
 		var errorStrList = errorList.map(function(error){
-			var text = app.androidLayout.errorList[error.id];
+			var value = app.androidLayout.errorList[error.id];
+			var line = null;
 			for (var key in error) {
-				console.log(key, error[key]);
+				
 				if (key !== 'id') {
-					text = text.replace(key, error[key]);
+					value = value.replace(key, error[key]);
+				}
+
+				if (key === '$lineNum') {
+					line = error[key];
 				}
 			}
-			return text;
+			return {
+				value: value,
+				line: line
+			};
 		});
 		return errorStrList;
 	};
