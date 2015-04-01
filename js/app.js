@@ -109,14 +109,16 @@ var app = app || {};
 
 	// this runs after code is successfully evaluated	
 	function runSuccess(code) {
-		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		if (!localStorage.debug) {
+			(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		}
 		
 		// save current student code
 		if (app.hash.slice(0,4) !== 'test') {
 			localStorage['code-' + app.hash] = JSON.stringify(code);
 		}
 
-		$('html').removeClass('valid-code invalid-code evaluating-invalid-code');
+		$('html').removeClass('invalid-code evaluating-invalid-code');
 		requestAnimationFrame(function(){
 			$('html').addClass('valid-code');
 		});
