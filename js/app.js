@@ -2,6 +2,11 @@ var app = app || {};
 
 (function() {
 
+	if (location.hash === '#tabletmode') {
+		sessionStorage.tabletMode = 'true';
+		location.hash = '/';
+	}
+
 	// this is the place the user codes
 	var myCodeMirror;
 
@@ -284,7 +289,7 @@ var app = app || {};
 		var currentHeight = $('.CodeMirror').height();
 		var containerHeight = $('.input-area-wrapper').outerHeight(true);
 		var windowHeight = $(window).height();
-		var wiggleRoom = 30;
+		var wiggleRoom = 10;
 
 		$('.CodeMirror-scroll').css('height', windowHeight - (containerHeight - currentHeight) - wiggleRoom);
 	}
@@ -345,6 +350,12 @@ var app = app || {};
 	// hooks for debugging
 	if (localStorage.debug) {
 		window.myCodeMirror = myCodeMirror;
+	}
+
+	// hooks for tablet mode
+	if (sessionStorage.tabletMode === 'true') {
+		$('#input-topbar').hide().parent().css('padding-top', '12px');
+		$('.input-area').css('font-size', '120%');
 	}
 
 	app.androidInit();
