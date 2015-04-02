@@ -41,7 +41,7 @@ var app = app || {};
 		},
 		{
 			name: 'android:text',
-			pattern: /^="([^"]*)"/
+			pattern: /.*/
 		},
 
 
