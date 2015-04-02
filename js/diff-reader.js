@@ -1,7 +1,7 @@
 (function(){
 
 	function log (stuff) {
-		document.getElementById('log').textContent = JSON.stringify(stuff, null, 2);
+		document.getElementById('log').innerHTML = JSON.stringify(stuff, null, 2);
 	}
 
 	var diffStr = localStorage.diffs || '[["A1"],["$1","A2"],["$2","A3"],["$3","A4"],["$4","A5"],["$4","R1"],["$4","A5"],["$3","R1","$1"],["$3","A4","$1"],["$1","R2","$2"],["$1","A2","$2"],["$2","A3","$2"],["$2","R1","$2"],["$2","A3","$2"],["$5","A6"]]';
