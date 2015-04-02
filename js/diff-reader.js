@@ -1,15 +1,35 @@
 (function(){
 
 	function log (stuff) {
-		document.getElementById('log').innerHTML = stuff;
+		document.getElementById('log').textContent = stuff;
 	}
+
+	function displayContent () {
+		log(this);
+	}
+
+	var lastKeyDate;
 
 	var diffStr = localStorage.diffs || '[["A1"],["$1","A2"],["$2","A3"],["$3","A4"],["$4","A5"],["$4","R1"],["$4","A5"],["$3","R1","$1"],["$3","A4","$1"],["$1","R2","$2"],["$1","A2","$2"],["$2","A3","$2"],["$2","R1","$2"],["$2","A3","$2"],["$5","A6"]]';
 	var diff = JSON.parse(diffStr);
 
 	var history = readDiff(diff);
 
-	log(history.map(function(h){ return '<strong>' + h.timestamp + ':</strong> ' + h.content; }).join('<hr>'));
+	playbackHistory(history);
+
+	function playbackHistory (history) {
+		var firstTimelineNode = history[0];
+		var timeOffset = firstTimelineNode.timestamp;
+		var timeline = history.slice(1);
+
+		log(firstTimelineNode.content);
+		
+		timeline.forEach(function(node){
+			var timeUntilDisplay = node.timestamp - timeOffset;
+			var content = node.content;
+			setTimeout(displayContent.bind(content), timeUntilDisplay);
+		});
+	}
 
 	function readDiff(diff) {
 		var history = [];
@@ -45,9 +65,16 @@
 					i += num;
 				}
 
-				// timestamp
+				// absolute timestamp
 				else if (mode === 'T') {
+					lastKeyDate = num;
 					timestamp = num;
+				}
+
+				// relative timestamp
+				else if (mode === 't') {
+					timestamp = lastKeyDate + num;
+					lastKeyDate = timestamp;
 				}
 			});
 

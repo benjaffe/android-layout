@@ -8,7 +8,7 @@ var app = app || {};
 	}
 
 	// this is the place the user codes
-	var myCodeMirror;
+	var myCodeMirror, lastKeyDate;
 
 	app.readyToRun = false;
 
@@ -174,7 +174,15 @@ var app = app || {};
 		var changeObjects = app.util.JsDiff.diffChars(prevCode, codeRaw);
 		
 		var diff = app.util.summarizeDiff(changeObjects);
-		diff.unshift('T' + Date.now());
+
+		// add a time starting point
+		if (diffs.length === 0) {
+			lastKeyDate = Date.now();
+			diff.unshift('T' + lastKeyDate);
+		} else {
+			diff.unshift('t' + (Date.now() - lastKeyDate));
+			lastKeyDate = Date.now();
+		}
 		diffs.push(diff);
 		console.log('diffs: ' + JSON.stringify(diffs));
 
