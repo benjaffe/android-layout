@@ -110,7 +110,7 @@ var app = app || {};
 	// this runs after code is successfully evaluated	
 	function runSuccess(code) {
 		if (!localStorage.debug) {
-			(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+			clearTimeout(app.codeEvaluationTimeout);
 		}
 		
 		// save current student code
@@ -130,13 +130,11 @@ var app = app || {};
 	// this runs if the code is considered invalid or unevaluatable
 	function runFail (opt) {
 		var code = opt.code;
-		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
-		$('html').removeClass('invalid-code');
-		setTimeout(function(){
-			$('html').addClass('evaluating-invalid-code');
-		});
+		clearTimeout(app.codeEvaluationTimeout);
+		$('html').removeClass('invalid-code').addClass('evaluating-invalid-code');
 
 		app.codeEvaluationTimeout = setTimeout(function(){
+			console.log('TIMEOUT');
 	 		$('html').removeClass('evaluating-invalid-code').addClass('invalid-code');
 		},2000);
 
