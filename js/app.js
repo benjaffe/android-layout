@@ -170,6 +170,8 @@ var app = app || {};
 		diffs.push(diff);
 		console.log('diffs: ' + JSON.stringify(diffs));
 
+		localStorage.diffs = JSON.stringify(diffs);
+
 
 		app.codeStorage = codeRaw;
 
