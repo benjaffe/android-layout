@@ -174,6 +174,7 @@ var app = app || {};
 		var changeObjects = app.util.JsDiff.diffChars(prevCode, codeRaw);
 		
 		var diff = app.util.summarizeDiff(changeObjects);
+		diff.unshift('T' + Date.now());
 		diffs.push(diff);
 		console.log('diffs: ' + JSON.stringify(diffs));
 

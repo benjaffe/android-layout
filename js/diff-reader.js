@@ -1,7 +1,7 @@
 (function(){
 
 	function log (stuff) {
-		document.getElementById('log').innerHTML = JSON.stringify(stuff, null, 2);
+		document.getElementById('log').innerHTML = stuff;
 	}
 
 	var diffStr = localStorage.diffs || '[["A1"],["$1","A2"],["$2","A3"],["$3","A4"],["$4","A5"],["$4","R1"],["$4","A5"],["$3","R1","$1"],["$3","A4","$1"],["$1","R2","$2"],["$1","A2","$2"],["$2","A3","$2"],["$2","R1","$2"],["$2","A3","$2"],["$5","A6"]]';
@@ -9,7 +9,7 @@
 
 	var history = readDiff(diff);
 
-	log(history.join('<hr>'));
+	log(history.map(function(h){ return '<strong>' + h.timestamp + ':</strong> ' + h.content; }).join('<hr>'));
 
 	function readDiff(diff) {
 		var history = [];
@@ -17,7 +17,7 @@
 
 		// run through every set of diff operations
 		diff.forEach(function(diff){
-			var i = 0;
+			var i = 0, timestamp;
 
 			// mutate the final content state for each diff operation
 			diff.forEach(function(diffOp){
@@ -44,9 +44,17 @@
 					// console.log('no action for ' + num + ' characters');
 					i += num;
 				}
+
+				// timestamp
+				else if (mode === 'T') {
+					timestamp = num;
+				}
 			});
 
-			history.push(finalContent);
+			history.push({
+				timestamp: timestamp,
+				content: finalContent
+			});
 		});
 
 		return history;
