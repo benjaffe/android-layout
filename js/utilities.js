@@ -10,7 +10,7 @@ app.util = app.util || {};
 			if (obj.added) {
 				diffSummary.push('A' + obj.value);
 			} else if (obj.removed) {
-				diffSummary.push('R' + obj.count);
+				diffSummary.push('R' + (obj.count || obj.value.length));
 			} else {
 				diffSummary.push('$' + obj.count);
 			}
