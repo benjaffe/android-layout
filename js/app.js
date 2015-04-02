@@ -150,9 +150,11 @@ var app = app || {};
 		}
 	}
 
-		
+	var diffs = [];
 	// this function evaluates code based on the mode the app is in
 	app.run = function (opt) {
+		var prevCode = app.codeStorage;
+
 		opt = opt || {};
 
 		if (!app.readyToRun && !opt.force) return false;
@@ -160,6 +162,16 @@ var app = app || {};
 		var codeRaw = opt.code || myCodeMirror.getValue();
 		var code;
 		var elemToRender;
+
+		// generate a diff
+		var changeObjects = app.util.JsDiff.diffChars(prevCode, codeRaw);
+		
+		var diff = app.util.summarizeDiff(changeObjects);
+		diffs.push(diff);
+		console.log('diffs: ' + JSON.stringify(diffs));
+
+
+		app.codeStorage = codeRaw;
 
 		// run the code
 		var mode = 'android-layout';
