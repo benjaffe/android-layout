@@ -79,7 +79,7 @@ body {
 }
 
 .invalid-code .error-msg {
-	background: rgba(255,87,34,0.2);
+	background: rgba(255,200,100,0.5);
 	border-color: #ff5722;
 	color: #333;
 	transition: all 1.5s;

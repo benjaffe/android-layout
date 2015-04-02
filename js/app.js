@@ -2,6 +2,11 @@ var app = app || {};
 
 (function() {
 
+	if (location.hash === '#tabletmode') {
+		sessionStorage.tabletMode = 'true';
+		location.hash = '/';
+	}
+
 	// this is the place the user codes
 	var myCodeMirror;
 
@@ -104,14 +109,16 @@ var app = app || {};
 
 	// this runs after code is successfully evaluated	
 	function runSuccess(code) {
-		(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		if (!localStorage.debug) {
+			(app.codeEvaluationTimeout && clearTimeout(app.codeEvaluationTimeout));
+		}
 		
 		// save current student code
 		if (app.hash.slice(0,4) !== 'test') {
 			localStorage['code-' + app.hash] = JSON.stringify(code);
 		}
 
-		$('html').removeClass('valid-code invalid-code evaluating-invalid-code');
+		$('html').removeClass('invalid-code evaluating-invalid-code');
 		requestAnimationFrame(function(){
 			$('html').addClass('valid-code');
 		});
@@ -298,7 +305,7 @@ var app = app || {};
 		var currentHeight = $('.CodeMirror').height();
 		var containerHeight = $('.input-area-wrapper').outerHeight(true);
 		var windowHeight = $(window).height();
-		var wiggleRoom = 30;
+		var wiggleRoom = 10;
 
 		$('.CodeMirror-scroll').css('height', windowHeight - (containerHeight - currentHeight) - wiggleRoom);
 	}
@@ -359,6 +366,12 @@ var app = app || {};
 	// hooks for debugging
 	if (localStorage.debug) {
 		window.myCodeMirror = myCodeMirror;
+	}
+
+	// hooks for tablet mode
+	if (sessionStorage.tabletMode === 'true') {
+		$('#input-topbar').hide().parent().css('padding-top', '12px');
+		$('.input-area').css('font-size', '120%');
 	}
 
 	app.androidInit();
