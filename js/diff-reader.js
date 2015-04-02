@@ -1,15 +1,25 @@
+(function(){
+
 function log (stuff) {
 	document.getElementById('log').textContent = JSON.stringify(stuff, null, 2);
 }
 
 var diffStr = localStorage.diffs || '[["A1"],["$1","A2"],["$2","A3"],["$3","A4"],["$4","A5"],["$4","R1"],["$4","A5"],["$3","R1","$1"],["$3","A4","$1"],["$1","R2","$2"],["$1","A2","$2"],["$2","A3","$2"],["$2","R1","$2"],["$2","A3","$2"],["$5","A6"]]';
 var diff = JSON.parse(diffStr);
-log(diff);
+
+var history = readDiff(diff);
+
+log(history.join('<hr>'));
 
 function readDiff(diff) {
+	var history = [];
 	var finalContent = '';
+
+	// run through every set of diff operations
 	diff.forEach(function(diff){
 		var i = 0;
+
+		// mutate the final content state for each diff operation
 		diff.forEach(function(diffOp){
 			var mode = diffOp[0];
 			var content = diffOp.slice(1);
@@ -35,9 +45,11 @@ function readDiff(diff) {
 				i += num;
 			}
 		});
-		console.log(finalContent);
+
+		history.push(finalContent);
 	});
-	console.log(finalContent);
+
+	return history;
 }
 
-readDiff(diff);
+})();
