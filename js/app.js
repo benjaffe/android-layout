@@ -195,13 +195,13 @@ var app = app || {};
 		if (diffs.length === 0) {
 			lastKeyDate = Date.now();
 			diff.unshift('T' + lastKeyDate);
-			app.store.setInitialTimelineNode(app.getHashKey(), diff);
+			app.store.setInitialTimelineNode(app.getHashKey(), JSON.stringify(diff));
 		} else {
 			diff.unshift('t' + (Date.now() - lastKeyDate));
 			lastKeyDate = Date.now();
-			app.store.addTimelineNode(app.getHashKey(), diff);
+			app.store.addTimelineNode(app.getHashKey(), JSON.stringify(diff));
 		}
-		diffs.push(diff);
+		diffs.push(JSON.stringify(diff));
 		// console.log('diffs: ' + JSON.stringify(diffs));
 
 		// localStorage.diffs = JSON.stringify(diffs);
