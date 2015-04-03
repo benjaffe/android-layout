@@ -12,7 +12,7 @@ var app = app || {};
 	    fontactive: function(familyName, fvd) {
 	    	numFontsLoaded++;
 	    	if (numFontsLoaded === webFontConfig.google.families.length) {
-		    	console.debug('fonts loaded');
+		    	// console.debug('fonts loaded');
 		    	app.readyToRun = true;
 				app.run({ autorun: true });
 	    	}
@@ -51,10 +51,10 @@ var app = app || {};
 		
 		// if there aren't schema bits, let's add them
 		if (code.split('xmlns:android').length === 1) {
-			code = code.substr(0, insertPos) + '\n\txmlns:android="http://schemas.android.com/apk/res/android"' + code.substr(insertPos);
+			code = code.substr(0, insertPos) + '\n    xmlns:android="http://schemas.android.com/apk/res/android"' + code.substr(insertPos);
 		}
 		if (code.split('xmlns:tools').length === 1) {
-			code = code.substr(0, insertPos) + '\n\txmlns:tools="http://schemas.android.com/tools"' + code.substr(insertPos);
+			code = code.substr(0, insertPos) + '\n    xmlns:tools="http://schemas.android.com/tools"' + code.substr(insertPos);
 		}
 
 		return code;
@@ -402,7 +402,7 @@ var app = app || {};
 	 * @return {[DOM element]}        [the DOM element representing the original XML element]
 	 */
 	function evaluateXML (elem, parent) {
-		console.debug('evaluateXML() on ' + elem.tagName);
+		// console.debug('evaluateXML() on ' + elem.tagName);
 		var i, t, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj, parentLayout, checkAttr;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
@@ -414,7 +414,7 @@ var app = app || {};
 		elem.domElem = domElem;
 		domElem[0].xmlElem = elem;
 
-		console.debug(elem.tagName + ' has a parent of ' + elem.nearestParentLayoutType);
+		// console.debug(elem.tagName + ' has a parent of ' + elem.nearestParentLayoutType);
 
 		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
@@ -839,7 +839,7 @@ var app = app || {};
 		attributes = xmlElem.attributes;
 		checkAttr = checkAttributesOnThis.bind(attributes);
 
-		console.debug('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
+		// console.debug('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
 
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
@@ -895,7 +895,7 @@ var app = app || {};
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
-				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.bottom));
+				// console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.bottom));
 				domElem.css('top', positionOfRelativeElem.bottom+'px');
 			}
 		}
@@ -907,7 +907,7 @@ var app = app || {};
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
-				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.top));
+				// console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.top));
 				parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 				domElem.css('bottom', parentLayout.height - positionOfRelativeElem.top+'px');
 			}
@@ -920,7 +920,7 @@ var app = app || {};
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
-				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.left));
+				// console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.left));
 				parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
 				domElem.css('right', (parentLayout.width - positionOfRelativeElem.left)+'px');
 			}
@@ -933,7 +933,7 @@ var app = app || {};
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
 				positionOfRelativeElem = layoutElem(relativeElem);
-				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.right));
+				// console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.right));
 				domElem.css('left', positionOfRelativeElem.right+'px');
 			}
 		}

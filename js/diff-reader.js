@@ -1,5 +1,18 @@
 (function(){
 
+	var lastKeyDate;
+
+	app.store.init();
+
+	// authenticate
+	app.fb.authWithOAuthPopup("google", function(error, authData) {
+		if (error) {
+			console.log("Login Failed!", error);
+		} else {
+			console.log("Authenticated successfully with payload:", authData);
+		}
+		getUserList(10);
+	});
 
 
 	var ViewModel = function() {
@@ -9,7 +22,7 @@
 		vm.playTimeline = function() {
 			var timeline = this.value;
 			vm.currentTimeline(this);
-
+			console.log(timeline);
 			var firstTimelineNode = JSON.parse(timeline.initialNode);
 			
 			// ensure the order of our timeline by converting to an
@@ -21,6 +34,8 @@
 			// add the first node
 			timeline.unshift(firstTimelineNode);
 
+			console.log(timeline);
+
 			// calculate the content for each frame
 			var contentTimeline = readDiff(timeline);
 
@@ -28,13 +43,13 @@
 
 			
 
-			contentTimeline.forEach(function(node, i, arr){
+			contentTimeline.forEach(function(node){
 				var timeUntilDisplay = node.timestamp - timeOffset;
 				var content = node.content;
+				console.log(node);
 				setTimeout(displayContent.bind(content), timeUntilDisplay);
 			});
 
-			vm.playing(true);
 		};
 	};
 
@@ -49,25 +64,9 @@
 	}
 
 	function displayContent () {
+		console.log('displaying ' + this);
 		log(this);
 	}
-
-	var lastKeyDate;
-
-	var diffStr = localStorage.diffs || '[["A1"],["$1","A2"],["$2","A3"],["$3","A4"],["$4","A5"],["$4","R1"],["$4","A5"],["$3","R1","$1"],["$3","A4","$1"],["$1","R2","$2"],["$1","A2","$2"],["$2","A3","$2"],["$2","R1","$2"],["$2","A3","$2"],["$5","A6"]]';
-	var diff = JSON.parse(diffStr);
-
-	app.store.init();
-
-	// authenticate
-	app.fb.authWithOAuthPopup("google", function(error, authData) {
-		if (error) {
-			console.log("Login Failed!", error);
-		} else {
-			console.log("Authenticated successfully with payload:", authData);
-		}
-		getUserList(10);
-	});
 
 	function getUserList () {
 		var users = [];
@@ -94,7 +93,7 @@
 		var obj = {};
 		
 		// return early if we're there
-		if (node.initialNode) {
+		if (node.nodes || node.initialNode) {
 			obj[path] = node;
 			return obj;
 		}
@@ -133,7 +132,11 @@
 	
 	
 
-
+	/**
+	 * Converts a complete array of diffs into a content history
+	 * @param  {[arr]} diff [diff operation arrays]
+	 * @return {[arr]}      []
+	 */
 	function readDiff(diff) {
 		var history = [];
 		var finalContent = '';

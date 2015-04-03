@@ -3,19 +3,18 @@ var app = app || {};
 app.util = app.util || {};
 
 (function(){
-	app.util.summarizeDiff = function(changeObjects) {
+	app.util.summarizeDiff = function(changeObjects, first) {
 		var diffSummary = [];
 
 		changeObjects.forEach(function(obj, i, arr){
-			if (obj.added) {
-				diffSummary.push('A' + obj.value);
-			} else if (obj.removed) {
+			if (obj.removed) {
 				diffSummary.push('R' + (obj.count || obj.value.length));
-			} else if (i+1 !== arr.length) {
+			} else if (obj.added || first) {
+				diffSummary.push('A' + obj.value);
+			} else {
 				diffSummary.push('$' + obj.count);
 			}
 		});
-
 		return diffSummary;
 	};
 

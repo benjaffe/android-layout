@@ -14,16 +14,15 @@ app.store = {};
 		}
 	};
 
-	app.store.setInitialTimelineNode = function(path, nodeStr) {
-		sessionTime = Date.now();
+	app.store.setInitialTimelineNode = function(path, time, nodeStr) {
+		sessionTime = time;
 		app.fb.child(path).child(sessionTime).update({
 			initialNode: nodeStr
 		});
 	};
 
-	app.store.addTimelineNode = function(path, node) {
-		console.log(path, node);
-		app.fb.child(path).child(sessionTime).child('nodes').push(node);
+	app.store.addTimelineNode = function(path, nodeStr) {
+		app.fb.child(path).child(sessionTime).child('nodes').push(nodeStr);
 	};
 
 })(); 

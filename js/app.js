@@ -8,7 +8,8 @@ var app = app || {};
 	}
 
 	// this is the place the user codes
-	var myCodeMirror, lastKeyDate;
+	var myCodeMirror, lastKeyDate, sessionTime;
+	var diffs = [];
 
 	app.readyToRun = false;
 
@@ -38,8 +39,16 @@ var app = app || {};
 		// calculate editor layout
 		refreshEditorLayout();
 
+		// reset the diffs, so everything starts from scratch.
+		// Previously, on hash change, diffs would be created 
+		// relative to the prior diff. We need an absolute time
+		// for our first content state.
+		diffs = [];
+		console.log('hi');
+		sessionTime = Date.now();
+
 		// run the code
-		app.run();
+		// app.run();
 
 		// ensure CodeMirror code gets properly rendered
 		requestAnimationFrame(function(){
@@ -66,6 +75,7 @@ var app = app || {};
 			mode: "android-xml",
 			lineNumbers: true,
 	        lineWrapping: true,
+	        indentWithTabs: false,
 			indentUnit: 4,
 			fixedGutter: true,
 			viewportMargin: Infinity,
@@ -173,29 +183,31 @@ var app = app || {};
 		}
 	}
 
-	var diffs = [];
 	// this function evaluates code based on the mode the app is in
 	app.run = function (opt) {
+		console.log(Date.now());
 		var prevCode = app.codeStorage;
+		var firstDiff = (diffs.length === 0);
 
 		opt = opt || {};
 
-		if (!app.readyToRun && !opt.force) return false;
 
 		var codeRaw = opt.code || myCodeMirror.getValue();
 		var code;
 		var elemToRender;
 
 		// generate a diff
+		console.log('heyo');
 		var changeObjects = app.util.JsDiff.diffChars(prevCode, codeRaw);
+		console.log(changeObjects);
 		
-		var diff = app.util.summarizeDiff(changeObjects);
+		var diff = app.util.summarizeDiff(changeObjects, firstDiff);
 
 		// add a time starting point
 		if (diffs.length === 0) {
 			lastKeyDate = Date.now();
 			diff.unshift('T' + lastKeyDate);
-			app.store.setInitialTimelineNode(app.getHashKey(), JSON.stringify(diff));
+			app.store.setInitialTimelineNode(app.getHashKey(), sessionTime, JSON.stringify(diff));
 		} else {
 			diff.unshift('t' + (Date.now() - lastKeyDate));
 			lastKeyDate = Date.now();
@@ -206,8 +218,10 @@ var app = app || {};
 
 		// localStorage.diffs = JSON.stringify(diffs);
 
-
 		app.codeStorage = codeRaw;
+
+		
+		if (!app.readyToRun && !opt.force) return false;
 
 		// run the code
 		var mode = 'android-layout';
@@ -253,7 +267,6 @@ var app = app || {};
 						code: codeRaw
 					});
 				} else {
-					console.debug('woot!');
 					runSuccess(codeRaw);
 				}
 			} else {
@@ -314,7 +327,6 @@ var app = app || {};
 
 	// undo/redo history state UI
 	function renderHistoryLinkState () {
-		console.debug(myCodeMirror.historySize());
 		if (myCodeMirror.historySize().undo > 0) {
 			$('.btn-undo').attr('disabled', false);
 		} else {
