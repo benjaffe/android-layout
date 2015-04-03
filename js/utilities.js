@@ -18,6 +18,20 @@ app.util = app.util || {};
 
 		return diffSummary;
 	};
+
+
+	// generate a unique id (consisting of the current date + a random number in base 36)
+	app.util.generateUID = function() {
+		return Date.now() + '-' + app.util.base10to36(  Math.round( Math.random()*Math.pow(10,9) )  );
+	};
+
+	app.util.base10to36 = function(num) {
+		return num.toString(36);
+	};
+
+	app.util.base36to10 = function(str) {
+		return parseInt(str, 36);
+	};
 })();
 
 (function() {

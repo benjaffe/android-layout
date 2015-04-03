@@ -12,6 +12,16 @@ var app = app || {};
 
 	app.readyToRun = false;
 
+	app.initialInit = function() {
+
+		// if we have a UID, get it
+		if (localStorage.androidLayoutUID) {
+			app.uid = JSON.parse(localStorage.androidLayoutUID);
+		} else {
+			// else generate and save it to localStorage
+			app.uid = app.util.generateUID();
+			localStorage.androidLayoutUID = JSON.stringify(app.uid);
+		}
 	app.init = function() {
 		// get the hash key
 		app.hash = app.getHashKey();
