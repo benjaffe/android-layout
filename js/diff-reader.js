@@ -13,6 +13,31 @@
 	var diffStr = localStorage.diffs || '[["A1"],["$1","A2"],["$2","A3"],["$3","A4"],["$4","A5"],["$4","R1"],["$4","A5"],["$3","R1","$1"],["$3","A4","$1"],["$1","R2","$2"],["$1","A2","$2"],["$2","A3","$2"],["$2","R1","$2"],["$2","A3","$2"],["$5","A6"]]';
 	var diff = JSON.parse(diffStr);
 
+	app.store.init();
+
+	// authenticate
+	app.fb.authWithOAuthPopup("google", function(error, authData) {
+		if (error) {
+			console.log("Login Failed!", error);
+		} else {
+			console.log("Authenticated successfully with payload:", authData);
+		}
+		getUserList(10);
+	});
+
+	function getUserList (num) {
+		var users = [];
+		app.fb.once('value',function(usersSnapshot) {
+			usersSnapshot.forEach(function(userSnapshot) {
+				users.push(userSnapshot.val());
+			});
+			console.log(users);
+		});
+	}
+
+	
+	
+
 	var history = readDiff(diff);
 
 	playbackHistory(history);
