@@ -84,5 +84,5 @@
 
     // Custom Globals
     "globals"       : {},        // additional predefined global variables
-    "predef": [ "$", "WebFont" ]
+    "predef": [ "$", "WebFont", "Firebase" ]
 }

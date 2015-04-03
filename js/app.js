@@ -22,6 +22,12 @@ var app = app || {};
 			app.uid = app.util.generateUID();
 			localStorage.androidLayoutUID = JSON.stringify(app.uid);
 		}
+
+		// initialize our store
+		app.store.init();
+		
+	};
+
 	app.init = function() {
 		// get the hash key
 		app.hash = app.getHashKey();
@@ -189,14 +195,16 @@ var app = app || {};
 		if (diffs.length === 0) {
 			lastKeyDate = Date.now();
 			diff.unshift('T' + lastKeyDate);
+			app.store.setInitialTimelineNode(app.getHashKey(), diff);
 		} else {
 			diff.unshift('t' + (Date.now() - lastKeyDate));
 			lastKeyDate = Date.now();
+			app.store.addTimelineNode(app.getHashKey(), diff);
 		}
 		diffs.push(diff);
-		console.log('diffs: ' + JSON.stringify(diffs));
+		// console.log('diffs: ' + JSON.stringify(diffs));
 
-		localStorage.diffs = JSON.stringify(diffs);
+		// localStorage.diffs = JSON.stringify(diffs);
 
 
 		app.codeStorage = codeRaw;
@@ -392,6 +400,8 @@ var app = app || {};
 		$('#input-topbar').hide().parent().css('padding-top', '12px');
 		$('.input-area').css('font-size', '120%');
 	}
+
+	app.initialInit();
 
 	app.androidInit();
 	
