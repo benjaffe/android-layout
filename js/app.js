@@ -24,7 +24,7 @@ var app = app || {};
 		}
 
 		// initialize our store
-		app.store.init();
+		app.store.init(app.uid);
 		
 	};
 

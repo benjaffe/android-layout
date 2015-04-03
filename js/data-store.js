@@ -6,8 +6,12 @@ app.store = {};
 	var firebasePath = "https://benjaffe.firebaseio.com/android-layout/users/";
 	var sessionTime;
 
-	app.store.init = function() {
-		app.fb = new Firebase(firebasePath + app.uid);
+	app.store.init = function(uid) {
+		if (uid) {
+			app.fb = new Firebase(firebasePath + uid);
+		} else {
+			app.fb = new Firebase(firebasePath);
+		}
 	};
 
 	app.store.setInitialTimelineNode = function(path, nodeStr) {
