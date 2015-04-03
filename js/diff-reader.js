@@ -1,5 +1,49 @@
 (function(){
 
+
+
+	var ViewModel = function() {
+		var vm = this;
+		vm.timelines = ko.observableArray();
+		vm.currentTimeline = ko.observable();
+		vm.playTimeline = function() {
+			var timeline = this.value;
+			vm.currentTimeline(this);
+
+			var firstTimelineNode = JSON.parse(timeline.initialNode);
+			
+			// ensure the order of our timeline by converting to an
+			// array, then sorting the nodes by their original key
+			timeline = Object.keys(timeline.nodes).sort().map(function (key) { 
+				return JSON.parse(timeline.nodes[key]);
+			});
+
+			// add the first node
+			timeline.unshift(firstTimelineNode);
+
+			// calculate the content for each frame
+			var contentTimeline = readDiff(timeline);
+
+			var timeOffset = contentTimeline[0].timestamp;
+
+			
+
+			contentTimeline.forEach(function(node, i, arr){
+				var timeUntilDisplay = node.timestamp - timeOffset;
+				var content = node.content;
+				setTimeout(displayContent.bind(content), timeUntilDisplay);
+			});
+
+			vm.playing(true);
+		};
+	};
+
+	app.viewModel = new ViewModel();
+
+	ko.applyBindings( app.viewModel );
+
+
+
 	function log (stuff) {
 		document.getElementById('log').textContent = stuff;
 	}
@@ -25,36 +69,70 @@
 		getUserList(10);
 	});
 
-	function getUserList (num) {
+	function getUserList () {
 		var users = [];
 		app.fb.once('value',function(usersSnapshot) {
 			usersSnapshot.forEach(function(userSnapshot) {
 				users.push(userSnapshot.val());
 			});
-			console.log(users);
+
+			displayUser (users[0]);
 		});
 	}
 
-	
-	
-
-	var history = readDiff(diff);
-
-	playbackHistory(history);
-
-	function playbackHistory (history) {
-		var firstTimelineNode = history[0];
-		var timeOffset = firstTimelineNode.timestamp;
-		var timeline = history.slice(1);
-
-		log(firstTimelineNode.content);
+	function displayUser (user) {
+		var paths = buildPathObject(user, '');
+		app.viewModel.timelines( verifyTimelineOrder(paths));
+		console.log(app.viewModel.timelines());
 		
-		timeline.forEach(function(node){
-			var timeUntilDisplay = node.timestamp - timeOffset;
-			var content = node.content;
-			setTimeout(displayContent.bind(content), timeUntilDisplay);
+	}
+
+	// return an object with keys of the path, value of the object
+	function buildPathObject (node, path) {
+		// console.log(path, node);
+		var key, value;
+		var obj = {};
+		
+		// return early if we're there
+		if (node.initialNode) {
+			obj[path] = node;
+			return obj;
+		}
+
+		for (key in node) {
+			if (node.hasOwnProperty(key)) {
+				value = node[key];
+				obj = objectExtend(obj, buildPathObject(value, path + '/' + key) );
+			}
+		}
+
+		return obj;
+	}
+
+	// convert the timeline objects to arrays to verify the order of playback
+	function verifyTimelineOrder (paths) {
+		return Object.keys(paths).map(function (key) { 
+			return {
+				'key': key,
+				'value': paths[key]
+			}; 
 		});
 	}
+
+
+
+	function objectExtend (obj1, obj2) {
+		for (var i in obj2) {
+			if (obj2.hasOwnProperty(i)) {
+				obj1[i] = obj2[i];
+			}
+		}
+		return obj1;
+	}
+
+	
+	
+
 
 	function readDiff(diff) {
 		var history = [];

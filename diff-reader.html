@@ -5,12 +5,15 @@
 	<title>Diff Reader</title>
 </head>
 <body>
+	<ul data-bind="foreach: timelines">
+		<li data-bind="text: key, click: $parent.playTimeline"></li>
+	</ul>
 	<pre id="output"></pre>
 	<hr>
 	<pre id="log" style="font: 16px monospace;"></pre>
 
 
-
+	<script src="//knockoutjs.com/downloads/knockout-3.3.0.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>
 
 	<script src="js/utilities.js"></script>
