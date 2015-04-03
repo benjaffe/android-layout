@@ -1,8 +1,13 @@
 
+blinking cursor is twice the height
+when errors disappear, should resize the codemirror object
+
+nothing errors on misspelling if there are spaces in the attribute value
+
+
+
 Test 360 broken
 
-
-[ ] "Did you mean to type 'blah'?"
 
 [ ] feature detection for onhashchange?
 [ ] browsers support?
