@@ -6,12 +6,12 @@ app.util = app.util || {};
 	app.util.summarizeDiff = function(changeObjects) {
 		var diffSummary = [];
 
-		changeObjects.forEach(function(obj){
+		changeObjects.forEach(function(obj, i, arr){
 			if (obj.added) {
 				diffSummary.push('A' + obj.value);
 			} else if (obj.removed) {
 				diffSummary.push('R' + (obj.count || obj.value.length));
-			} else {
+			} else if (i+1 !== arr.length) {
 				diffSummary.push('$' + obj.count);
 			}
 		});
