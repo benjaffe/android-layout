@@ -194,7 +194,7 @@ var app = app || {};
 
 		{
 			name: 'android:src',
-			pattern: /^\@drawable\/[a-zA-Z_]+$/
+			pattern: /^\@drawable\/(?:ocean|fish|cake|android|mountains|rocks|cakesmall)+$/
 		},
 		{
 			name: 'android:scaleType',
