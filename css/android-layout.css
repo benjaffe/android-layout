@@ -319,3 +319,17 @@ html, body {
 }
 
 
+/* Tablet Mode */
+
+.tablet-mode .wrapper {
+	overflow: hidden;
+	max-width: none;
+}
+
+.tablet-mode .wrapper .input-area-col {
+	width: 71%;
+}
+
+.tablet-mode .wrapper .output-area-col {
+	width: 29%;
+}

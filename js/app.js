@@ -356,6 +356,7 @@ var app = app || {};
 	if (sessionStorage.tabletMode === 'true') {
 		$('#input-topbar').hide().parent().css('padding-top', '12px');
 		$('.input-area').css('font-size', '120%');
+		$('html').addClass('tablet-mode');
 	}
 
 	app.androidInit();
