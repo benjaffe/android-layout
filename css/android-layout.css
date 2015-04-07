@@ -189,13 +189,19 @@ body {
 
 /* Layout */
 
-.layout_width-match_parent {
-	width: 100%;
+.layout_width-match_parent,
+.layout_height-match_parent {
+	display: table; /* This ensures 100% works properly when nested inside a parent with display:flex; set */
 }
 
-.layout_height-match_parent {
-	height: 100%;
-}
+	.layout_width-match_parent {
+		width: 100%;
+	}
+
+	.layout_height-match_parent {
+		height: 100%;
+	}
+
 
 .layout_width-wrap_content,
 .layout_height-wrap_content {
