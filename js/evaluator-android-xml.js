@@ -497,28 +497,31 @@ var app = app || {};
 			domElem.addClass('orientation-horizontal');
 		}
 
-		// In this particular case, we MUST set the width/height
+		// In these particular cases, we MUST set the width/height
 		// of the parent elem manually based on its children.
 		// Because the children are not layed out yet, we're
 		// deferring layout of the parent until the next tick.
-		if (type === 'LinearLayout' && checkAttr('android:layout_height', 'wrap_content') && checkAttr('android:orientation','vertical')) {
-			setTimeout(function(){
-				var heights = [];
-				domElem.children().each(function(i, child){
-					heights.push(child.offsetTop, child.offsetTop+$(child).outerHeight());
+		if (type === 'LinearLayout') {
+			if (checkAttr('android:layout_height', 'wrap_content')) {
+				setTimeout(function(){
+					var yPositions = [];
+					domElem.children().each(function(i, child){
+						yPositions.push(child.offsetTop, child.offsetTop+$(child).outerHeight());
+					});
+					height = Math.max.apply(null, yPositions) - Math.min.apply(null, yPositions);
+					domElem.height(height);
 				});
-				height = Math.max.apply(null, heights) - Math.min.apply(null, heights);
-				domElem.height(height);
-			});
-		} else if (type === 'LinearLayout' && checkAttr('android:layout_width', 'wrap_content') && !checkAttr('android:orientation','vertical')) {
-			setTimeout(function(){
-				var widths = [];
-				domElem.children().each(function(i, child){
-					widths.push(child.offsetLeft, child.offsetLeft+$(child).outerWidth());
+			}
+			if (checkAttr('android:layout_width', 'wrap_content')) {
+				setTimeout(function(){
+					var xPositions = [];
+					domElem.children().each(function(i, child){
+						xPositions.push(child.offsetLeft, child.offsetLeft+$(child).outerWidth());
+					});
+					width = Math.max.apply(null, xPositions) - Math.min.apply(null, xPositions);
+					domElem.width(width);
 				});
-				width = Math.max.apply(null, widths) - Math.min.apply(null, widths);
-				domElem.width(width);
-			});
+			}
 		}
 
 
