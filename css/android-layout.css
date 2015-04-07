@@ -1,4 +1,6 @@
-.wrapper, .unsupported-browser {
+/* Browsers that support flexbox are allowed */
+.wrapper,
+.unsupported-browser {
 	display: none;
 }
 
@@ -6,6 +8,16 @@
 .no-flexbox .unsupported-browser {
 	display: block;
 }
+
+/* Specifically excluding IE -- not enough time to debug the issue(s) */
+.ie .unsupported-browser {
+	display: block;
+}
+
+.ie .wrapper {
+	display: none;
+}
+
 
 /* ===== */
 
