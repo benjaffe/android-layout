@@ -1,8 +1,19 @@
+.wrapper, .unsupported-browser {
+	display: none;
+}
+
+.flexbox .wrapper,
+.no-flexbox .unsupported-browser {
+	display: block;
+}
+
+/* ===== */
+
 html, body {
 	min-height: 100%;
 }
 
-body {
+.wrapper {
 	height: 100%;
 	min-width: 900px;
 }

@@ -20,115 +20,157 @@
 	<link rel="stylesheet" href="css/android-layout.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Roboto:500,900italic,900,400italic,100,700italic,300,700,500italic,100italic,300italic,400' rel='stylesheet' type='text/css'>	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="vendor/modernizr.min.js"></script>
 	<script src="vendor/prefixfree.min.js"></script>
 
 </head>
 <body>
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-xs-7 col-md-8">
+				<div class="panel panel-primary input-area-wrapper">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">XML Layout Code</h3>
+				    </div>
+				    <div class="panel-body">
+					    <ul id="input-topbar" class="nav nav-pills">
+					        <li><button class="btn btn-default btn-undo">Undo</button></li>
+					        <li><button class="btn btn-default btn-redo">Redo</button></li>
+					        <li>
+				        	    <p class="code-saved-msg">Code has <span class="not-word">not</span> been saved</p>
+					        </li>
+						    <li class="pull-right"><button class="btn btn-link btn-reset-code">Reset Code</button></li>
+					    </ul>
 	
-	<div class="row">
-		<div class="col-xs-7 col-md-8">
-			<div class="panel panel-primary input-area-wrapper">
-			    <div class="panel-heading">
-			        <h3 class="panel-title">XML Layout Code</h3>
-			    </div>
-			    <div class="panel-body">
-				    <ul id="input-topbar" class="nav nav-pills">
-				        <li><button class="btn btn-default btn-undo">Undo</button></li>
-				        <li><button class="btn btn-default btn-redo">Redo</button></li>
-				        <li>
-			        	    <p class="code-saved-msg">Code has <span class="not-word">not</span> been saved</p>
-				        </li>
-					    <li class="pull-right"><button class="btn btn-link btn-reset-code">Reset Code</button></li>
-				    </ul>
-
-			        <div class="input-area">
-			        	
+				        <div class="input-area">
+				        	
+				        </div>
+	
+						<div class="error-msg"></div>
+	
+						<ul class="nav nav-pills">
+					        <li><button class="btn btn-default btn-available-images" data-toggle="modal" data-target="#images-dialog">Available Images</button></li>
+					        <li class="pull-right"><button class="btn btn-default btn-cheatsheet">Cheat Sheet</button></li>
+					    </ul>
+				    </div>
+				    
+				</div>
+			</div>
+			<div class="col-xs-5 col-md-4">
+				<div class="output-area-wrapper">
+			        <div class="phone">
+			        	<div class="screen"></div>
 			        </div>
+				</div>
+			</div>
+		</div>
+	
+		<div id="images-dialog" class="modal fade" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title">Available Images</h4>
+					</div>
+					<div class="modal-body">
+						<p>The following images are available to you:</p>
+						<div class="row">
+							<div class="col-xs-6">
+								<ul class="image-asset-list">
+									<li class="image-asset" style="background-image: url(images/ocean.jpg);">
+										<div class="image-asset-name">@drawable/ocean</div>
+									</li>
+									<li class="image-asset" style="background-image: url(images/fish.jpg);">
+										<div class="image-asset-name">@drawable/fish</div>
+									</li>
+									<li class="image-asset" style="background-image: url(images/cake.jpg);">
+										<div class="image-asset-name">@drawable/cake</div>
+									</li>
+									<li class="image-asset" style="background-image: url(images/android.jpg);">
+										<div class="image-asset-name">@drawable/android</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-xs-6">
+								<ul class="image-asset-list">
+									<li class="image-asset" style="background-image: url(images/mountains.jpg);">
+										<div class="image-asset-name">@drawable/mountains</div>
+									</li>
+									<li class="image-asset" style="background-image: url(images/rocks.jpg);">
+										<div class="image-asset-name">@drawable/rocks</div>
+									</li>
+									<li class="image-asset" style="background-image: url(images/cakesmall.jpg);">
+										<div class="image-asset-name">@drawable/cakesmall</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="col-sm-9 text-left">
+							<p>Thanks to <a href="https://www.flickr.com/photos/romainguy/with/16974639801/">Romain Guy</a> for the use of his images.<br>
+							<em>Images are <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons (BY-NC-SA 2.0)</a></em></p>
+						</div>
+						<div class="col-sm-3">
+							<button class="btn btn-primary" data-dismiss="modal">Dismiss</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="layout-options">
+			
+			
+			
+			<!-- <input type="checkbox" id="toggle-element-outline"><label for="toggle-element-outline">Toggle Element Outline</label> -->
+		</div>
+		
+		
+			
+		<img class="test-reference-image" src="">
+	</div>
 
-					<div class="error-msg"></div>
-
-					<ul class="nav nav-pills">
-				        <li><button class="btn btn-default btn-available-images" data-toggle="modal" data-target="#images-dialog">Available Images</button></li>
-				        <li class="pull-right"><button class="btn btn-default btn-cheatsheet">Cheat Sheet</button></li>
-				    </ul>
+	<div class="container unsupported-browser">
+		<div class="panel panel-default">
+		    <div class="panel-body">
+			    <div class="col-sm-3 text-center">
+			    	<img class="frown-cloud" src="images/frown_cloud.png" alt="Frowning Cloud">
 			    </div>
-			    
-			</div>
-		</div>
-		<div class="col-xs-5 col-md-4">
-			<div class="output-area-wrapper">
-		        <div class="phone">
-		        	<div class="screen"></div>
-		        </div>
-			</div>
-		</div>
-	</div>
-
-	<div id="images-dialog" class="modal fade" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title">Available Images</h4>
-				</div>
-				<div class="modal-body">
-					<p>The following images are available to you:</p>
-					<div class="row">
-						<div class="col-xs-6">
-							<ul class="image-asset-list">
-								<li class="image-asset" style="background-image: url(images/ocean.jpg);">
-									<div class="image-asset-name">@drawable/ocean</div>
-								</li>
-								<li class="image-asset" style="background-image: url(images/fish.jpg);">
-									<div class="image-asset-name">@drawable/fish</div>
-								</li>
-								<li class="image-asset" style="background-image: url(images/cake.jpg);">
-									<div class="image-asset-name">@drawable/cake</div>
-								</li>
-								<li class="image-asset" style="background-image: url(images/android.jpg);">
-									<div class="image-asset-name">@drawable/android</div>
-								</li>
-							</ul>
-						</div>
-						<div class="col-xs-6">
-							<ul class="image-asset-list">
-								<li class="image-asset" style="background-image: url(images/mountains.jpg);">
-									<div class="image-asset-name">@drawable/mountains</div>
-								</li>
-								<li class="image-asset" style="background-image: url(images/rocks.jpg);">
-									<div class="image-asset-name">@drawable/rocks</div>
-								</li>
-								<li class="image-asset" style="background-image: url(images/cakesmall.jpg);">
-									<div class="image-asset-name">@drawable/cakesmall</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="col-sm-9 text-left">
-						<p>Thanks to <a href="https://www.flickr.com/photos/romainguy/with/16974639801/">Romain Guy</a> for the use of his images.<br>
-						<em>Images are <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons (BY-NC-SA 2.0)</a></em></p>
-					</div>
-					<div class="col-sm-3">
-						<button class="btn btn-primary" data-dismiss="modal">Dismiss</button>
-					</div>
-				</div>
-			</div>
+			    <div class="col-sm-9 text-center">
+			    	<h3>We're sorry, your browser is not supported</h3>
+			    	<p>Please use an up-to-date version of a modern browser<p>
+			    	<div class="row">
+			    		<div class="col-sm-2 col-sm-offset-1">
+			    			<a href="https://www.google.com/intl/en/chrome/browser/desktop/index.html" class="browser-link btn">
+			    				<img src="images/browser-icons/chrome_24x24.png" alt="Chrome">Chrome
+		    				</a>
+			    		</div>
+			    		<div class="col-sm-2">
+			    			<a href="https://www.mozilla.org/en-US/firefox/new/" class="browser-link btn">
+			    				<img src="images/browser-icons/firefox_24x24.png" alt="Firefox">Firefox
+		    				</a>
+			    		</div>
+			    		<div class="col-sm-2">
+			    			<a href="https://support.apple.com/downloads/#safari" class="browser-link btn">
+			    				<img src="images/browser-icons/safari_24x24.png" alt="Safari">Safari
+		    				</a>
+			    		</div>
+			    		<div class="col-sm-2">
+			    			<a href="http://www.opera.com/" class="browser-link btn">
+			    				<img src="images/browser-icons/opera_24x24.png" alt="Opera">Opera
+		    				</a>
+			    		</div>
+			    		<div class="col-sm-2">
+			    			<a href="http://windows.microsoft.com/en-us/internet-explorer/ie-11-worldwide-languages" class="browser-link btn">
+			    				<img src="images/browser-icons/internet-explorer_24x24.png" alt="IE 11">IE 11
+		    				</a>
+			    		</div>
+			    	</div>
+			    </div>
+		    </div>
 		</div>
 	</div>
-
-	<div class="layout-options">
-		
-		
-		
-		<!-- <input type="checkbox" id="toggle-element-outline"><label for="toggle-element-outline">Toggle Element Outline</label> -->
-	</div>
-	
-	
-		
-	<img class="test-reference-image" src="">
-	
 
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="vendor/webfont.js"></script>
