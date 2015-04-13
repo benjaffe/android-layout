@@ -12,7 +12,8 @@ var app = app || {};
 
 	app.readyToRun = false;
 
-	app.init = function() {
+	
+	app.initPage = function() {
 		// get the hash key
 		app.hash = app.getHashKey();
 		
@@ -22,6 +23,10 @@ var app = app || {};
 		// calculate editor layout
 		refreshEditorLayout();
 
+		app.diffEngine = window.diffEngine();
+		app.diffEncoder = app.diffEngine.getEncoder();
+		app.diffDecoder = app.diffEngine.getDecoder();
+	
 		// run the code
 		app.run();
 
@@ -155,6 +160,18 @@ var app = app || {};
 		}
 	}
 
+	function updateState (newState) {
+		var state = app.state || {};
+		
+		// copy over any new parameters from the previous state
+		for(key in newState) {
+			state[key] = newState[key];
+		}
+		
+		app.diffEncoder.push(state);
+		console.log(app.diffDecoder.getState().state);
+	}
+
 		
 	// this function evaluates code based on the mode the app is in
 	app.run = function (opt) {
@@ -165,6 +182,10 @@ var app = app || {};
 		var codeRaw = opt.code || myCodeMirror.getValue();
 		var code;
 		var elemToRender;
+
+		updateState({
+			code: codeRaw
+		});
 
 		// run the code
 		var mode = 'android-layout';
@@ -296,7 +317,7 @@ var app = app || {};
 
 
 	$(window).bind('hashchange', function(e) {
-		app.init();
+		app.initPage();
 	});
 
 	// recalculate editor layout on resize
@@ -361,7 +382,7 @@ var app = app || {};
 
 	app.androidInit();
 	
-	app.init();
+	app.initPage();
 
 })();
 
