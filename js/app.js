@@ -380,6 +380,43 @@ var app = app || {};
 		$('html').addClass('tablet-mode');
 	}
 
+	$('.input-area').mousemove(function(e){ updateMousePosition(e) });
+
+	var timeOfLastUpdate;
+	var updateDebounceThreshold = 200;
+	var lastDebouncedState = null;
+	var finalStateUpdateTimeout;
+
+	var updateMousePosition = function(e) {
+		var mouse = [e.offsetX, e.offsetY];
+		var state = lastDebouncedState || {};
+
+		// I'm setting a floor of threshold/4 to give the actual state update
+		// a chance to happen. Otherwise, it'd updateDebouncedState exactly on
+		// time, not giving normal state updates a chance to happen (and therefore
+		// resulting in stale data).
+		var timeToUpdateWithFinalState = Math.max(updateDebounceThreshold / 4, updateDebounceThreshold - (Date.now() - timeOfLastUpdate));
+
+		state.mouse = mouse;
+
+		clearTimeout(finalStateUpdateTimeout);
+		
+		if (timeOfLastUpdate && (Date.now() - timeOfLastUpdate < updateDebounceThreshold)) {
+			lastDebouncedState = state;
+			finalStateUpdateTimeout = setTimeout(updateDebouncedState, timeToUpdateWithFinalState);
+			return false;
+		}
+
+		timeOfLastUpdate = Date.now();
+		lastDebouncedState = null;
+		updateState(state);
+	};
+
+	function updateDebouncedState () {
+		timeOfLastUpdate = Date.now();
+		updateState(lastDebouncedState);
+	}
+
 	app.androidInit();
 	
 	app.initPage();
