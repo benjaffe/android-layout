@@ -268,8 +268,8 @@ var app = app || {};
 	function checkForUnsupportedAttributesAndValues (line, lineNum) {
 		var lineTrimmed = line.trim();
 		var validAttributes = app.androidLayout.validAttributes;
-		var attrMatcher = /(android:(?:[^\s"=]*))="(?:[^"\s]*)"/g;
-		var attrValueMatcher = /="([^\s"]*)"/g;
+		var attrMatcher = /(android:(?:[^\s"=]*))="(?:[^"]*)"/g;
+		var attrValueMatcher = /="([^"]*)"/g;
 		var attributes = attrMatcher.exec(line);
 		attributes = attributes ? attributes.slice(1) : null;
 		var attributeValues = attrValueMatcher.exec(line);
