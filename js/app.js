@@ -7,11 +7,18 @@ var app = app || {};
 		location.hash = '/';
 	}
 
+
 	// this is the place the user codes
 	var myCodeMirror;
 
 	app.readyToRun = false;
 
+	if (localStorage.uid) {
+		app.uid = JSON.parse(localStorage.uid);
+	} else {
+		app.uid = Date.now().toString(36);
+		localStorage.uid = JSON.stringify(app.uid);
+	}
 	
 	app.initPage = function() {
 		// get the hash key
@@ -34,6 +41,9 @@ var app = app || {};
 		requestAnimationFrame(function(){
 			myCodeMirror.refresh();
 		});
+
+		// we're assuming they won't visit the same page twice within one second
+		app.fb = new Firebase('https://benjaffe.firebaseio.com/android-layout/users/' + app.uid + '/' + app.hash + '/' + Math.floor(Date.now()/1000));
 
 	};
 
@@ -168,9 +178,11 @@ var app = app || {};
 			state[key] = newState[key];
 		}
 		
-		app.diffEncoder.push(state);
+		var diff = app.diffEncoder.push(state);
 		app.state = state;
 		console.log(app.diffDecoder.getState().state);
+		console.log('pushing', diff);
+		app.fb.child('diffs').push(diff);
 	}
 
 		

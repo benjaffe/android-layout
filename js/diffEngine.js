@@ -1,6 +1,6 @@
 /**
  * Diff-Engine - A content to timestamped diff codec.
- * @version v0.1.1
+ * @version v0.1.2
  * @license MIT
  */
 
@@ -13,25 +13,18 @@
 
 (function( global, factory ) {
 
-  if ( typeof module === "object" && typeof module.exports === "object" ) {
-    // For CommonJS and CommonJS-like environments where a proper `window`
-    // is present, execute the factory and get jQuery.
-    // For environments that do not have a `window` with a `document`
-    // (such as Node.js), expose a factory as module.exports.
-    // This accentuates the need for the creation of a real `window`.
-    // e.g. var jQuery = require("jquery")(window);
-    // See ticket #14549 for more info.
-    module.exports = global.document ?
-      factory( global, true ) :
-      function( w ) {
-        if ( !w.document ) {
-          throw new Error( "jQuery requires a window with a document" );
-        }
-        return factory( w );
-      };
-  } else {
-    factory( global );
-  }
+	if ( typeof module === "object" && typeof module.exports === "object" ) {
+		module.exports = global.document ?
+			factory( global, true ) :
+			function( w ) {
+				if ( !w.document ) {
+					throw new Error( "Diff Engine requires a window with a document" );
+				}
+				return factory( w );
+			};
+	} else {
+		factory( global );
+	}
 
 // Pass this if window is not defined yet
 }(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
@@ -48,12 +41,13 @@
     /**
          * Calculates the diff from the state and adds it to the diff list
          * @param  {string} state - the state to be diffed
+         * @return {object} the diff we added to the diff array
          */
     this.push = function(state) {
       var diff = _generateDiff(state);
       _diffArr.push(diff);
       _diffAndHistoryOutOfSync = true;
-      return _diffArr.length - 1;
+      return diff;
     };
 
     /** Converts a state object into a diff object */
@@ -77,15 +71,21 @@
         _rawDiffOps = window.JsDiff.diffChars(_prevStateStr, _stateStr);
       }
 
-      _rawDiffOps.forEach(function(diff) {
+      _rawDiffOps.forEach(function(diff, i, arr) {
         var d = {};
         if (!diff.added && !diff.removed) {
-          d.$ = diff.count;
+          d.z = diff.count;
         } else if (diff.removed) {
           d.r = diff.count;
         } else {
           d.a = diff.value;
         }
+
+        // skip the diff if it's the last one and has no effect
+        if (i === arr.length - 1) {
+          return false;
+        }
+
         _diff.ops.push(d);
       });
 
@@ -97,19 +97,19 @@
   }
 
   function Decoder() {
-    
+
     /**
-     * Get the diff array
-     * @return {array} An array of diff objects
-     */
+		 * Get the diff array
+		 * @return {array} An array of diff objects
+		 */
     this.getDiffs = function() {
       return _diffArr;
     };
 
     /**
-     * Return the state after ALL diffs
-     * @return {object}  The state object after the diffs are decoded
-     */
+		 * Return the state after ALL diffs
+		 * @return {object}  The state object after the diffs are decoded
+		 */
     this.getState = function(time) {
       if (time === undefined) {
         return _decodeState();
@@ -117,12 +117,12 @@
         return this._getStateAtTime(time);
       }
     };
-    
+		
     /**
-     * Get the state at dif # num
-     * @param  {integer} num - the number of the diff to be decoded
-     * @return {string}        the decoded state
-     */
+		 * Get the state at dif # num
+		 * @param  {integer} num - the number of the diff to be decoded
+		 * @return {string}        the decoded state
+		 */
     this.getStateAtIndex = function(num) {
       if (num > _diffArr.length - 1) {
         return null;
@@ -132,10 +132,10 @@
     };
 
     /**
-     * Get the state at a given time
-     * @param  {integer} time - ms from start to be decoded
-     * @return {string}        the decoded state
-     */
+		 * Get the state at a given time
+		 * @param  {integer} time - ms from start to be decoded
+		 * @return {string}        the decoded state
+		 */
     this._getStateAtTime = function(time) {
       // ensure we have a state history to search through
       _decodeState();
@@ -164,12 +164,12 @@
     };
 
     /**
-     * reconstruct a state timeline based on the diffs, and return a state object
-     * @param  {[number]} _num - optional index to decode and return (if omitted, returns the final state)
-     * @return {[type]}      [state]
-     */
+  	 * reconstruct a state timeline based on the diffs, and return a state object
+  	 * @param  {[number]} _num - optional index to decode and return (if omitted, returns the final state)
+  	 * @return {[type]}      [state]
+  	 */
     function _decodeState (_num) {
-      
+  		
       if (_num === undefined) {
         _num = _diffArr.length - 1;
       }
@@ -182,7 +182,7 @@
       _history = [];
 
       // console.log('decoding');
-      
+  		
       // go through the diff array
       _diffArr.forEach(function(_diff, _diffNum) {
         var timestampAbs, timestamp;
@@ -203,7 +203,7 @@
             // console.debug('REMOVED ' + stateStr.substr(i, diffOp.r));
             stateStr = stateStr.substr(0, i) + stateStr.slice(i + diffOp.r);
           } else {
-            i += diffOp.$;
+            i += diffOp.z;
           }
         });
 
