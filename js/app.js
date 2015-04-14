@@ -326,6 +326,7 @@ var app = app || {};
 		var wiggleRoom = 10;
 
 		$('.CodeMirror-scroll').css('height', windowHeight - (containerHeight - currentHeight) - wiggleRoom);
+		myCodeMirror.refresh();
 	}
 
 
