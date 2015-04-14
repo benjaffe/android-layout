@@ -169,6 +169,7 @@ var app = app || {};
 		}
 		
 		app.diffEncoder.push(state);
+		app.state = state;
 		console.log(app.diffDecoder.getState().state);
 	}
 
