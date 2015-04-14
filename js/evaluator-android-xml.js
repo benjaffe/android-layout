@@ -551,7 +551,7 @@ var app = app || {};
 							}
 						});
 						elemDimension = (domElem.parent()[dimensionName]() * elemWeight / totalWeight) - totalNonWeightDimension;
-						domElem.css(dimensionName, elemDimension + 'px');
+						domElem.css(dimensionName, Math.round(elemDimension) + 'px');
 					}
 					domElem.removeClass('hidden-pending-setTimeout');
 				};
