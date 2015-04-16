@@ -256,6 +256,7 @@ html, body {
 	overflow-wrap: break-word;
 	overflow: hidden;
 	line-height: 1.2;
+	word-break: break-word;
 }
 
 
