@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Code to String</title>
+	<style>
+	body {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	#code {
+		font-family: monospace;
+	}
+	#string {
+		width: 100%;
+	}
+	</style>
+</head>
+<body>
+	<textarea id="code" cols="60" rows="30"></textarea>
+	<input id="string">
+	<br>
+	<button id="convertBtn">Convert</button>
+	<script>
+	var codeElem = document.getElementById('code');
+	var stringElem = document.getElementById('string');
+	var convertBtn = document.getElementById('convertBtn');
+
+	convertBtn.addEventListener('click', function(){
+		stringElem.value = JSON.stringify(codeElem.value);
+	});
+
+	</script>
+</body>
+</html>
