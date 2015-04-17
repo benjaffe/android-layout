@@ -676,14 +676,14 @@ var app = app || {};
 		}
 
 
-		if (checkAttr('android:textAppearance', '?android:textAppearanceLarge')) {
+		if (checkAttr('android:textSize')) {
+			sizeOrig = attributes['android:textSize'].value;
+		} else if (checkAttr('android:textAppearance', '?android:textAppearanceLarge')) {
 			sizeOrig = '22sp';
 		} else if (checkAttr('android:textAppearance', '?android:textAppearanceMedium')) {
 			sizeOrig = '18sp';
 		} else if (checkAttr('android:textAppearance', '?android:textAppearanceSmall')) {
 			sizeOrig = '14sp';
-		} else if (checkAttr('android:textSize')) {
-			sizeOrig = attributes['android:textSize'].value;
 		} else {
 			sizeOrig = '14sp';
 		}
