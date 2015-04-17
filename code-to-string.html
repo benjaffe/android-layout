@@ -50,8 +50,8 @@
 			alert('Please input a value for both before converting');
 			return false;
 		}
-		
-		stringElem.value = JSON.stringify(codeNameElem.value) + ': ' + JSON.stringify(codeElem.value);
+
+		stringElem.value = JSON.stringify(codeNameElem.value.strip()) + ': ' + JSON.stringify(codeElem.value);
 	});
 
 	</script>
