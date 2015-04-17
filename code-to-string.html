@@ -3,13 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Code to String</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<style>
 	body {
 		max-width: 800px;
 		margin: 0 auto;
+		padding: 20px 0;
 	}
 	#code {
 		font-family: monospace;
+		display: inline-block;
 	}
 	#string {
 		width: 100%;
@@ -17,17 +20,38 @@
 	</style>
 </head>
 <body>
-	<textarea id="code" cols="60" rows="30"></textarea>
-	<input id="string">
-	<br>
-	<button id="convertBtn">Convert</button>
+	<div class="row">
+		<div class="col-sm-3">
+			Name: <input id="codeName" tabindex="1">
+			<br>
+			<br>
+			<button class="btn btn-primary" id="convertBtn" tabindex="1">Convert</button>
+		</div>
+		<div class="col-sm-9">
+			Code:
+			<br>
+			<textarea id="code" cols="60" rows="10" tabindex="2"></textarea>
+		</div>
+	</div>
+	<div class="row">
+		<hr>
+		JSON:
+		<br>
+		<input id="string">
+	</div>
 	<script>
 	var codeElem = document.getElementById('code');
+	var codeNameElem = document.getElementById('codeName');
 	var stringElem = document.getElementById('string');
 	var convertBtn = document.getElementById('convertBtn');
 
 	convertBtn.addEventListener('click', function(){
-		stringElem.value = JSON.stringify(codeElem.value);
+		if (codeNameElem.value === '' || codeElem.value === '') {
+			alert('Please input a value for both before converting');
+			return false;
+		}
+		
+		stringElem.value = JSON.stringify(codeNameElem.value) + ': ' + JSON.stringify(codeElem.value);
 	});
 
 	</script>
