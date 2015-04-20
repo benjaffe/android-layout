@@ -856,6 +856,23 @@ var app = app || {};
 
 		console.debug('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
 
+		// check for mandatory attributes
+		if (xmlElem.tagName && !checkAttr('android:layout_width')) {
+			app.errors.push({
+				id: 'mandatoryAttributeMissing',
+				$tagName: xmlElem.tagName,
+				$attribute: 'android:layout_width'
+			});
+		}
+
+		if (xmlElem.tagName && !checkAttr('android:layout_height')) {
+			app.errors.push({
+				id: 'mandatoryAttributeMissing',
+				$tagName: xmlElem.tagName,
+				$attribute: 'android:layout_height'
+			});
+		}
+
 		// check for alignParent (absolute positioning to parent)
 		if (checkAttr('android:layout_alignParentTop', 'true')) {
 			parentLayout = parentLayout || layoutElem(xmlElem.parentNode);

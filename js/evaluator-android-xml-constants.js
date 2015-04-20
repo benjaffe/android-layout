@@ -21,6 +21,7 @@ var app = app || {};
 		'invalidOpeningTagSuggestion': 'Line $lineNum: Tag `$tag` is not a supported opening tag. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidClosingTag': 'Line $lineNum: Tag `$tag` is not a supported closing tag.',
 		'unclosedSelfClosingTag': 'The tag $tag should be self-closing. This means it should end with /> .',
+		'mandatoryAttributeMissing': 'The mandatory attribute `$attribute` for the `$tagName` tag is missing.',
 		'invalidAttribute': 'Line $lineNum: The attribute `$attribute` is not supported here.',
 		'invalidAttributeSuggestion': 'Line $lineNum: The attribute `$attribute` is not supported here. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
