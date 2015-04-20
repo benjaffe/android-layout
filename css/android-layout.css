@@ -259,6 +259,15 @@ html, body {
 	word-break: break-word;
 }
 
+.FrameLayout,
+.LinearLayout,
+.RelativeLayout,
+.TextView,
+.Button,
+.View {
+	background-image: none!important;
+}
+
 
 /*.output-area :not(.layout_height-wrap_content) {
 	flex-grow: 1;
