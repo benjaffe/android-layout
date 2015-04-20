@@ -285,6 +285,18 @@ var app = app || {};
 		var suggestion;
 		var suggestionSensitivity = app.androidLayout.suggestionSensitivity;
 		
+		// check for mistyped xmlns:android attribute. Hardcoded for now because
+		// the attrMatcher regex only matches things that start with android:
+		var xmlnsMatcher = /xmlns\:android="([^"]*)"/g;
+		var xmlnsMatches = xmlnsMatcher.exec(line);
+		if (xmlnsMatches && xmlnsMatches[1] && xmlnsMatches[1] !== "http://schemas.android.com/apk/res/android") {
+			app.errors.push({
+				id: 'xmlnsValueInvalid',
+				$lineNum: lineNum
+			});
+			return false;
+		}
+
 		if (attrSemicolonValues) {
 			app.errors.push({
 				id: 'androidSemicolon',

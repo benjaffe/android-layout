@@ -27,7 +27,8 @@ var app = app || {};
 		'androidSemicolon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably meant to type a colon, not a semi-colon. <pre>$propertyCorrected="..."</pre>',
 		'androidNoColon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably forgot the colon after "android". <pre>$propertyCorrected="..."</pre>',
 		'androidNoEquals': 'Did you forget an <code>=</code> in line $lineNum? You typed: <pre>$lineIncorrect</pre> Here it is with an = sign. <pre>$lineCorrected</pre>',
-		'colorNotSupported': 'The color $color is not supported. Did you type it incorrectly?'
+		'colorNotSupported': 'The color $color is not supported. Did you type it incorrectly?',
+		'xmlnsValueInvalid': 'Line $lineNum: The xmlns:android attribute needs to have the value "http://schemas.android.com/apk/res/android"'
 	};
 
 	app.androidLayout.validTags = ['FrameLayout','LinearLayout','RelativeLayout','TextView','ImageView','Button', 'View'];
@@ -35,6 +36,11 @@ var app = app || {};
 	app.androidLayout.layoutTags = ['FrameLayout','LinearLayout','RelativeLayout'];
 
 	app.androidLayout.validAttributes = [
+		{
+			name: 'xmlns:android',
+			pattern: /^http\:\/\/schemas.android.com\/apk\/res\/android$/
+		},
+		
 		{
 			name: 'android:id',
 			pattern: /^\@\+id\/[a-z_]+$/  // is the + necessary?
