@@ -180,8 +180,8 @@ var app = app || {};
 		
 		var diff = app.diffEncoder.push(state);
 		app.state = state;
-		console.log(app.diffDecoder.getState().state);
-		console.log('pushing', diff);
+		// console.log(app.diffDecoder.getState().state);
+		// console.log('pushing', diff);
 		app.fb.child('diffs').push(diff);
 	}
 
