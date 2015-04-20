@@ -24,6 +24,7 @@ var app = app || {};
 		'invalidAttribute': 'Line $lineNum: The attribute `$attribute` is not supported here.',
 		'invalidAttributeSuggestion': 'Line $lineNum: The attribute `$attribute` is not supported here. <br><strong>Did you mean to type $suggestion?</strong>',
 		'invalidAttributeValue': 'The attribute $attribute does not support the value <code>$attributeValue</code> (Line $lineNum)',
+		'cannotFindID': 'Unable to find the id <code>$idValue</code> in the attribute <code>$attribute</code>',
 		'androidSemicolon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably meant to type a colon, not a semi-colon. <pre>$propertyCorrected="..."</pre>',
 		'androidNoColon': 'Line $lineNum: You typed <pre>$property="..."</pre> You probably forgot the colon after "android". <pre>$propertyCorrected="..."</pre>',
 		'androidNoEquals': 'Did you forget an <code>=</code> in line $lineNum? You typed: <pre>$lineIncorrect</pre> Here it is with an = sign. <pre>$lineCorrected</pre>',

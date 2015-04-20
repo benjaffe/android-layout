@@ -909,6 +909,14 @@ var app = app || {};
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
+				if (!relativeElem) {
+					app.errors.push({
+						id: 'cannotFindID',
+						$idValue: idOfRelativeElem,
+						$attribute: 'android:layout_below'
+					});
+					return false;
+				}
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.bottom));
 				domElem.css('top', positionOfRelativeElem.bottom+'px');
@@ -921,6 +929,14 @@ var app = app || {};
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
+				if (!relativeElem) {
+					app.errors.push({
+						id: 'cannotFindID',
+						$idValue: idOfRelativeElem,
+						$attribute: 'android:layout_above'
+					});
+					return false;
+				}
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.top));
 				parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
@@ -934,6 +950,14 @@ var app = app || {};
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
+				if (!relativeElem) {
+					app.errors.push({
+						id: 'cannotFindID',
+						$idValue: idOfRelativeElem,
+						$attribute: 'android:layout_toLeftOf'
+					});
+					return false;
+				}
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.left));
 				parentLayout = parentLayout || layoutElem(xmlElem.parentNode);
@@ -947,6 +971,14 @@ var app = app || {};
 				throw new Error('You are creating a circular reference. This element cannot position itself relative to itself.');
 			} else {
 				relativeElem = getElemById(idOfRelativeElem);
+				if (!relativeElem) {
+					app.errors.push({
+						id: 'cannotFindID',
+						$idValue: idOfRelativeElem,
+						$attribute: 'android:layout_toRightOf'
+					});
+					return false;
+				}
 				positionOfRelativeElem = layoutElem(relativeElem);
 				console.debug('\tFound the necessary relative element called ' + idOfRelativeElem + ' at ' + Math.round(positionOfRelativeElem.right));
 				domElem.css('left', positionOfRelativeElem.right+'px');
