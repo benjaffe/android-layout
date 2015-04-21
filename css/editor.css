@@ -66,6 +66,11 @@ html {
 	height:500px;
 }
 
+/* override Bootstrap's overflow:auto; */
+.CodeMirror pre {
+	overflow: initial;
+}
+
 /*.output {
 	width: 100%;
 }*/
