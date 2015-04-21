@@ -241,14 +241,13 @@ var app = app || {};
 				elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
 			
 				// calculate all the layouts
-				console.debug('-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------');
+				console.log('%c-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------', 'color: #666');
 				app.androidLayout.evaluateXMLPass2( app.parsedXML );
 				if (app.errors().length > 0) {
 					runFail({
 						code: codeRaw
 					});
 				} else {
-					console.debug('woot!');
 					runSuccess(codeRaw);
 				}
 			} else {
@@ -271,6 +270,7 @@ var app = app || {};
 
 		renderHistoryLinkState();
 		refreshEditorLayout();
+		console.log('%c-------- end --------', 'color: #666');
 	};
 
 
@@ -302,14 +302,14 @@ var app = app || {};
 		} else {
 			$('.error-msg').hide();
 			$('.highlighted-code').removeClass('highlighted-code');
-			console.debug('No errors!');
+			console.log('%c No errors!', 'color: #393');
 		}
 	}
 
 
 	// undo/redo history state UI
 	function renderHistoryLinkState () {
-		console.debug(myCodeMirror.historySize());
+		// console.debug(myCodeMirror.historySize());
 		if (myCodeMirror.historySize().undo > 0) {
 			$('.btn-undo').attr('disabled', false);
 		} else {

@@ -12,7 +12,7 @@ var app = app || {};
 	    fontactive: function(familyName, fvd) {
 	    	numFontsLoaded++;
 	    	if (numFontsLoaded === webFontConfig.google.families.length) {
-		    	console.debug('fonts loaded');
+		    	console.log('%c Fonts loaded!', 'color: #393');
 		    	app.readyToRun = true;
 				app.run({ autorun: true });
 	    	}
@@ -414,7 +414,7 @@ var app = app || {};
 	 * @return {[DOM element]}        [the DOM element representing the original XML element]
 	 */
 	function evaluateXML (elem, parent) {
-		console.debug('evaluateXML() on ' + elem.tagName);
+		console.log('%c - evaluateXML() on ' + elem.tagName, 'color:#993');
 		var i, t, width, widthOrig, height, heightOrig, vals, colorOrig, color, sizeOrig, size, style, styleArr, bold, italic, fontFamilyOrig, fontFamilyObj, parentLayout, checkAttr;
 
 		// console.log((elem && elem.tagName) + (parent && parent.tagName ? ', parent of ' + parent.tagName : ''));
@@ -426,7 +426,7 @@ var app = app || {};
 		elem.domElem = domElem;
 		domElem[0].xmlElem = elem;
 
-		console.debug(elem.tagName + ' has a parent of ' + elem.nearestParentLayoutType);
+		// console.debug(elem.tagName + ' has a parent of ' + elem.nearestParentLayoutType);
 
 		// a bit of recursive fun here to get this going for every XML element in the document
 		$(elem).children().each(function(i, child) {
@@ -854,7 +854,7 @@ var app = app || {};
 		attributes = xmlElem.attributes;
 		checkAttr = checkAttributesOnThis.bind(attributes);
 
-		console.debug('laying out', (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''));
+		console.log('%c - laying out ' + (xmlElem.tagName || 'root') + ' ' + ($(xmlElem).attr('android:id')||''), 'color: #990');
 
 		// check for mandatory attributes
 		if (xmlElem.tagName && !checkAttr('android:layout_width')) {
