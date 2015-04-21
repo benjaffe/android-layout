@@ -46,8 +46,8 @@ var app = app || {};
 
 
 		// calculate our start positions for adding schema bits if needed
-		startPos = code.indexOf('<');
-		insertPos = code.search(/(>|\/>)/);
+		startPos = code.search(/<(?!!)/);
+		insertPos = code.slice(startPos).search(/(>|\/>)/) + startPos;
 		
 		// if there aren't schema bits, let's add them
 		if (code.split('xmlns:android').length === 1) {
@@ -94,7 +94,7 @@ var app = app || {};
 				if (code.slice(i+2).match(/([^\s>]*)/)[0] === stack[ stack.length-1 ]) {
 					stack.pop();
 				}
-			} else if (code[i] === '<') {
+			} else if (code[i] === '<' && code[i+1] !== '!') {
 				if (stack.length === 0) {
 					numRootTags++;
 				}
@@ -188,7 +188,7 @@ var app = app || {};
 	 */
 	function checkForUnsupportedTags (line, lineNum) {
 		var suggestionSensitivity = app.androidLayout.suggestionSensitivity;
-		var reOpen = /<(?!\/)([^\s>\/]*) */g;
+		var reOpen = /<(?!!|\/)([^\s>\/]*) */g;
 		var reClose = /(<\/)(\S*) */g;
 		var validTags = app.androidLayout.validTags;
 		var openTags, closeTags, suggestion;
