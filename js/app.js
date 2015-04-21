@@ -47,7 +47,7 @@ var app = app || {};
 
 		// we're assuming they won't visit the same page twice within one second
 		pageInstanceUID = Math.floor(Date.now()/1000);
-		app.fb = new Firebase('https://benjaffe.firebaseio.com/android-layout/users/' + app.uid + '/' + app.hash + '/' + pageInstanceUID);
+		app.fb = new Firebase('https://udacity.firebaseio.com/android-layout/users/' + app.uid + '/' + app.hash + '/' + pageInstanceUID);
 
 	};
 
