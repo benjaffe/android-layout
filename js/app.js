@@ -405,10 +405,24 @@ var app = app || {};
 		// grab the code from our codeMirror instance
 		$('#entry_440939498').val( myCodeMirror.getValue() );
 
-		// grab the user's uid
+		// grab the user's uid and path
 		$('#entry_1934743275').val( JSON.parse(localStorage.uid) + '/' + app.hash + '/' + pageInstanceUID );
+	});
 
+	$('#hidden_iframe').on('load', function(e){
+		if (submitted) {
+			$('#issue-dialog').modal('hide');
+			$('#issue-submitted-dialog').modal('show');
 
+			// clear everything
+			$('#issue-dialog textarea').val('');
+			$('#entry_1934743275').val('');
+			$('#issue-dialog [type=radio]').prop('checked', false);
+
+			// grab the user's uid and path
+			$('#entry_1934743275').val( JSON.parse(localStorage.uid) + '/' + app.hash + '/' + pageInstanceUID );
+			submitted = false;
+		}
 	});
 
 	var timeOfLastUpdate;

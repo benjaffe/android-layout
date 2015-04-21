@@ -72,16 +72,31 @@
 			</div>
 		</div>
 		
+
+		<div class="modal fade" id="issue-submitted-dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Report Submitted</h4>
+					</div>
+					<div class="modal-body">
+						<p>Thank you for the bug report!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<iframe src="" frameborder="0" id="hidden_iframe" name="hidden_iframe" class="hidden"></iframe>
 		<div id="issue-dialog" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h4 class="modal-title">Report an Issue</h4>
-						<p>Thank you for reporting a bug to us. Your XML code will be included with this bug report. </p>
 					</div>
 					<div class="modal-body">
-						<form action="https://docs.google.com/a/knowlabs.com/forms/d/1XDuFxeFRO0_yaFm-4RSQEqJT2G8fTNih0KoRMJycF_4/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+						<p>Thank you for reporting a bug to us. Your XML code will be included with this bug report. </p>
+						<form action="https://docs.google.com/a/knowlabs.com/forms/d/1XDuFxeFRO0_yaFm-4RSQEqJT2G8fTNih0KoRMJycF_4/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;" id="issue-form">
 							<div class="form-group voffset4">
 								<label for="entry_446623266">Description: Please write instructions describing how to reproduce the issue.</label>
 								<textarea class="form-control" name="entry.446623266" rows="4" cols="0"id="entry_446623266" aria-label="Please describe the issue. Include instructions describing how to reproduce the issue. " aria-required="true" required placeholder="Type your description here"></textarea>
@@ -155,6 +170,8 @@
 				</div>
 			</div>
 		</div>
+
+
 		<div id="images-dialog" class="modal fade" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
