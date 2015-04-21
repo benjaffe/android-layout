@@ -11,6 +11,9 @@ var app = app || {};
 	// this is the place the user codes
 	var myCodeMirror;
 
+	// this is a unique id assigned to the current page
+	var pageInstanceUID;
+
 	app.readyToRun = false;
 
 	if (localStorage.uid) {
@@ -43,7 +46,8 @@ var app = app || {};
 		});
 
 		// we're assuming they won't visit the same page twice within one second
-		app.fb = new Firebase('https://benjaffe.firebaseio.com/android-layout/users/' + app.uid + '/' + app.hash + '/' + Math.floor(Date.now()/1000));
+		pageInstanceUID = Math.floor(Date.now()/1000);
+		app.fb = new Firebase('https://benjaffe.firebaseio.com/android-layout/users/' + app.uid + '/' + app.hash + '/' + pageInstanceUID);
 
 	};
 
@@ -395,6 +399,17 @@ var app = app || {};
 	}
 
 	$('.input-area').mousemove(function(e){ updateMousePosition(e) });
+
+	// report-an-issue modal event listener
+	$('#issue-dialog').on('shown.bs.modal', function(e){
+		// grab the code from our codeMirror instance
+		$('#entry_440939498').val( myCodeMirror.getValue() );
+
+		// grab the user's uid
+		$('#entry_1934743275').val( JSON.parse(localStorage.uid) + '/' + app.hash + '/' + pageInstanceUID );
+
+
+	});
 
 	var timeOfLastUpdate;
 	var updateDebounceThreshold = 200;
