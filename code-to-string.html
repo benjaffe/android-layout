@@ -44,6 +44,12 @@
 	var codeNameElem = document.getElementById('codeName');
 	var stringElem = document.getElementById('string');
 	var convertBtn = document.getElementById('convertBtn');
+  var results;
+  if (localStorage.results) {
+    results = JSON.parse(localStorage.results);
+  } else {
+    results = [];
+  }
 
 	convertBtn.addEventListener('click', function(){
 		if (codeNameElem.value === '' || codeElem.value === '') {
@@ -51,7 +57,11 @@
 			return false;
 		}
 
-		stringElem.value = JSON.stringify(codeNameElem.value.strip()) + ': ' + JSON.stringify(codeElem.value);
+		var result = '"' + codeNameElem.value + '": ' + JSON.stringify(codeElem.value) + ',';
+    stringElem.value = result;
+    results.push(result);
+    localStorage.results = JSON.stringify(results);
+    console.log(localStorage.results);
 	});
 
 	</script>
