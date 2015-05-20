@@ -2,11 +2,6 @@ var app = app || {};
 
 (function() {
 
-  // users who visit udacity's github pages should be redirected to the official path
-  if (location.host === 'udacity.github.io') {
-    location.href = 'http://labs.udacity.com/android-visualizer/' + location.hash;
-  }
-
 	if (location.hash === '#tabletmode') {
 		sessionStorage.tabletMode = 'true';
 		location.hash = '/';
