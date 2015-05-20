@@ -22,21 +22,21 @@ var app = app || {};
 		app.uid = Date.now().toString(36);
 		localStorage.uid = JSON.stringify(app.uid);
 	}
-	
+
 	app.initPage = function() {
 		// get the hash key
 		app.hash = app.getHashKey();
-		
+
 		// create code input area
 		app.initCodeMirror();
-		
+
 		// calculate editor layout
 		refreshEditorLayout();
 
 		app.diffEngine = window.diffEngine();
 		app.diffEncoder = app.diffEngine.getEncoder();
 		app.diffDecoder = app.diffEngine.getDecoder();
-	
+
 		// run the code
 		app.run();
 
@@ -63,7 +63,7 @@ var app = app || {};
 	app.initCodeMirror = function(){
 		// clear pre-existing code areas
 		$('.input-area').html('');
-		
+
 		myCodeMirror = CodeMirror(document.querySelector('.input-area'), {
 			value: app.getCodeForHash(),
 			mode: "android-xml",
@@ -102,7 +102,7 @@ var app = app || {};
 		else {
 			return app.getCodeForHashDefault();
 		}
-	
+
 		return '';
 	};
 
@@ -114,10 +114,10 @@ var app = app || {};
 				return app.androidCodeDefaults[ 'default' ];
 			}
 		}
-	
+
 		return '';
 	};
-	
+
 
 	app.resetCodeToHashDefault = function() {
 		myCodeMirror.setValue(app.getCodeForHashDefault());
@@ -126,12 +126,12 @@ var app = app || {};
 
 
 
-	// this runs after code is successfully evaluated	
+	// this runs after code is successfully evaluated
 	function runSuccess(code) {
 		if (!localStorage.debug) {
 			clearTimeout(app.codeEvaluationTimeout);
 		}
-		
+
 		// save current student code
 		if (app.hash.slice(0,4) !== 'test') {
 			localStorage['code-' + app.hash] = JSON.stringify(code);
@@ -176,12 +176,12 @@ var app = app || {};
 
 	function updateState (newState) {
 		var state = app.state || {};
-		
+
 		// copy over any new parameters from the previous state
 		for(key in newState) {
 			state[key] = newState[key];
 		}
-		
+
 		var diff = app.diffEncoder.push(state);
 		app.state = state;
 		// console.log(app.diffDecoder.getState().state);
@@ -189,7 +189,7 @@ var app = app || {};
 		app.fb.child('diffs').push(diff);
 	}
 
-		
+
 	// this function evaluates code based on the mode the app is in
 	app.run = function (opt) {
 		opt = opt || {};
@@ -219,7 +219,7 @@ var app = app || {};
 
 			// pre-processing hook
 			code = app.androidLayout.prepareCodeForParsing( codeRaw );
-			
+
 			// catch easy-to-detect errors (like misaligned <>'s, quotes)
 			app.androidLayout.xmlSanityCheck( codeRaw );
 
@@ -234,12 +234,12 @@ var app = app || {};
 			} catch (e) {
 				app.parsedXML = null;
 			}
-			
+
 
 			if (app.parsedXML !== null) {
 				// basic parsing and styling
 				elemToRender = app.androidLayout.evaluateXML(app.parsedXML);
-			
+
 				// calculate all the layouts
 				console.log('%c-------- layout pass at ' + Math.round(Date.now()/1000) + ' --------', 'color: #666');
 				app.androidLayout.evaluateXMLPass2( app.parsedXML );
@@ -258,7 +258,7 @@ var app = app || {};
 				});
 
 				$('html').removeClass('valid-code invalid-code')
-				
+
 			}
 		}
 
@@ -386,10 +386,12 @@ var app = app || {};
 	});
 
 
+
 	// hooks for debugging
 	if (localStorage.debug) {
 		window.myCodeMirror = myCodeMirror;
 	}
+
 
 	// hooks for tablet mode
 	if (sessionStorage.tabletMode === 'true') {
@@ -398,7 +400,10 @@ var app = app || {};
 		$('html').addClass('tablet-mode');
 	}
 
+
 	$('.input-area').mousemove(function(e){ updateMousePosition(e) });
+
+
 
 	// report-an-issue modal event listener
 	$('#issue-dialog').on('shown.bs.modal', function(e){
@@ -409,6 +414,7 @@ var app = app || {};
 		$('#entry_1934743275').val( JSON.parse(localStorage.uid) + '/' + app.hash + '/' + pageInstanceUID );
 	});
 
+  // report-an-issue submittal iframe
 	$('#hidden_iframe').on('load', function(e){
 		if (submitted) {
 			$('#issue-dialog').modal('hide');
@@ -424,6 +430,8 @@ var app = app || {};
 			submitted = false;
 		}
 	});
+
+
 
 	var timeOfLastUpdate;
 	var updateDebounceThreshold = 200;
@@ -443,7 +451,7 @@ var app = app || {};
 		state.mouse = mouse;
 
 		clearTimeout(finalStateUpdateTimeout);
-		
+
 		if (timeOfLastUpdate && (Date.now() - timeOfLastUpdate < updateDebounceThreshold)) {
 			lastDebouncedState = state;
 			finalStateUpdateTimeout = setTimeout(updateDebouncedState, timeToUpdateWithFinalState);
@@ -461,7 +469,7 @@ var app = app || {};
 	}
 
 	app.androidInit();
-	
+
 	app.initPage();
 
 })();
