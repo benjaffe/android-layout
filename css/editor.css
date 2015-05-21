@@ -60,6 +60,7 @@ html {
 
 .CodeMirror {
 	height:auto;
+  line-height: 1em;
 }
 
 .CodeMirror-scroll {
