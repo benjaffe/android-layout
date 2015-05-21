@@ -68,7 +68,6 @@ var app = app || {};
 			value: app.getCodeForHash(),
 			mode: "android-xml",
 			lineNumbers: true,
-	        lineWrapping: true,
 			indentUnit: 4,
 			fixedGutter: true,
 			viewportMargin: Infinity,
