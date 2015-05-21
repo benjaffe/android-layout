@@ -335,7 +335,7 @@ CodeMirror.defineMode("android-xml", function(config, parserConfig) {
       // Indent the starts of attribute names.
       if (state.tagName) {
         if (multilineTagIndentPastTag)
-          return state.tagStart + state.tagName.length + 2;
+          return state.tagStart + indentUnit;
         else
           return state.tagStart + indentUnit * multilineTagIndentFactor;
       }
