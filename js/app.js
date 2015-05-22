@@ -76,6 +76,13 @@ var app = app || {};
 			}
 		});
 
+    myCodeMirror.on('cursorActivity', function(e){
+      var selections = e.doc.sel.ranges;
+      updateState({
+        selections: selections
+      });
+    });
+
     // hooks for debugging
     if (localStorage.debug) {
       window.myCodeMirror = myCodeMirror;
@@ -180,11 +187,23 @@ var app = app || {};
 
 	function updateState (newState) {
 		var state = app.state || {};
+    var areChanges = false;
+    var key;
 
 		// copy over any new parameters from the previous state
 		for(key in newState) {
-			state[key] = newState[key];
+      if (newState.hasOwnProperty(key)) {
+        if (state[key] !== newState[key]) {
+          areChanges = true;
+    			state[key] = newState[key];
+        }
+      }
 		}
+
+    // if there are no changes in the new state object, we're not going to update
+    if (!areChanges) {
+      return false;
+    }
 
 		var diff = app.diffEncoder.push(state);
 		app.state = state;
