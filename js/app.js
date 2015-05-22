@@ -75,6 +75,11 @@ var app = app || {};
 				app.run({ autorun: true });
 			}
 		});
+
+    // hooks for debugging
+    if (localStorage.debug) {
+      window.myCodeMirror = myCodeMirror;
+    }
 	};
 
 	app.getCodeForHash = function() {
@@ -384,12 +389,6 @@ var app = app || {};
 		renderHistoryLinkState();
 	});
 
-
-
-	// hooks for debugging
-	if (localStorage.debug) {
-		window.myCodeMirror = myCodeMirror;
-	}
 
 
 	// hooks for tablet mode
