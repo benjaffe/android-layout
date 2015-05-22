@@ -77,9 +77,13 @@ var app = app || {};
 		});
 
     myCodeMirror.on('cursorActivity', function(e){
-      var selections = e.doc.sel.ranges;
+      var selection = e.doc.sel.ranges[0];
+      // storing as a string to circumvent a bug in jsDiff
+      var selectionStr = '';
+      selectionStr += 'anchor: line' + selection.anchor.line + ', char' + selection.anchor.ch + ';';
+      selectionStr += 'head: line' + selection.head.line + ', char' + selection.head.ch + ';';
       updateState({
-        selections: selections
+        selection: selectionStr
       });
     });
 
