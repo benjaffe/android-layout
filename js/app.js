@@ -460,7 +460,10 @@ var app = app || {};
 	var finalStateUpdateTimeout;
 
 	var updateMousePosition = function(e) {
-		var mouse = [e.offsetX, e.offsetY];
+    var offset = $('.CodeMirror').offset();
+    var cmOffset = myCodeMirror.getScrollInfo();
+    var mouse = [e.pageX - offset.left + cmOffset.left, e.pageY - offset.top + cmOffset.top];
+
 		var state = lastDebouncedState || {};
 
 		// I'm setting a floor of threshold/4 to give the actual state update
