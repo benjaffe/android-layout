@@ -217,6 +217,7 @@ var app = app || {};
 
 		var diff = app.diffEncoder.push(state);
 		app.state = state;
+    // console.log(diff);
     // console.log(app.diffDecoder);
     // app.diffDecoder.setDiffs(app.diffEncoder.getDiffs());
     // console.log(app.diffDecoder.getState());
@@ -237,9 +238,9 @@ var app = app || {};
 		var code;
 		var elemToRender;
 
-		// updateState({
-		// 	code: codeRaw
-		// });
+		updateState({
+			code: codeRaw
+		});
 
 		// run the code
 		var mode = 'android-layout';
