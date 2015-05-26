@@ -34,8 +34,10 @@ var app = app || {};
 		refreshEditorLayout();
 
 		app.diffEngine = window.diffEngine();
-		app.diffEncoder = app.diffEngine.getEncoder();
-		app.diffDecoder = app.diffEngine.getDecoder();
+
+    app.diffEncoder = app.diffEngine.getEncoder();
+
+    // app.diffDecoder = app.diffEngine.getDecoder([]);
 
 		// run the code
 		app.run();
@@ -70,14 +72,18 @@ var app = app || {};
 			lineNumbers: true,
 			indentUnit: 4,
 			fixedGutter: true,
-			viewportMargin: Infinity,
-			onChange: function() {
-				app.run({ autorun: true });
-			}
+			viewportMargin: Infinity
 		});
+
+    myCodeMirror.on('change', function(e){
+      app.run({ autorun: true });
+    });
 
     myCodeMirror.on('cursorActivity', function(e){
       var selection = e.doc.sel.ranges[0];
+      if (selection.anchor.line === selection.head.line && selection.anchor.ch === selection.head.ch) {
+        return false;
+      }
       // storing as a string to circumvent a bug in jsDiff
       var selectionStr = '';
       selectionStr += 'anchor: line' + selection.anchor.line + ', char' + selection.anchor.ch + ';';
@@ -211,9 +217,13 @@ var app = app || {};
 
 		var diff = app.diffEncoder.push(state);
 		app.state = state;
+    // console.log(app.diffDecoder);
+    // app.diffDecoder.setDiffs(app.diffEncoder.getDiffs());
+    // console.log(app.diffDecoder.getState());
 		// console.log(app.diffDecoder.getState().state);
 		// console.log('pushing', diff);
-		app.fb.child('diffs').push(diff);
+		// console.log(app.fb);
+    app.fb.child('diffs').push(diff);
 	}
 
 
@@ -227,9 +237,9 @@ var app = app || {};
 		var code;
 		var elemToRender;
 
-		updateState({
-			code: codeRaw
-		});
+		// updateState({
+		// 	code: codeRaw
+		// });
 
 		// run the code
 		var mode = 'android-layout';
