@@ -466,7 +466,7 @@ var app = app || {};
 
 
 	var timeOfLastUpdate;
-	var updateDebounceThreshold = 200;
+	var updateDebounceThreshold = 1000;
 	var lastDebouncedState = null;
 	var finalStateUpdateTimeout;
 
