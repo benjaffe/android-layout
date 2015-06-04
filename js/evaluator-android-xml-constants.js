@@ -45,7 +45,7 @@ var app = app || {};
 
 		{
 			name: 'android:id',
-			pattern: /^\@\+id\/[a-z_0-9]+$/  // is the + necessary?
+			pattern: /^\@\+id\/[a-zA-Z][a-zA-Z_0-9]*?$/
 		},
 		{
 			name: 'android:text',
@@ -143,19 +143,19 @@ var app = app || {};
 		},
 		{
 			name: 'android:layout_above',
-			pattern: /^\@\id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-zA-Z][a-zA-Z_0-9]*?$/
 		},
 		{
 			name: 'android:layout_below',
-			pattern: /^\@\id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-zA-Z][a-zA-Z_0-9]*?$/
 		},
 		{
 			name: 'android:layout_toRightOf',
-			pattern: /^\@\id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-zA-Z][a-zA-Z_0-9]*?$/
 		},
 		{
 			name: 'android:layout_toLeftOf',
-			pattern: /^\@\id\/[a-z_]+$/
+			pattern: /^\@\id\/[a-zA-Z][a-zA-Z_0-9]*?$/
 		},
 
 		{
