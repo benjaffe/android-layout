@@ -149,9 +149,6 @@ var app = app || {};
 
 	// this runs after code is successfully evaluated
 	function runSuccess(code) {
-		if (!localStorage.debug) {
-			clearTimeout(app.codeEvaluationTimeout);
-		}
 
 		// save current student code
 		if (app.hash.slice(0,4) !== 'test') {
