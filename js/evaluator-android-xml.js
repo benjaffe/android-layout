@@ -725,13 +725,16 @@ var app = app || {};
 		if (checkAttr('android:fontFamily')) {
 			fontFamilyOrig = attributes['android:fontFamily'].value;
 			fontFamilyObj = fontFamilyList[fontFamilyOrig];
-			domElem.css('font-family', fontFamilyObj.fontFamily);
 
-			// 'sans-serif' and 'sans-serif-condensed' are allowed to be bold.
-			// They should retain their calculated font-weight from above
-			if (fontFamilyOrig !== 'sans-serif' && fontFamilyOrig !== 'sans-serif-condensed') {
-				domElem.css('font-weight', fontFamilyObj.fontWeight);
-			}
+      if (fontFamilyObj) {
+        domElem.css('font-family', fontFamilyObj.fontFamily);
+
+        // 'sans-serif' and 'sans-serif-condensed' are allowed to be bold.
+        // They should retain their calculated font-weight from above
+        if (fontFamilyOrig !== 'sans-serif' && fontFamilyOrig !== 'sans-serif-condensed') {
+          domElem.css('font-weight', fontFamilyObj.fontWeight);
+        }
+      }
 		} else {
 			domElem.css('font-family', fontFamilyList['sans-serif'].fontFamily);
 		}
