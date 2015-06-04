@@ -42,7 +42,7 @@ var app = app || {};
 			name: 'xmlns:android',
 			pattern: /^http\:\/\/schemas.android.com\/apk\/res\/android$/
 		},
-		
+
 		{
 			name: 'android:id',
 			pattern: /^\@\+id\/[a-z_0-9]+$/  // is the + necessary?
@@ -162,7 +162,7 @@ var app = app || {};
 			name: 'android:visibility',
 			pattern: /^(?:invisible|visible|gone)$/
 		},
-		
+
 		{
 			name: 'android:gravity',
 			pattern: /^(?:top|bottom|left|right|center_vertical|center_horizontal|center)(?:\|(top|bottom|left|right|center_vertical|center_horizontal|center))?$/
@@ -177,7 +177,7 @@ var app = app || {};
 			name: 'android:layout_centerHorizontal',
 			pattern: /^(true|false)$/
 		},
-		
+
 
 		{
 			name: 'android:textSize',
@@ -344,36 +344,36 @@ var app = app || {};
 
 	app.tests = [
 		// deprecated tests
-		// "test170", 
-		// "test240", 
-		// "test260", 
-		// "test270", 
-		
+		// "test170",
+		// "test240",
+		// "test260",
+		// "test270",
+
 		// tests that currently pass
-		"test10", 
-		"test20", 
-		"test40", 
-		"test50", 
-		"test60", 
+		"test10",
+		"test20",
+		"test40",
+		"test50",
+		"test60",
 		"test70",
-		"test80", 
-		"test90", 
-		"test100", 
-		"test110", 
-		"test120", 
-		"test130", 
-		"test140", 
-		"test150", 
-		"test160", 
-		"test180", 
+		"test80",
+		"test90",
+		"test100",
+		"test110",
+		"test120",
+		"test130",
+		"test140",
+		"test150",
+		"test160",
+		"test180",
 		"test200",
-		"test210", 
-		"test220", 
-		"test230", 
-		"test250", 
-		"test280", 
-		"test290", 
-		"test300", 
+		"test210",
+		"test220",
+		"test230",
+		"test250",
+		"test280",
+		"test290",
+		"test300",
 		"test310",
 		"test320",
 		"test330",
@@ -383,12 +383,12 @@ var app = app || {};
 		"test380",
 		"test390",
 		"test400",
-		"test410", 
-		"test420", 
-		"test430", 
-		"test460", 
-		"test470", 
-		"test480", 
+		"test410",
+		"test420",
+		"test430",
+		"test460",
+		"test470",
+		"test480",
 		"test510",
 		"test520",
 		"test530",
@@ -396,10 +396,10 @@ var app = app || {};
 		"test550",
 
 		// broken!
-		"test30", 
+		"test30",
 		"test570",
 		"test190",
-		"test360", 
+		"test360",
 		"test560"
 	];
 })();

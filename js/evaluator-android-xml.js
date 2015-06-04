@@ -14,7 +14,7 @@ var app = app || {};
 	    	if (numFontsLoaded === webFontConfig.google.families.length) {
 		    	console.log('%c Fonts loaded!', 'color: #393');
 		    	app.readyToRun = true;
-				app.run({ autorun: true });
+  				app.run({ autorun: true });
 	    	}
 		}
 	};
@@ -33,8 +33,8 @@ var app = app || {};
 	app.androidInit = function() {
 		WebFont.load(webFontConfig);
 	};
-	
-	
+
+
 	/**
 	 * add the schema links if they are missing
 	 * @param  {[str]} rawCode [code to be processed]
@@ -48,7 +48,7 @@ var app = app || {};
 		// calculate our start positions for adding schema bits if needed
 		startPos = code.search(/<(?!!)/);
 		insertPos = code.slice(startPos).search(/(>|\/>)/) + startPos;
-		
+
 		// if there aren't schema bits, let's add them
 		if (code.split('xmlns:android').length === 1) {
 			code = code.substr(0, insertPos) + '\n\txmlns:android="http://schemas.android.com/apk/res/android"' + code.substr(insertPos);
@@ -73,7 +73,7 @@ var app = app || {};
 		checkForUnclosedSelfClosingTags(code);
 		checkForTagHierarchy(code);
 
-		
+
 		codeLines.forEach(function(line, i, code) {
 			checkForUnsupportedTags(line, i+1);
 			checkForUnsupportedAttributesAndValues(line, i+1);
@@ -157,7 +157,7 @@ var app = app || {};
 				openingBracketHasHappenedLast = false;
 			}
 		}
-		
+
 		// check for unclosed tag at the end of code
 		if (openingBracketHasHappenedLast) {
 			app.errors.push({
@@ -238,12 +238,12 @@ var app = app || {};
 
 	function checkForUnclosedSelfClosingTags (code) {
 		var selfClosingTags = app.androidLayout.selfClosingTags;
-		
+
 		selfClosingTags.forEach(function(tagType) {
 			var segments = code.split('<'+tagType);
-			
+
 			segments.shift(); // we don't care about the first one
-			
+
 			if (segments.length === 0) {
 				return false;
 			}
@@ -274,7 +274,7 @@ var app = app || {};
 		attributes = attributes ? attributes.slice(1) : null;
 		var attributeValues = attrValueMatcher.exec(line);
 		attributeValues = attributeValues ? attributeValues.slice(1) : null;
-		
+
 		var attrSemicolonMatcher = /(android;(?:\S*))=/g;
 		var attrSemicolonValues = attrSemicolonMatcher.exec(line);
 		var attrNoColonMatcher = /(android[^:](\S*))=/;
@@ -284,7 +284,7 @@ var app = app || {};
 
 		var suggestion;
 		var suggestionSensitivity = app.androidLayout.suggestionSensitivity;
-		
+
 		// check for mistyped xmlns:android attribute. Hardcoded for now because
 		// the attrMatcher regex only matches things that start with android:
 		var xmlnsMatcher = /xmlns\:android="([^"]*)"/g;
@@ -334,7 +334,7 @@ var app = app || {};
 
 		attributes.forEach(function(attributeName, i) {
 			var attributeList = app.androidLayout.validAttributes.map(function(obj){ return obj.name; });
-			
+
 			var attributeObj = validAttributes.filter(function(attributeItem){
 				if (attributeItem.name === attributeName) {
 					return true;
@@ -344,7 +344,7 @@ var app = app || {};
 			})[0];
 
 			var attributeValue = attributeValues[i];
-			
+
 			if (!attributeObj) {
 				suggestion = getSuggestion(attributeList, attributeName);
 				if (suggestion.distance <= suggestionSensitivity) {
@@ -377,13 +377,13 @@ var app = app || {};
 				});
 				return false;
 			}
-			
-			
+
+
 		});
 	}
 
 	/**
-	 * Returns a suggestion if the original is sufficiently 
+	 * Returns a suggestion if the original is sufficiently
 	 * close to other options
 	 * @param  {string} list [the name of the list to pull from]
 	 * @param  {string} str  [the misspelled thing]
@@ -406,7 +406,7 @@ var app = app || {};
 		};
 	}
 
-	
+
 	/**
 	 * Convert XML element to DOM element (sans positioning)
 	 * @param  {[XML element]} elem   [element to be processed]
@@ -439,7 +439,7 @@ var app = app || {};
 			$(domElem).append(childDomElem);
 		});
 
-		
+
 		// If elem is the xml document itself, return early
 		// Otherwise, let's do some parsing!
 		if (!type) {
@@ -588,20 +588,20 @@ var app = app || {};
 			t = attributes['android:src'].value.split('/')[1];
 			if (t) {
 				domElem.css({'background-image': 'url(images/'+t+'.jpg)'});
-				
+
 				// handle height and width
 				var myImage = new Image();
 				myImage.src = 'images/'+t+'.jpg';
 			    myImage.onload = function() {
 
 					if (checkAttr('android:layout_height', 'wrap_content')) {
-						domElem.css({ 
+						domElem.css({
 							height: this.height + 'px',
 							maxHeight: domElem.parent().height() + 'px'
 						});
 					}
 					if (checkAttr('android:layout_width', 'wrap_content')) {
-						domElem.css({ 
+						domElem.css({
 							width: this.width + 'px',
 							maxWidth: domElem.parent().width() + 'px'
 						});
@@ -610,7 +610,7 @@ var app = app || {};
 					// TODO: Force layout elements that depend on this to re-layout
 				};
 			}
-			
+
 		}
 
 		if (checkAttr('android:scaleType', 'centerCrop')) {
@@ -708,7 +708,7 @@ var app = app || {};
 
 			bold = (style === 'bold' || style === 'italic|bold' || style === 'bold|italic');
 			italic = (style === 'italic' || style === 'italic|bold' || style === 'bold|italic');
-			
+
 			if (bold) {
 				domElem.css('font-weight', 'bold');
 			}
@@ -791,7 +791,7 @@ var app = app || {};
 			console.error('couldn\'t find element with id ' + id);
 			return null;
 		}
-		
+
 		elem = elem || app.parsedXML;
 
 		if (elem.id === id) {
@@ -850,7 +850,7 @@ var app = app || {};
 			xmlElem.currentlyLayingOut = false;
 			return xmlElem.domElemLayout;
 		}
-		
+
 		attributes = xmlElem.attributes;
 		checkAttr = checkAttributesOnThis.bind(attributes);
 
@@ -1010,10 +1010,10 @@ var app = app || {};
 	// takes a jQuery element and gets all offsets and dimensions
 	function getOffsetAllFromPhone (elem) {
 		var dim = elem.position();
-		
+
 		dim.left = dim.left * (1/app.androidLayout.screenScaler);
 		dim.top = dim.top * (1/app.androidLayout.screenScaler);
-		
+
 		dim.width = elem.outerWidth();
 		dim.height = elem.outerHeight();
 		dim.right = dim.left + dim.width;
@@ -1022,7 +1022,7 @@ var app = app || {};
 		dim.paddingRight = parseInt(elem.css('paddingRight'));
 		dim.paddingTop = parseInt(elem.css('paddingTop'));
 		dim.paddingBottom = parseInt(elem.css('paddingBottom'));
-		
+
 		return dim;
 	}
 
@@ -1042,7 +1042,7 @@ var app = app || {};
 		if (app.androidLayout.layoutTags.indexOf(elem.tagName) === -1) {
 			return checkAttributeOnParentLayout(elem.parentNode, name);
 		}
-		
+
 		return (elem.attributes[name] && elem.attributes[name].value);
 	}
 
@@ -1051,13 +1051,13 @@ var app = app || {};
 		if (value === undefined) {
 			return !!this[name];
 		}
-		
+
 		if (typeof value === 'string') {
 			return (this[name] && this[name].value === value);
 		} else if (value instanceof Array) {
 			// we have to test all the potential values given to us
 			for (var i = 0; i < value.length; i++) {
-				if (this[name] && 
+				if (this[name] &&
 					this[name].value === value[i]) {
 					return true;
 				}
