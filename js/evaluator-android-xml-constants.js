@@ -45,7 +45,7 @@ var app = app || {};
 		
 		{
 			name: 'android:id',
-			pattern: /^\@\+id\/[a-z_]+$/  // is the + necessary?
+			pattern: /^\@\+id\/[a-z_0-9]+$/  // is the + necessary?
 		},
 		{
 			name: 'android:text',
