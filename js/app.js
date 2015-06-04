@@ -150,6 +150,8 @@ var app = app || {};
 	// this runs after code is successfully evaluated
 	function runSuccess(code) {
 
+    clearTimeout(app.codeEvaluationTimeout);
+
 		// save current student code
 		if (app.hash.slice(0,4) !== 'test') {
 			localStorage['code-' + app.hash] = JSON.stringify(code);
@@ -171,7 +173,6 @@ var app = app || {};
 		$('html').removeClass('invalid-code').addClass('evaluating-invalid-code');
 
 		app.codeEvaluationTimeout = setTimeout(function(){
-			console.log('TIMEOUT');
 	 		$('html').removeClass('evaluating-invalid-code').addClass('invalid-code');
 		},2000);
 
