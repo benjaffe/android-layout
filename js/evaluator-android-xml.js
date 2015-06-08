@@ -545,6 +545,7 @@ var app = app || {};
 					var totalWeight = elemWeight; // sibling weights will be added to this number
 					var totalNonWeightDimension = 0; // this is the total dimension of siblings without specified weight
 					var elemDimension, dimensionName, dimensionOuterName;
+					var unweightedElemTotalDimension = 0;
 
 					if (checkAttributeOnParentLayout(elem, 'android:orientation') === 'vertical') {
 						dimensionName = 'height';
@@ -558,11 +559,15 @@ var app = app || {};
 						domElem.siblings().each(function(i, elem) {
 							if (elem.xmlElem.attributes['android:layout_weight']) {
 								totalWeight += parseInt( elem.xmlElem.attributes['android:layout_weight'].value );
+								if (elem.xmlElem.attributes['android:layout_weight'].value === '0') {
+									// if weight of 0, keep track of this dimension so we can subtract it from the total later
+									unweightedElemTotalDimension += $(elem)[dimensionName]();
+								}
 							} else {
 								totalNonWeightDimension += $(elem)[dimensionOuterName]();
 							}
 						});
-						elemDimension = (domElem.parent()[dimensionName]() * elemWeight / totalWeight) - totalNonWeightDimension;
+						elemDimension = ((domElem.parent()[dimensionName]() - unweightedElemTotalDimension) * elemWeight / totalWeight) - totalNonWeightDimension;
 						domElem.css(dimensionName, Math.round(elemDimension) + 'px');
 					}
 					domElem.removeClass('hidden-pending-setTimeout');
